@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONSITE · 마스터 관리자</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22512%22%20height%3D%22512%22%20viewBox%3D%220%200%20512.00%20512.00%22%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22139%22%20fill%3D%22%232466E0%22%2F%3E%3Cg%20transform%3D%22translate%28256%20256%29%20scale%281.75%29%20translate%28-88.3%20-80%29%22%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2280%22%20r%3D%2240%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%2234%22%2F%3E%3Cpath%20d%3D%22M88.3%2051.7%20L143.9%20107.3%20Q156.6%20120%20156.6%20102%20L156.6%2040%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%2234%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --pri:#2466E0;--pri-h:#1D56C4;--pri-weak:#EEF3FE;--pri-line:#C9D8F7;--navy:#0F1E45;--sky:#7FA6F0;
+  --tx:#0F1E45;--tx2:#5A6684;--tx3:#98A2B8;--line:#ECEEF3;--line2:#DFE3EB;
+  --bg:#FFFFFF;--bg-sub:#F5F7FB;--hover:#EEF1F7;
+  --ok:#1F9254;--warn:#B8740F;--err:#E5383B;--err-weak:#FDF1F1;--warn-weak:#FDF6EA;--ok-weak:#EAF6EF;
+  --r:10px;--r-sm:6px;--sh-pop:0 12px 32px -8px rgba(15,30,69,.18),0 2px 6px rgba(15,30,69,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:"Wanted Sans Variable","Wanted Sans",Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;line-height:1.5;color:var(--tx);background:#fff;letter-spacing:-0.01em;-webkit-font-smoothing:antialiased;}
+button,input,textarea,select{font:inherit;color:inherit;letter-spacing:inherit;}
+button{cursor:pointer;background:none;border:0;}
+svg.i{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+svg.i.s14{width:14px;height:14px;}
+
+/* 레이아웃 */
+.app{display:flex;min-height:100vh;}
+.nav{width:240px;flex-shrink:0;background:var(--bg-sub);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;}
+.nav-logo{height:60px;display:flex;align-items:center;padding:0 20px;}
+.nav-logo .logo-svg{height:26px;width:auto;display:block;}
+.nav-body{flex:1;padding:4px 10px 12px;overflow-y:auto;}
+.nav-back{width:100%;display:flex;align-items:center;gap:8px;height:32px;padding:0 10px;border-radius:6px;font-size:13px;color:var(--tx3);margin-bottom:6px;}
+.nav-back:hover{background:var(--hover);color:var(--tx);}
+.nav-job{padding:6px 10px 14px;}
+.nav-job .o{font-size:11.5px;color:var(--tx3);display:block;margin-bottom:2px;}
+.nav-job .n{font-size:13px;font-weight:600;line-height:1.4;display:block;}
+.nav-job .m{font-size:11.5px;color:var(--tx2);margin-top:4px;display:block;}
+.nav-item{width:100%;display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:6px;font-size:13.5px;font-weight:500;color:var(--tx2);margin-bottom:1px;text-align:left;}
+.nav-item:hover{background:var(--hover);color:var(--tx);}
+.nav-item.on{background:var(--pri-weak);color:var(--pri);font-weight:600;}
+.nav-item .tail{margin-left:auto;font-size:12px;color:var(--tx3);font-weight:500;display:flex;}
+.nav-item.on .tail{color:var(--pri);}
+.nav-sub{width:100%;text-align:left;height:30px;padding:0 10px 0 36px;border-radius:6px;font-size:13px;color:var(--tx2);}
+.nav-sub:hover{background:var(--hover);color:var(--tx);}
+.nav-sub.on{color:var(--tx);font-weight:600;}
+.nav-foot{border-top:1px solid var(--line);padding:12px 10px;}
+.me{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:6px;cursor:pointer;}
+.me:hover{background:var(--hover);}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--line);color:var(--tx2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;}
+.me .nm{font-size:13px;font-weight:600;} .me .rl{font-size:11.5px;color:var(--tx3);}
+
+.main{flex:1;min-width:0;padding:36px 40px 80px;max-width:1480px;}
+.phead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:28px;}
+.phead h1{font-size:24px;font-weight:700;letter-spacing:-0.025em;line-height:1.3;margin-bottom:6px;}
+.phead p{font-size:13.5px;color:var(--tx2);}
+.phead .pr{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+
+/* 섹션 */
+.sec{margin-top:40px;}
+.sec:first-child{margin-top:0;}
+.sec-h{display:flex;align-items:center;gap:10px;margin-bottom:12px;min-height:32px;}
+.sec-h h2{font-size:15px;font-weight:700;letter-spacing:-0.015em;}
+.sec-h .meta{font-size:12.5px;color:var(--tx3);}
+.sp{flex:1;}
+.cols{display:grid;gap:44px;align-items:start;}
+.muted{color:var(--tx2);} .faint{color:var(--tx3);} .strong{font-weight:600;} .num{font-variant-numeric:tabular-nums;}
+.note{font-size:12px;color:var(--tx3);margin-top:10px;line-height:1.55;}
+.row{display:flex;align-items:center;gap:8px;}
+.mt8{margin-top:8px;}.mt12{margin-top:12px;}.mt16{margin-top:16px;}.mt24{margin-top:24px;}.mb12{margin-bottom:12px;}.mb16{margin-bottom:16px;}
+
+/* 숫자 요약 */
+.kpis{display:flex;margin-bottom:36px;flex-wrap:wrap;row-gap:16px;}
+.kpi{padding:0 32px;border-left:1px solid var(--line);}
+.kpi:first-child{padding-left:0;border-left:0;}
+.kpi .lb{font-size:12.5px;color:var(--tx3);margin-bottom:4px;}
+.kpi .vl{font-size:24px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1.2;}
+.kpi .vl small{font-size:13px;color:var(--tx3);font-weight:500;margin-left:3px;}
+.kpi .vl.err{color:var(--err);} .kpi .vl.warn{color:var(--warn);}
+
+/* 버튼 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 14px;border-radius:6px;font-size:13px;font-weight:600;border:1px solid var(--line2);background:#fff;color:var(--tx);white-space:nowrap;transition:background .12s;}
+.btn:hover{background:var(--hover);}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff;}
+.btn.pri:hover{background:var(--pri-h);}
+.btn.ghost{border-color:transparent;background:none;color:var(--tx2);}
+.btn.ghost:hover{background:var(--hover);color:var(--tx);}
+.btn.danger{color:var(--err);}
+.btn.sm{height:30px;padding:0 10px;font-size:12.5px;}
+.btn.xs{height:26px;padding:0 9px;font-size:12px;font-weight:500;}
+.btn.block{width:100%;height:40px;}
+.btn[disabled]{opacity:.4;pointer-events:none;}
+
+/* 상태 */
+.st{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:var(--tx2);white-space:nowrap;}
+.st::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--tx3);flex-shrink:0;}
+.st.pri{color:var(--pri);} .st.pri::before{background:var(--pri);}
+.st.ok{color:var(--ok);} .st.ok::before{background:var(--ok);}
+.st.warn{color:var(--warn);} .st.warn::before{background:var(--warn);}
+.st.err{color:var(--err);} .st.err::before{background:var(--err);}
+.st.off{color:var(--tx3);}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;padding:1px 8px;border-radius:5px;background:var(--bg-sub);color:var(--tx2);border:1px solid var(--line);white-space:nowrap;}
+.tag.pri{background:var(--pri-weak);color:var(--pri);border-color:var(--pri-line);}
+.tag.ai{background:var(--pri-weak);color:var(--pri);border-color:transparent;}
+
+/* 입력 */
+.input,.textarea,.select{width:100%;border:1px solid var(--line2);border-radius:6px;background:#fff;padding:0 10px;height:34px;font-size:13px;outline:none;transition:.12s;}
+.textarea{height:auto;min-height:80px;padding:9px 10px;resize:vertical;line-height:1.55;}
+.input:focus,.textarea:focus,.select:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(36,102,224,.12);}
+.input[disabled],.select[disabled],.textarea[disabled]{background:var(--bg-sub);color:var(--tx2);}
+.input.sm,.select.sm{height:28px;font-size:12.5px;padding:0 8px;}
+.input.err{border-color:var(--err);}
+.field{margin-bottom:14px;} .field label{display:block;font-size:12.5px;color:var(--tx2);margin-bottom:6px;font-weight:500;}
+.field .hint{font-size:11.5px;color:var(--tx3);margin-top:4px;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}
+.search{position:relative;} .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--tx3);} .search .input{padding-left:32px;height:32px;font-size:12.5px;background:var(--bg-sub);border-color:transparent;}
+.search .input:focus{background:#fff;}
+.chk{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;}
+.chk input{width:16px;height:16px;accent-color:var(--pri);cursor:pointer;}
+.tg{width:36px;height:20px;border-radius:10px;background:var(--line2);position:relative;transition:.2s;flex-shrink:0;}
+.tg::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:.2s;}
+.tg.on{background:var(--pri);} .tg.on::after{left:18px;}
+
+/* 표 */
+table{width:100%;border-collapse:collapse;}
+.tbl{border-top:1px solid var(--line2);}
+.tbl th{text-align:left;font-size:12px;font-weight:500;color:var(--tx3);padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;}
+.tbl td{font-size:13px;padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;}
+.tbl th:first-child,.tbl td:first-child{padding-left:4px;}
+.tbl tbody tr.click{cursor:pointer;} .tbl tbody tr.click:hover td{background:var(--bg-sub);}
+.tbl tbody tr.sel td{background:var(--pri-weak);}
+.tbl tr.bad td{background:var(--err-weak);}
+.tbl tr.block td{background:var(--bg-sub);color:var(--tx3);font-size:12.5px;padding-top:7px;padding-bottom:7px;}
+.tbl tr.now td{background:#F7FAFF;}
+.tbl tr.now td:first-child{box-shadow:inset 3px 0 0 var(--pri);}
+.tbl tr.gsep td{border-top:1px solid var(--line2);}
+.tbl td.r,.tbl th.r{text-align:right;} .tbl td.c,.tbl th.c{text-align:center;}
+.tbl-wrap{overflow-x:auto;}
+.board td,.board th{white-space:nowrap;padding-left:8px;padding-right:8px;}
+.tbl td[rowspan]{vertical-align:top;padding-top:13px;}
+
+/* 콜아웃 */
+.callout{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:8px;font-size:13px;background:var(--bg-sub);color:var(--tx2);margin-bottom:20px;}
+.callout b{color:var(--tx);font-weight:600;}
+.callout.pri{background:var(--pri-weak);color:var(--pri);} .callout.pri b{color:var(--pri);}
+.callout.warn{background:var(--warn-weak);color:var(--warn);} .callout.warn b{color:var(--warn);}
+.callout.err{background:var(--err-weak);color:var(--err);} .callout.err b{color:var(--err);}
+.callout.ok{background:var(--ok-weak);color:var(--ok);} .callout.ok b{color:var(--ok);}
+
+/* 패널 */
+.panel{border:1px solid var(--line2);border-radius:var(--r);padding:20px;background:#fff;}
+.panel-h{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.panel-h h3{font-size:15px;font-weight:700;}
+.sticky{position:sticky;top:24px;}
+
+/* 탭·세그먼트 */
+.tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin-bottom:24px;}
+.tab{padding:10px 0;font-size:13.5px;font-weight:500;color:var(--tx3);border-bottom:2px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:6px;}
+.tab:hover{color:var(--tx);}
+.tab.on{color:var(--tx);font-weight:600;border-bottom-color:var(--tx);}
+.seg{display:inline-flex;background:var(--bg-sub);border-radius:7px;padding:2px;gap:2px;}
+.seg button{height:26px;padding:0 11px;border-radius:5px;font-size:12.5px;font-weight:500;color:var(--tx2);}
+.seg button.on{background:#fff;color:var(--tx);font-weight:600;box-shadow:0 1px 2px rgba(15,30,69,.08);}
+
+/* 준비 단계 진행선 */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;margin-bottom:36px;}
+.step{position:relative;text-align:left;padding-top:14px;}
+.step .bar{position:absolute;top:0;left:0;right:0;height:3px;border-radius:2px;background:var(--line);}
+.step.done .bar{background:var(--tx3);}
+.step.on .bar{background:var(--pri);}
+.step .t{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:2px;}
+.step .t b{font-size:14.5px;font-weight:700;}
+.step.on .t b{color:var(--pri);}
+.step .d{font-size:12.5px;color:var(--tx3);}
+.step:hover .t b{text-decoration:underline;text-underline-offset:3px;}
+
+/* 업로드 */
+.drop{border:1px dashed var(--line2);border-radius:var(--r);background:var(--bg-sub);padding:28px 16px;text-align:center;cursor:pointer;transition:.12s;}
+.drop:hover,.drop.over{border-color:var(--pri);background:var(--pri-weak);}
+.drop b{display:block;font-size:13.5px;margin-bottom:3px;}
+.drop span{font-size:12px;color:var(--tx3);}
+
+/* 시간표 */
+.rooms{display:grid;gap:28px;}
+.room-h{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.room-h b{font-size:14px;}
+.sess-t{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.sess-t small{font-weight:500;color:var(--tx3);margin-left:4px;}
+.dly{font-size:11.5px;font-weight:700;color:var(--err);margin-left:4px;}
+.shr{font-size:11.5px;font-weight:700;color:var(--ok);margin-left:4px;}
+.hist{font-size:12.5px;}
+.hist div{padding:7px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;}
+.hist span{color:var(--tx3);white-space:nowrap;font-variant-numeric:tabular-nums;}
+
+/* AI 초안 */
+.drafts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.draft{border:1px solid var(--line2);border-radius:var(--r);padding:14px 16px;text-align:left;background:#fff;}
+.draft:hover{border-color:var(--pri-line);}
+.draft.on{border-color:var(--pri);box-shadow:0 0 0 1px var(--pri) inset;}
+.draft b{font-size:13.5px;display:block;margin-bottom:4px;}
+.draft p{font-size:12.5px;color:var(--tx2);line-height:1.5;}
+.qedit{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);}
+.qedit .n{width:22px;font-size:12.5px;color:var(--tx3);padding-top:7px;font-weight:600;}
+.qedit .textarea{min-height:36px;height:36px;padding:7px 10px;}
+
+/* 마스킹 문서 */
+.doc{border:1px solid var(--line2);border-radius:var(--r);padding:22px 24px;background:#fff;font-size:13.5px;line-height:1.75;}
+.doc h5{font-size:12.5px;color:var(--tx3);font-weight:600;margin:16px 0 4px;}
+.doc h5:first-child{margin-top:0;}
+.mk{white-space:nowrap;display:inline-flex;align-items:center;gap:3px;font-size:11.5px;font-weight:500;color:var(--tx3);padding:0 7px;border-radius:4px;background:#EEF0F3;line-height:1.7;vertical-align:1px;}
+.hl-miss{background:var(--warn-weak);color:var(--warn);border-radius:3px;padding:0 2px;font-weight:600;}
+
+/* 발송 미리보기 */
+.msg{background:var(--bg-sub);border-radius:12px;padding:16px 18px;font-size:13px;line-height:1.7;white-space:pre-line;}
+.msg b{display:block;font-size:13.5px;margin-bottom:6px;}
+
+/* 이슈 */
+.iss{padding:12px 0;border-bottom:1px solid var(--line);}
+.iss:last-child{border-bottom:0;}
+.iss.open{border-left:3px solid var(--warn);padding-left:10px;}
+.iss .t{font-size:13.5px;font-weight:600;margin-bottom:3px;}
+.iss .m{font-size:12px;color:var(--tx3);display:flex;gap:8px;align-items:center;}
+.conduct{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;}
+.conduct .tm{width:44px;font-weight:700;font-variant-numeric:tabular-nums;}
+.conduct.late .tm{color:var(--err);}
+.conduct .tx{flex:1;}
+.conduct.done .tx,.conduct.done .tm{color:var(--tx3);}
+
+/* 점수 */
+.ev-row{padding:16px 0;border-bottom:1px solid var(--line);}
+.ev-row:first-child{padding-top:0;}
+.ev-h{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.ev-h b{font-size:13.5px;}
+.ev-sc{display:grid;gap:8px;}
+.ev-sc div{background:var(--bg-sub);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--tx3);}
+.ev-sc div b{display:block;font-size:14px;color:var(--tx);font-variant-numeric:tabular-nums;}
+.ev-cm{font-size:13px;color:var(--tx2);margin-top:8px;}
+.big-score{font-size:28px;font-weight:700;color:var(--pri);font-variant-numeric:tabular-nums;letter-spacing:-0.02em;}
+.plist{display:flex;flex-direction:column;gap:1px;max-height:560px;overflow-y:auto;}
+.prow{width:100%;text-align:left;padding:8px 10px;border-radius:6px;}
+.prow:hover{background:var(--hover);}
+.prow.on{background:var(--pri-weak);}
+.prow .r1{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:13.5px;font-weight:600;}
+.prow.on .r1{color:var(--pri);}
+.prow .r2{font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;font-variant-numeric:tabular-nums;}
+
+/* 캘린더 */
+.cal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.cal-h b{font-size:14px;}
+.cal-h button{width:26px;height:26px;border-radius:6px;background:var(--bg-sub);display:flex;align-items:center;justify-content:center;color:var(--tx2);}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;}
+.cal .w{font-size:11.5px;color:var(--tx3);padding:2px 0;}
+.cal button{aspect-ratio:1;border-radius:50%;font-size:12.5px;color:var(--tx2);position:relative;}
+.cal button:hover{background:var(--hover);}
+.cal button.has{color:var(--tx);font-weight:700;}
+.cal button.has::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--pri);}
+.cal button.sel{box-shadow:inset 0 0 0 1.5px var(--pri);}
+.cal button.today{background:var(--pri);color:#fff;font-weight:700;}
+.cal button.today::after{background:#fff;}
+
+/* 모달 */
+.ov{position:fixed;inset:0;background:rgba(15,30,69,.36);display:flex;align-items:flex-start;justify-content:center;padding:56px 20px;z-index:60;overflow-y:auto;animation:fade .15s;}
+@keyframes fade{from{opacity:0}}
+.modal{background:#fff;border-radius:12px;width:100%;max-width:520px;box-shadow:var(--sh-pop);animation:up .18s;}
+.modal.wide{max-width:780px;}
+@keyframes up{from{transform:translateY(8px);opacity:0}}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 4px;}
+.mh b{font-size:16px;font-weight:700;}
+.mh button{color:var(--tx3);width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.mh button:hover{background:var(--hover);color:var(--tx);}
+.mb{padding:14px 22px 20px;font-size:13.5px;line-height:1.6;}
+.mf{display:flex;justify-content:flex-end;gap:8px;padding:0 22px 20px;}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:13px;padding:11px 16px;border-radius:8px;display:flex;align-items:center;gap:8px;z-index:80;box-shadow:var(--sh-pop);animation:up .2s;max-width:80vw;}
+.toast.red{background:var(--err);}
+
+/* 보안 */
+.secure{position:relative;-webkit-user-select:none;user-select:none;}
+.secure.wm::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:var(--wm);z-index:2;}
+body.shield .secure{filter:blur(9px);}
+.shield-ov{display:none;position:fixed;inset:0;z-index:90;background:rgba(255,255,255,.6);backdrop-filter:blur(2px);align-items:center;justify-content:center;}
+body.shield .shield-ov{display:flex;}
+.shield-ov .box{background:#fff;border:1px solid var(--line2);border-radius:12px;box-shadow:var(--sh-pop);padding:22px 26px;text-align:center;font-size:13px;color:var(--tx2);}
+.shield-ov .box b{display:block;color:var(--tx);font-size:15px;margin-bottom:4px;}
+@media print{.secure{visibility:hidden!important;}}
+.kv{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:13.5px;gap:14px;}
+.kv:first-child{border-top:1px solid var(--line2);}
+.kv .k{color:var(--tx2);} .kv .k small{display:block;font-size:12px;color:var(--tx3);}
+.empty{padding:36px 16px;text-align:center;color:var(--tx3);font-size:13px;border-top:1px solid var(--line2);}
+
+/* ===== v8 테마 · 박스 없이 타이포·여백·구분선으로 위계 · 클린 화이트 + 비비드 블루 1색 + 레드(문제만) ===== */
+:root{
+  --pri:#1F6BFF;--pri-h:#1557E6;--pri-weak:#EBF2FF;--pri-line:#C7DAFF;--sky:#8DB4FF;--navy:#191F28;
+  --tx:#191F28;--tx2:#4E5968;--tx3:#8B95A1;--line:#EEF0F3;--line2:#E2E5EA;
+  --bg:#FFFFFF;--canvas:#F4F5F7;--bg-sub:#F7F8FA;--hover:#F2F4F6;
+  --ok:#1F6BFF;--ok-weak:#EBF2FF;--warn:#4E5968;--warn-weak:#F2F4F6;--err:#F04452;--err-weak:#FFEEEF;
+  --card-sh:0 1px 2px rgba(25,31,40,.04),0 4px 16px rgba(25,31,40,.05);
+}
+body{color:var(--tx);}
+.st{padding:3px 10px 3px 8px;border-radius:999px;background:#F2F4F6;color:var(--tx2);font-weight:600;line-height:1.45;}
+.st::before{background:currentColor;}
+.st.pri,.st.ok{background:var(--pri-weak);color:var(--pri);}
+.st.warn{background:#F2F4F6;color:var(--tx);}
+.st.err{background:var(--err-weak);color:var(--err);}
+.st.off,.st.mute{background:#F2F4F6;color:var(--tx3);}
+.callout{background:var(--bg-sub);color:var(--tx2);}
+.callout.ok,.callout.ok b,.callout.pri,.callout.pri b{background:var(--pri-weak);color:var(--pri);}
+.callout.warn,.callout.warn b{background:#F2F4F6;color:var(--tx);}
+.callout.err,.callout.err b{background:var(--err-weak);color:var(--err);}
+.btn.pri,.btn:not(.ghost):not(.soft):not(.sm):not(.xs){}
+
+/* PC: 흰 페이지 · 박스 없음 · 크기/굵기/여백/구분선으로 위계 */
+body,.app,.main{background:#fff;}
+.nav{background:#F7F8FA;border-right:1px solid var(--line);}
+.nav-item{color:var(--tx2);font-weight:500;}
+.nav-item:hover{background:#EEF0F3;color:var(--tx);}
+.nav-item.on,.nav-item.active{background:#fff;color:var(--tx);font-weight:700;box-shadow:0 1px 2px rgba(25,31,40,.08);}
+.nav-item.on svg,.nav-item.active svg{color:var(--pri);}
+.nav-job .n,.nav-job .nj-name{color:var(--tx);font-weight:700;}
+.phead{padding-bottom:28px;margin-bottom:32px;border-bottom:1px solid var(--line);}
+.phead h1{font-size:30px;font-weight:800;letter-spacing:-0.035em;}
+.phead p{color:var(--tx2);font-size:14px;}
+/* 요약 숫자: 박스 없이 크게 · 첫 숫자만 블루 */
+.kpis{margin-bottom:44px;}
+.kpi{padding:0 36px;border-left:1px solid var(--line2);}
+.kpi .lb{color:var(--tx2);font-size:13px;font-weight:600;margin-bottom:4px;}
+.kpi .vl{font-size:34px;font-weight:800;letter-spacing:-0.035em;color:var(--tx);line-height:1.15;}
+.kpi .vl small{font-size:14px;color:var(--tx3);font-weight:600;}
+.kpi:first-child .vl{color:var(--pri);}
+.kpi .vl.err{color:var(--err);} .kpi .vl.warn{color:var(--tx);}
+/* 섹션 제목 */
+.sec{margin-top:52px;}
+.sec-h{margin-bottom:14px;}
+.sec-h h2{font-size:19px;font-weight:800;letter-spacing:-0.025em;}
+.sec-h .meta{font-size:13px;color:var(--tx3);font-weight:600;}
+.cols{gap:56px;}
+.cols>aside{border-left:1px solid var(--line);padding-left:32px;margin-left:-24px;}
+.cols>aside.panel,.cols>aside.sticky.panel{border-left:0;margin-left:0;}
+/* 표: 테두리 없이 헤더 띠 하나 */
+.tbl{border-top:0;}
+.tbl th{background:var(--bg-sub);color:var(--tx2);font-weight:600;border-bottom:0;padding:10px;}
+.tbl th:first-child{border-radius:8px 0 0 8px;padding-left:12px;}
+.tbl th:last-child{border-radius:0 8px 8px 0;}
+.tbl td:first-child{padding-left:12px;}
+.tbl td{color:var(--tx);padding:13px 10px;}
+.tbl tbody tr.click:hover td{background:var(--bg-sub);}
+.tbl tbody tr.sel td,.tbl tbody tr.on td{background:var(--pri-weak);}
+/* 작업 영역(입력·확정)만 옅은 면 */
+.panel{border:0;background:var(--bg-sub);border-radius:14px;}
+.empty{border-top:0;background:var(--bg-sub);border-radius:12px;}
+.search .input{background:var(--bg-sub);}
+.seg{background:#EEF0F3;}
+.seg button{white-space:nowrap;}
+.btn{font-weight:700;}
+.doc{border:1px solid var(--line);}
+.callout{border-radius:10px;}
+.tag.pri,.tag.ai{background:var(--pri-weak);color:var(--pri);border-color:transparent;}
+.step .bar{background:var(--line2);} .step.done .bar{background:var(--pri-line);} .step.on .bar{background:var(--pri);}
+
+
+.app.pre{display:block;} .app.pre .nav{display:none;} .app.pre .main{padding:0;max-width:none;}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:#fff;}
+.login{width:100%;max-width:400px;}
+.login .lg-logo .logo-svg{height:30px;width:auto;display:block;margin-bottom:36px;}
+.login h1{font-size:28px;font-weight:800;letter-spacing:-0.03em;margin-bottom:6px;}
+.login .lg-s{font-size:14px;color:var(--tx2);margin-bottom:28px;}
+.input.lg{height:48px;font-size:15px;} .btn.lg{height:50px;font-size:15px;}
+.lg-err{display:flex;align-items:center;gap:6px;color:var(--err);font-size:13px;font-weight:600;margin:-4px 0 12px;}
+.lg-help-x{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--tx2);display:grid;gap:6px;}
+.lg-help b{color:var(--tx);margin-right:6px;}
+
+/* 시연 도우미 (4개 화면 공통) */
+.demo-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;}
+.demo-chip{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 12px;border:1px dashed #B9C3D3;border-radius:15px;background:#fff;color:#4E5968;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;}
+.demo-chip:hover{border-color:var(--pri);color:var(--pri);}
+.demo-chip[disabled]{opacity:.4;pointer-events:none;}
+.demo-chip svg{width:14px;height:14px;}
+.lg-foot{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--tx2);text-align:center;line-height:1.6;}
+.lg-foot a{color:var(--pri);font-weight:600;text-decoration:none;cursor:pointer;}
+
+svg.i.ph{fill:currentColor;stroke:none;}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="nav" id="nav"></nav>
+  <main class="main" id="view"></main>
+</div>
+<div id="modal-root"></div>
+<input type="file" id="fileIn" hidden accept=".csv,.xlsx,.xls">
+<div class="shield-ov"><div class="box"><b>화면 보호 중</b>개인정보 보호를 위한 자동 가림 · 창 복귀 시 해제</div></div>
+
+<script>
+const TODAY=(()=>{const d=new Date();d.setHours(0,0,0,0);return d;})();
+function DD(s){const[y,m,d]=s.split('.').map(Number);const o=Math.round((new Date(y,m-1,d)-new Date(2025,5,12))/864e5);const r=new Date(TODAY);r.setDate(r.getDate()+o);return r.getFullYear()+'.'+String(r.getMonth()+1).padStart(2,'0')+'.'+String(r.getDate()).padStart(2,'0');}
+
+/* =====================================================================
+   ONSITE 마스터 관리자 — PRD 기준 기능 프로토타입
+   ===================================================================== */
+const LOGO=`<svg class="logo-svg" role="img" aria-label="ONSITE" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 479.40 100"><g transform="translate(0 4) scale(0.17969)"><rect width="512" height="512" rx="139" fill="#2466E0"/><g transform="translate(256 256) scale(1.75) translate(-88.3 -80)"><circle cx="60" cy="80" r="40" fill="none" stroke="#FFFFFF" stroke-width="34"/><path d="M88.3 51.7 L143.9 107.3 Q156.6 120 156.6 102 L156.6 40" fill="none" stroke="#FFFFFF" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></g></g><g fill="#0F1E45" transform="translate(116 85.30)"><path transform="translate(0.00 0) scale(0.10000 -0.10000)" d="M424 -12C640 -12 797 151 797 350V352C797 551 642 712 426 712C210 712 53 549 53 350V348C53 149 208 -12 424 -12ZM426 130C302 130 214 230 214 350V352C214 472 300 570 424 570C548 570 636 470 636 350V348C636 228 550 130 426 130Z"/><path transform="translate(79.00 0) scale(0.10000 -0.10000)" d="M84 70C84 27 117 -6 160 -6C203 -6 236 27 236 70V445L544 41C565 14 587 -4 624 -4H629C672 -4 706 30 706 73V630C706 673 673 706 630 706C587 706 554 673 554 630V269L257 659C236 686 214 704 177 704H161C118 704 84 670 84 627Z"/><path transform="translate(152.00 0) scale(0.10000 -0.10000)" d="M333 -10C484 -10 590 68 590 207V209C590 331 510 381 368 419C247 451 217 464 217 511V513C217 548 247 574 307 574C355 574 403 558 454 527C467 520 480 516 493 516C533 516 565 547 565 587C565 618 548 637 531 648C467 688 394 710 309 710C165 710 64 626 64 499V497C64 359 154 318 296 283C413 254 437 233 437 194V192C437 151 400 126 336 126C268 126 210 150 157 189C146 196 133 203 113 203C73 203 41 172 41 132C41 108 53 86 70 74C149 18 241 -10 333 -10Z"/><path transform="translate(210.00 0) scale(0.10000 -0.10000)" d="M91 71C91 28 125 -6 168 -6C211 -6 245 28 245 71V629C245 672 211 706 168 706C125 706 91 672 91 629Z"/><path transform="translate(237.60 0) scale(0.10000 -0.10000)" d="M247 71C247 28 281 -6 324 -6C367 -6 401 28 401 71V558H549C588 558 620 590 620 629C620 668 588 700 549 700H99C60 700 28 668 28 629C28 590 60 558 99 558H247Z"/><path transform="translate(296.40 0) scale(0.10000 -0.10000)" d="M554 0C593 0 623 29 623 68C623 107 593 137 554 137H237V284H504C543 284 573 313 573 352C573 391 543 421 504 421H237V563H549C588 563 618 592 618 631C618 670 588 700 549 700H161C118 700 84 666 84 623V77C84 34 118 0 161 0Z"/></g></svg>`;
+</script>
+<script>
+const IC={"clip": "<path d=\"M168,152a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,152Zm-8-40H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm56-64V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V48A16,16,0,0,1,56,32H92.26a47.92,47.92,0,0,1,71.48,0H200A16,16,0,0,1,216,48ZM96,64h64a32,32,0,0,0-64,0ZM200,48H173.25A47.93,47.93,0,0,1,176,64v8a8,8,0,0,1-8,8H88a8,8,0,0,1-8-8V64a47.93,47.93,0,0,1,2.75-16H56V216H200Z\"/>", "down": "<path d=\"M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z\"/>", "back": "<path d=\"M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z\"/>", "send": "<path d=\"M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z\"/>", "arrow": "<path d=\"M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z\"/>", "info": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z\"/>", "clock": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z\"/>", "download": "<path d=\"M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z\"/>", "chev": "<path d=\"M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z\"/>", "users": "<path d=\"M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z\"/>", "trash": "<path d=\"M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z\"/>", "check": "<path d=\"M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z\"/>", "gear": "<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z\"/>", "alert": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z\"/>", "logout": "<path d=\"M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z\"/>", "flag": "<path d=\"M42.76,50A8,8,0,0,0,40,56V224a8,8,0,0,0,16,0V179.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V56A8,8,0,0,0,218.76,50c-28,24.23-51.72,12.49-79.21-1.12C111.07,34.76,78.78,18.79,42.76,50ZM216,172.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V59.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z\"/>", "edit": "<path d=\"M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z\"/>", "spark": "<path d=\"M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z\"/>", "won": "<path d=\"M240,128H217.89l21.52-53a8,8,0,1,0-14.82-6l-24,59H159.38l-24-59a8,8,0,0,0-14.82,0l-24,59H55.38l-24-59a8,8,0,0,0-14.82,6l21.52,53H16a8,8,0,0,0,0,16H44.61l24,59a8,8,0,0,0,14.82,0l24-59h41.24l24,59a8,8,0,0,0,14.82,0l24-59H240a8,8,0,0,0,0-16ZM76,178.75,61.88,144H90.12ZM113.88,128,128,93.26,142.12,128ZM180,178.75,165.88,144h28.24Z\"/>", "x": "<path d=\"M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z\"/>", "lock": "<path d=\"M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z\"/>", "plus": "<path d=\"M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z\"/>", "cal": "<path d=\"M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Z\"/>", "eye": "<path d=\"M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.47,133.47,0,0,1,25,128,133.33,133.33,0,0,1,48.07,97.25C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.25A133.46,133.46,0,0,1,231.05,128C223.84,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z\"/>", "upload": "<path d=\"M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0ZM93.66,77.66,120,51.31V144a8,8,0,0,0,16,0V51.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,77.66Z\"/>", "search": "<path d=\"M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z\"/>", "image": "<path d=\"M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V158.75l-26.07-26.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L40,149.37V56ZM40,172l52-52,80,80H40Zm176,28H194.63l-36-36,20-20L216,181.38V200ZM144,100a12,12,0,1,1,12,12A12,12,0,0,1,144,100Z\"/>", "grid": "<path d=\"M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z\"/>"};
+const ICF={"clip": "<path d=\"M200,32H163.74a47.92,47.92,0,0,0-71.48,0H56A16,16,0,0,0,40,48V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V48A16,16,0,0,0,200,32Zm-72,0a32,32,0,0,1,32,32H96A32,32,0,0,1,128,32Zm32,128H96a8,8,0,0,1,0-16h64a8,8,0,0,1,0,16Zm0-32H96a8,8,0,0,1,0-16h64a8,8,0,0,1,0,16Z\"/>", "down": "<path d=\"M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,48,88H208a8,8,0,0,1,5.66,13.66Z\"/>", "back": "<path d=\"M168,48V208a8,8,0,0,1-13.66,5.66l-80-80a8,8,0,0,1,0-11.32l80-80A8,8,0,0,1,168,48Z\"/>", "send": "<path d=\"M231.4,44.34s0,.1,0,.15l-58.2,191.94a15.88,15.88,0,0,1-14,11.51q-.69.06-1.38.06a15.86,15.86,0,0,1-14.42-9.15L107,164.15a4,4,0,0,1,.77-4.58l57.92-57.92a8,8,0,0,0-11.31-11.31L96.43,148.26a4,4,0,0,1-4.58.77L17.08,112.64a16,16,0,0,1,2.49-29.8l191.94-58.2.15,0A16,16,0,0,1,231.4,44.34Z\"/>", "arrow": "<path d=\"M221.66,133.66l-72,72A8,8,0,0,1,136,200V136H40a8,8,0,0,1,0-16h96V56a8,8,0,0,1,13.66-5.66l72,72A8,8,0,0,1,221.66,133.66Z\"/>", "info": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z\"/>", "clock": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm56,112H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48a8,8,0,0,1,0,16Z\"/>", "download": "<path d=\"M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40A8,8,0,0,0,168,96H136V32a8,8,0,0,0-16,0V96H88a8,8,0,0,0-5.66,13.66Z\"/>", "chev": "<path d=\"M181.66,133.66l-80,80A8,8,0,0,1,88,208V48a8,8,0,0,1,13.66-5.66l80,80A8,8,0,0,1,181.66,133.66Z\"/>", "users": "<path d=\"M164.47,195.63a8,8,0,0,1-6.7,12.37H10.23a8,8,0,0,1-6.7-12.37,95.83,95.83,0,0,1,47.22-37.71,60,60,0,1,1,66.5,0A95.83,95.83,0,0,1,164.47,195.63Zm87.91-.15a95.87,95.87,0,0,0-47.13-37.56A60,60,0,0,0,144.7,54.59a4,4,0,0,0-1.33,6A75.83,75.83,0,0,1,147,150.53a4,4,0,0,0,1.07,5.53,112.32,112.32,0,0,1,29.85,30.83,23.92,23.92,0,0,1,3.65,16.47,4,4,0,0,0,3.95,4.64h60.3a8,8,0,0,0,7.73-5.93A8.22,8.22,0,0,0,252.38,195.48Z\"/>", "trash": "<path d=\"M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM112,168a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm0-120H96V40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8Z\"/>", "check": "<path d=\"M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM205.66,85.66l-96,96a8,8,0,0,1-11.32,0l-40-40a8,8,0,0,1,11.32-11.32L104,164.69l90.34-90.35a8,8,0,0,1,11.32,11.32Z\"/>", "gear": "<path d=\"M237.94,107.21a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A111.92,111.92,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.63a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21ZM128,168a40,40,0,1,1,40-40A40,40,0,0,1,128,168Z\"/>", "alert": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z\"/>", "logout": "<path d=\"M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40A8,8,0,0,0,176,88v32H112a8,8,0,0,0,0,16h64v32a8,8,0,0,0,13.66,5.66l40-40A8,8,0,0,0,229.66,122.34Z\"/>", "flag": "<path d=\"M232,56V176a8,8,0,0,1-2.76,6c-15.28,13.23-29.89,18-43.82,18-18.91,0-36.57-8.74-53-16.85C105.87,170,82.79,158.61,56,179.77V224a8,8,0,0,1-16,0V56a8,8,0,0,1,2.77-6h0c36-31.18,68.31-15.21,96.79-1.12C167,62.46,190.79,74.2,218.76,50A8,8,0,0,1,232,56Z\"/>", "edit": "<path d=\"M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM192,108.68,147.31,64l24-24L216,84.68Z\"/>", "spark": "<path d=\"M208,144a15.78,15.78,0,0,1-10.42,14.94L146,178l-19,51.62a15.92,15.92,0,0,1-29.88,0L78,178l-51.62-19a15.92,15.92,0,0,1,0-29.88L78,110l19-51.62a15.92,15.92,0,0,1,29.88,0L146,110l51.62,19A15.78,15.78,0,0,1,208,144ZM152,48h16V64a8,8,0,0,0,16,0V48h16a8,8,0,0,0,0-16H184V16a8,8,0,0,0-16,0V32H152a8,8,0,0,0,0,16Zm88,32h-8V72a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0V96h8a8,8,0,0,0,0-16Z\"/>", "won": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm72,120H181.42l-14,35a8,8,0,0,1-14.86,0L128,117.54,103.43,179a8,8,0,0,1-14.86,0l-14-35H56a8,8,0,0,1,0-16H68.18L56.57,99A8,8,0,1,1,71.43,93L96,154.46,120.57,93a8,8,0,0,1,14.86,0L160,154.46,184.57,93A8,8,0,1,1,199.43,99l-11.61,29H200a8,8,0,0,1,0,16Z\"/>", "x": "<path d=\"M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z\"/>", "lock": "<path d=\"M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96Z\"/>", "plus": "<path d=\"M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM184,136H136v48a8,8,0,0,1-16,0V136H72a8,8,0,0,1,0-16h48V72a8,8,0,0,1,16,0v48h48a8,8,0,0,1,0,16Z\"/>", "cal": "<path d=\"M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,48H48V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24Z\"/>", "eye": "<path d=\"M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,168a40,40,0,1,1,40-40A40,40,0,0,1,128,168Z\"/>", "upload": "<path d=\"M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0ZM88,80h32v64a8,8,0,0,0,16,0V80h32a8,8,0,0,0,5.66-13.66l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,88,80Z\"/>", "search": "<path d=\"M168,112a56,56,0,1,1-56-56A56,56,0,0,1,168,112Zm61.66,117.66a8,8,0,0,1-11.32,0l-50.06-50.07a88,88,0,1,1,11.32-11.31l50.06,50.06A8,8,0,0,1,229.66,229.66ZM112,184a72,72,0,1,0-72-72A72.08,72.08,0,0,0,112,184Z\"/>", "image": "<path d=\"M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM156,88a12,12,0,1,1-12,12A12,12,0,0,1,156,88Zm60,112H40V160.69l46.34-46.35a8,8,0,0,1,11.32,0h0L165,181.66a8,8,0,0,0,11.32-11.32l-17.66-17.65L173,138.34a8,8,0,0,1,11.31,0L216,170.07V200Z\"/>", "grid": "<path d=\"M120,56v48a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V56A16,16,0,0,1,56,40h48A16,16,0,0,1,120,56Zm80-16H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm-96,96H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm96,0H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Z\"/>"};
+const ic=(n,c='')=>`<svg class="i ph ${c}" viewBox="0 0 256 256">${(/\bfill\b/.test(c)&&ICF[n])||IC[n]||''}</svg>`;
+
+/* ---------- 유틸 ---------- */
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const T=s=>{if(!s)return 0;const[a,b]=s.split(':').map(Number);return a*60+b;};
+const HM=m=>pad(Math.floor(m/60))+':'+pad(((m%60)+60)%60);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const won=n=>n.toLocaleString('ko-KR');
+const hash=s=>{let h=2166136261;for(const c of String(s))h=Math.imul(h^c.charCodeAt(0),16777619)>>>0;return h;};
+const rnd=(seed,n)=>hash(seed)%n;
+const sum=a=>a.reduce((x,y)=>x+y,0);
+let toastT;
+function toast(msg,red){const o=$('.toast');o&&o.remove();clearTimeout(toastT);const d=document.createElement('div');d.className='toast'+(red?' red':'');d.innerHTML=(red?ic('alert','s14'):ic('check','s14'))+'<span>'+msg+'</span>';document.body.appendChild(d);toastT=setTimeout(()=>d.remove(),2600);}
+function modal({title,body,actions=[],wide}){
+  $('#modal-root').innerHTML=`<div class="ov" data-act="ov"><div class="modal ${wide?'wide':''}"><div class="mh"><b>${title}</b><button data-act="closeModal" aria-label="닫기">${ic('x')}</button></div><div class="mb">${body}</div>${actions.length?`<div class="mf">${actions.map(a=>`<button class="btn ${a.cls||''}" data-act="${a.act}" ${a.data||''}>${a.label}</button>`).join('')}</div>`:''}</div></div>`;
+}
+const closeModal=()=>{$('#modal-root').innerHTML='';};
+function nowStamp(){const d=new Date();return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;}
+
+/* ---------- 기관 설정 (전 공고 공통) ---------- */
+const ORG={
+  name:'한국공공기관',
+  statuses:['','접수예정','접수','연락중','불참'],
+  useDevice:true,useFee:true,
+  captureOperator:true,captureEval:true,captureEtc:false,
+  retentionMonths:6,expireDays:18,absentCutoff:'전일 18:00',
+  sendTiming:'면접 3일 전 10:00',channel:'알림톡 우선 · 실패 시 SMS',
+  rates:{평가위원:50000,운영자:30000}
+};
+const LOG=[];
+function log(job,txt){LOG.unshift({at:nowStamp(),job:job?job.name:'워크스페이스',txt});}
+
+/* =====================================================================
+   데이터 · 공고
+   ===================================================================== */
+const SURN='김이박최정강조윤장임한오서신권황안송류홍'.split('');
+const GIVEN=['민준','서연','도윤','지우','하준','서윤','시우','하은','지호','수아','예준','지민','유진','현우','채원','준서','다은','건우','소율','우진','예린','태윤','나연','정훈','가은'];
+function mkName(seed){return SURN[rnd(seed+'s',SURN.length)]+GIVEN[rnd(seed+'g',GIVEN.length)];}
+function mkRoster(spec,prefix){
+  const rows=[];let k=1;
+  spec.forEach(([field,n])=>{for(let i=0;i<n;i++){const no=`${prefix}-${String(1000+k).slice(1)}`;const seed=no+field;
+    rows.push({no,name:mkName(seed),field,phone:`010-${String(2000+rnd(seed+'p',7000))}-${String(1000+rnd(seed+'q',8999))}`,birth:`${1994+rnd(seed+'b',9)}${pad(1+rnd(seed+'m',12))}${pad(1+rnd(seed+'d',28))}`});k++;}});
+  return rows;
+}
+const CRIT_SETS={
+  A:{name:'역량 중심',items:[['직무 전문성',30,'직무 관련 지식·경험의 깊이와 실무 적용 가능성'],['문제 해결력',25,'상황 분석, 대안 도출, 실행 계획의 논리성'],['의사소통 능력',20,'질문 의도 파악, 답변의 명확성과 구조'],['조직 적합성',25,'공공기관 가치 이해, 협업 태도, 윤리 의식']]},
+  B:{name:'NCS 직업기초능력 중심',items:[['직무수행능력',35,'직무기술서 기준 수행 역량'],['직업윤리',20,'공익성·청렴·책임감'],['대인관계능력',20,'협업·갈등 조정'],['자기개발능력',25,'학습 의지와 성장 계획']]},
+  C:{name:'상황·행동 중심',items:[['상황 판단',30,'제시 상황의 핵심 파악과 우선순위 판단'],['행동 근거',30,'과거 행동 사례의 구체성'],['소통·설득',20,'이해관계자 설득 과정'],['공공성 이해',20,'공공기관 역할에 대한 이해']]}
+};
+const Q_SETS={
+  A:{name:'역량 검증형',qs:['지원 직무 수행에 가장 중요한 역량과 이를 갖추기 위한 준비 과정은?','예상치 못한 문제를 해결한 경험과 당시의 판단 기준은?','의견이 다른 구성원을 설득한 경험과 사용한 방식은?','공공기관 직원에게 요구되는 윤리 의식과 본인의 실천 사례는?','업무 우선순위가 충돌하는 상황에서의 조율 방식은?']},
+  B:{name:'상황 제시형',qs:['민원인이 규정 밖의 요구를 반복할 때의 대응 순서는?','마감 직전 상사의 지시와 규정이 충돌할 때의 판단은?','동료의 업무 실수를 발견했을 때 취할 행동은?','예산이 절반으로 줄어든 사업의 우선순위 조정 방식은?','처음 맡은 업무에서 정보가 부족할 때의 접근 방식은?']},
+  C:{name:'경험 심화형',qs:['가장 큰 성과를 낸 경험에서 본인의 구체적 역할은?','실패 경험과 이후 바꾼 업무 방식은?','팀 갈등을 해결한 과정에서 본인이 한 행동은?','반복 업무를 개선한 경험과 측정 결과는?','규정을 지키면서 효율을 높인 사례는?']}
+};
+const MASK_ITEMS=[['name','성명'],['birth','생년월일'],['phone','연락처'],['addr','주소'],['photo','사진'],['school','출신학교'],['family','가족관계'],['region','출신지역'],['gender','성별']];
+const REGIONS=['서울','부산','대구','인천','광주','대전','울산','경기','강원','충북','충남','전북','전남','경북','경남','제주'];
+const SCHOOLS=['한국대학교','미래대학교','중앙과학기술대학교','새빛여자대학교','동해대학교'];
+const FAMILY=['아버지','어머니','부모님','형','누나','동생','가족'];
+function mkResume(a){
+  const s=a.no;const sch=SCHOOLS[rnd(s+'sc',SCHOOLS.length)];const rg=REGIONS[rnd(s+'rg',REGIONS.length)];const fam=FAMILY[rnd(s+'fm',FAMILY.length)];
+  return {
+    head:{name:a.name,birth:a.birth,phone:a.phone,addr:`${rg}광역시 중구 중앙로 ${10+rnd(s+'ad',80)}`,gender:rnd(s+'gd',2)?'남':'여'},
+    edu:`${sch} 경영학과 졸업`,
+    intro:`${rg}에서 자라며 ${sch}에서 회계와 재무관리를 공부. ${fam}의 영향으로 공공 서비스에 관심을 두게 됨. 인턴 과정에서 예산 집행 현황을 월 단위로 정리하며 작은 오차가 사업 전체 일정에 영향을 준다는 점을 체감. 이후 모든 업무에 이중 검증 체크리스트를 적용하는 습관 형성.`,
+    career:['○○공사 경영지원팀 인턴 · 6개월','△△재단 사무국 계약직 · 1년 2개월'][rnd(s+'cr',2)]
+  };
+}
+
+let JOBS=[];
+function newJob({id,name,org,date,place,stage,roster,cfg}){
+  const j={id,name,org,date,place,stage,roster:roster||[],rosterFile:roster&&roster.length?'합격자명단_'+org+'.xlsx':null,rosterErrs:[],
+    cfg:Object.assign({type:'group',start:'09:30',dur:20,rest:10,rooms:2,lunch:true,lunchStart:'12:30',lunchLen:60,arrive:30,groupMax:5,groupMaxMin:50,perMin:10},cfg||{}),
+    sched:null,schedConfirmed:false,schedAt:null,history:[],arrive:{},
+    apps:{},evaluators:[],
+    ai:{qSel:null,cSel:null,qs:[],crit:[],saved:false,savedAt:null},
+    mask:{items:{name:1,birth:1,phone:1,addr:1,photo:1,school:1,family:1,region:1,gender:1},reviewed:{},confirmed:false,at:null},
+    notice:{sent:false,at:null,res:{}},
+    conduct:[],issues:[],
+    evalClosed:false,evalClosedAt:null,
+    bonusRule:true,bonus:{},quota:{},decision:{},resultConfirmed:false,resultAt:null,published:false,publishedAt:null,expire:null,
+    staff:[],nowMin:null
+  };
+  j.roster.forEach(r=>j.apps[r.no]=blankApp());
+  return j;
+}
+function blankApp(){return{ino:'',status:'',device:'',inR:false,outR:false,fee:false,delay:0,note:'',evals:{}};}
+/* =====================================================================
+   인력·계정 (공고별 아이디·비밀번호 발급)
+   ===================================================================== */
+const OP_ROLES=['접수','인솔','상주'];
+function genPw(){const c='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';let p='';for(let i=0;i<8;i++)p+=c[Math.floor(Math.random()*c.length)];return p.slice(0,4)+'-'+p.slice(4);}
+function mkPhone(seed){return `010-${String(2000+rnd(seed+'p',7000))}-${String(1000+rnd(seed+'q',8999))}`;}
+function initAccounts(j){
+  const done=j.stage!=='prep';
+  j.ops=j.ops||j.staff.filter(s=>s.type==='운영자').map((s,i)=>({name:s.name,role:OP_ROLES[i%3],room:i===2?'1면접실':'공통'}));
+  j.evaluators.forEach(e=>{e.phone=e.phone||mkPhone(e.name);});
+  j.ops.forEach(o=>{o.phone=o.phone||mkPhone(o.name);});
+  [['E',j.evaluators],['S',j.ops]].forEach(([k,L])=>L.forEach((p,i)=>{if(p.acc)return;p.acc={id:`${j.code}-${k}${pad(i+1)}`,pw:genPw(),issued:done,sent:done,login:done?`${j.date} 08:${pad(10+i*4)}`:null};}));
+}
+function nextAccId(j,k){const L=k==='E'?j.evaluators:j.ops;const used=L.map(p=>+((p.acc||{}).id||'').slice(-2)||0);return `${j.code}-${k}${pad(Math.max(0,...used)+1)}`;}
+function accExpire(j){const[y,m,d]=j.date.split('.').map(Number);const t=new Date(y,m-1,d+7);return `${t.getFullYear()}.${pad(t.getMonth()+1)}.${pad(t.getDate())}`;}
+function accState(p){const a=p.acc;if(!a||!a.issued)return['미발급',''];if(a.login)return['로그인 완료','ok'];if(a.sent)return['안내 발송','pri'];return['발급','pri'];}
+function pgPeople(){
+  const j=cur();const all=j.evaluators.map(p=>['E',p]).concat(j.ops.map(p=>['S',p]));
+  const issued=all.filter(([,p])=>p.acc&&p.acc.issued).length,login=all.filter(([,p])=>p.acc&&p.acc.login).length;
+  const rooms=j.sched?j.sched.rooms.map(r=>r.name):['1면접실','2면접실'];
+  const row=(k,p,i)=>{const a=p.acc||{};const[st,tone]=accState(p);const show=S.pwShow[a.id];
+    return `<tr><td class="strong">${esc(p.name)}</td><td class="muted num">${p.phone}</td>
+      <td>${k==='E'?`<select class="select sm" data-pp="${k}:${i}:room" style="width:112px">${rooms.map(r=>`<option ${p.room===r?'selected':''}>${r}</option>`).join('')}</select>`:`<select class="select sm" data-pp="${k}:${i}:role" style="width:86px">${OP_ROLES.map(r=>`<option ${p.role===r?'selected':''}>${r}</option>`).join('')}</select>`}</td>
+      <td class="num strong">${a.issued?a.id:'<span class="faint">—</span>'}</td>
+      <td class="num">${a.issued?`<span style="font-family:ui-monospace,Menlo,monospace">${show?a.pw:'••••-••••'}</span> <button class="btn xs ghost" data-act="pwShow" data-id="${a.id}">${show?'숨기기':'보기'}</button>`:'<span class="faint">—</span>'}</td>
+      <td><span class="st ${tone}">${st}</span>${a.login?`<div class="faint" style="font-size:11.5px;margin-top:2px">${a.login}</div>`:''}</td>
+      <td class="r" style="white-space:nowrap">${a.issued?`<button class="btn xs" data-act="accSend" data-k="${k}" data-i="${i}">안내 발송</button> <button class="btn xs ghost" data-act="accReset" data-k="${k}" data-i="${i}">재발급</button>`:`<button class="btn xs pri" data-act="accIssue" data-k="${k}" data-i="${i}">계정 발급</button>`} <button class="btn xs ghost danger" data-act="accDel" data-k="${k}" data-i="${i}">삭제</button></td></tr>`;};
+  const table=(k,L,title,meta)=>`<section class="sec"><div class="sec-h"><h2>${title}</h2><span class="meta">${L.length}명 · ${meta}</span><span class="sp"></span><button class="btn sm" data-act="addPerson" data-k="${k}">${ic('plus','s14')}${k==='E'?'평가위원':'운영인력'} 추가</button></div>
+    ${L.length?`<div class="tbl"><table><thead><tr><th>이름</th><th>연락처</th><th>${k==='E'?'배정 면접실':'역할'}</th><th>아이디</th><th>임시 비밀번호</th><th>상태</th><th></th></tr></thead><tbody>${L.map((p,i)=>row(k,p,i)).join('')}</tbody></table></div>`:`<div class="empty">등록된 ${k==='E'?'평가위원':'운영인력'} 없음 · 추가 후 계정 발급</div>`}</section>`;
+  return `<div class="phead"><div><h1>인력·계정</h1><p>평가위원·운영인력 등록과 이 공고 전용 계정 발급</p></div>
+    <div class="pr"><button class="btn" data-act="accCsv">${ic('download','s14')}계정 목록</button><button class="btn pri" data-act="accIssueAll" ${all.some(([,p])=>!p.acc||!p.acc.issued)?'':'disabled'}>미발급 전체 발급</button></div></div>
+  <div class="kpis"><div class="kpi"><div class="lb">발급 / 전체</div><div class="vl">${issued}<small>/ ${all.length}명</small></div></div><div class="kpi"><div class="lb">평가위원</div><div class="vl">${j.evaluators.length}<small>명</small></div></div><div class="kpi"><div class="lb">운영인력</div><div class="vl">${j.ops.length}<small>명</small></div></div><div class="kpi"><div class="lb">로그인 완료</div><div class="vl">${login}<small>명</small></div></div></div>
+  <div class="callout pri">${ic('lock')}<span><b>이 공고 전용 계정</b> · ${accExpire(j)}까지 사용 · 첫 로그인 시 비밀번호 변경 안내</span></div>
+  ${table('E',j.evaluators,'평가위원','평가자 Web 로그인')}
+  ${table('S',j.ops,'운영인력','운영관리자 Mobile 로그인')}
+  <div class="note">임시 비밀번호는 발급·재발급 직후에만 확인 가능 · 계정 발급과 변경 내역은 활동 로그에 기록</div>`;
+}
+function accMsg(j,k,p){return `<b>[${esc(j.org)}] ONSITE ${k==='E'?'평가위원':'운영인력'} 계정 안내</b>${esc(p.name)}님, ${esc(j.name)} ${k==='E'?'평가':'현장 운영'} 계정입니다.
+· 접속: ${k==='E'?'onsite.kr/eval':'onsite.kr/op (모바일)'}
+· 아이디: ${p.acc.id}
+· 임시 비밀번호: ${p.acc.pw}
+· 유효기간: ${accExpire(j)}까지
+첫 로그인 후 비밀번호를 변경해 주세요.`;}
+function validRoster(j){const bad=new Set(j.rosterErrs.map(e=>e.no));return j.roster.filter(r=>!bad.has(r.no));}
+function fields(j){const m={};validRoster(j).forEach(r=>{m[r.field]=(m[r.field]||0)+1;});return m;}
+function app(j,no){return j.apps[no]||(j.apps[no]=blankApp());}
+function person(j,no){return j.roster.find(r=>r.no===no);}
+
+/* =====================================================================
+   시간표 엔진
+   - 면접번호: [분야]+순번 (시간표 순서)
+   - 조별 세션 = min(최대 면접시간, 실제 인원 × 인당 배분시간)
+   - DELAY: 특정 지원자 행 기준 기록 → 이후 일정 연쇄 반영
+   - 도착시간: 확정 시점에 고정, 이후 자동 변경 없음
+   ===================================================================== */
+function unitLen(j,attend){const c=j.cfg;return c.type==='group'?Math.min(c.groupMaxMin,attend*c.perMin):c.dur;}
+function buildSchedule(j){
+  const c=j.cfg;const R=Math.max(1,+c.rooms||1);
+  const byF={};validRoster(j).forEach(r=>{(byF[r.field]=byF[r.field]||[]).push(r.no);});
+  let pieces=Object.entries(byF).map(([f,nos])=>{const units=[];const size=c.type==='group'?Math.max(1,+c.groupMax):1;for(let i=0;i<nos.length;i+=size)units.push(nos.slice(i,i+size));return{field:f,units};});
+  while(pieces.length<R){pieces.sort((a,b)=>b.units.length-a.units.length);const p=pieces[0];if(p.units.length<2)break;const h=Math.ceil(p.units.length/2);pieces.splice(0,1,{field:p.field,units:p.units.slice(0,h)},{field:p.field,units:p.units.slice(h)});}
+  pieces.sort((a,b)=>b.units.length-a.units.length);
+  const rooms=Array.from({length:R},(_,i)=>({name:`${i+1}면접실`,start:c.start,items:[],load:0}));
+  pieces.forEach(p=>{const r=rooms.reduce((a,b)=>b.load<a.load?b:a);p.units.forEach(u=>r.items.push({kind:'s',id:'s'+Math.random().toString(36).slice(2,8),field:p.field,members:u}));r.load+=sum(p.units.map(u=>unitLen(j,u.length)+c.rest));});
+  // 점심 자동 배치: 11:30~13:30 구간 고려, 세션이 점심 기준 시각을 크게 넘기면 그 앞에 삽입, 오전 조기 종료 시 생략
+  rooms.forEach(r=>{
+    let cur=T(r.start);const out=[];let placed=!c.lunch;
+    r.items.forEach((it,idx)=>{
+      const len=unitLen(j,it.members.length);
+      if(!placed&&cur>=T('11:30')&&cur+len>T(c.lunchStart)+20){out.push({kind:'lunch',id:'l'+idx,start:HM(Math.min(cur,T('13:30'))),len:+c.lunchLen});cur=Math.max(cur,T('11:30'))+(+c.lunchLen);placed=true;}
+      out.push(it);cur+=len+(+c.rest);
+    });
+    r.items=out;delete r.load;
+  });
+  j.sched={rooms};
+  numberSchedule(j);
+}
+function numberSchedule(j){
+  // 면접번호·조 번호: 시간표(계획) 순서 기준
+  const all=[];j.sched.rooms.forEach((r,ri)=>timeline(j,r,false).forEach(x=>{if(x.kind==='s')all.push({x,ri});}));
+  all.sort((a,b)=>a.x.s-b.x.s||a.ri-b.ri);
+  const cnt={},gcnt={};
+  all.forEach(({x})=>{gcnt[x.field]=(gcnt[x.field]||0)+1;x.it.label=j.cfg.type==='group'?`${x.field} ${gcnt[x.field]}조`:x.field;x.members.forEach(no=>{cnt[x.field]=(cnt[x.field]||0)+1;app(j,no).ino=x.field+pad(cnt[x.field]);});});
+}
+function timeline(j,room,actual){
+  const c=j.cfg;let cur=T(room.start);const out=[];
+  room.items.forEach(it=>{
+    if(it.kind==='lunch'||it.kind==='break'){const s=Math.max(cur,T(it.start));out.push({kind:it.kind,it,s,e:s+it.len});cur=s+it.len;return;}
+    const attend=actual?it.members.filter(no=>app(j,no).status!=='불참').length:it.members.length;
+    const len=c.type==='group'?Math.min(c.groupMaxMin,attend*c.perMin):(actual&&attend===0?c.dur:c.dur);
+    const planLen=unitLen(j,it.members.length);
+    let s=cur;
+    if(actual){const arr=Math.min(...it.members.map(no=>T(arriveOf(j,no))||0));if(arr)s=Math.max(cur,arr+10);}
+    const delay=actual?sum(it.members.map(no=>+app(j,no).delay||0)):0;
+    const e=s+len+delay;
+    out.push({kind:'s',it,field:it.field,members:it.members,s,e,len,planLen,delay,attend,label:it.label});
+    cur=e+(len>0?+c.rest:0);
+  });
+  return out;
+}
+function planOf(j){const m={};if(!j.sched)return m;j.sched.rooms.forEach(r=>timeline(j,r,false).forEach(x=>{if(x.kind==='s')x.members.forEach(no=>m[no]={s:x.s,e:x.e,room:r.name,label:x.label});}));return m;}
+function arriveOf(j,no){if(j.arrive[no])return j.arrive[no];const p=planOf(j)[no];return p?HM(p.s-(+j.cfg.arrive)):'';}
+function roomOf(j,no){if(!j.sched)return null;for(const r of j.sched.rooms)for(const it of r.items)if(it.kind==='s'&&it.members.includes(no))return r;return null;}
+function histLog(j,txt){if(j.schedConfirmed){j.history.unshift({at:nowStamp(),txt});}log(j,txt);}
+
+/* =====================================================================
+   데모 공고 시드
+   ===================================================================== */
+function seed(){
+  const j1=newJob({id:'j1',name:TODAY.getFullYear()+'년 하반기 신규채용 공개경쟁 임용시험',org:'한국공공기관',date:DD('2025.06.12'),place:'한국공공기관 본관 3층 대기실',stage:'live',
+    roster:mkRoster([['경영',20],['행정',15],['전산',10]],'A')});
+  j1.cfg.lunchStart='12:30';
+  buildSchedule(j1);j1.schedConfirmed=true;j1.schedAt=(DD('2025.06.02')+' 16:40');
+  validRoster(j1).forEach(r=>j1.arrive[r.no]=arriveOf(j1,r.no));
+  j1.ai={qSel:'A',cSel:'A',qs:Q_SETS.A.qs.slice(),crit:CRIT_SETS.A.items.map(x=>x.slice()),saved:true,savedAt:(DD('2025.06.03')+' 11:20')};
+  validRoster(j1).forEach(r=>j1.mask.reviewed[r.no]=true);j1.mask.confirmed=true;j1.mask.at=(DD('2025.06.10')+' 15:02');
+  j1.notice={sent:true,at:(DD('2025.06.09')+' 10:00'),res:{}};validRoster(j1).forEach(r=>{j1.notice.res[r.no]=rnd(r.no+'k',9)===0?'sms':'kakao';});
+  j1.evaluators=[{name:'김평가',room:'1면접실',signed:false},{name:'이심사',room:'1면접실',signed:false},{name:'박검토',room:'1면접실',signed:false},{name:'최위원',room:'2면접실',signed:false},{name:'정위원',room:'2면접실',signed:false},{name:'한위원',room:'2면접실',signed:false}];
+  j1.nowMin=T('14:10');
+  // 현장 상태 시드
+  const tl={};j1.sched.rooms.forEach(r=>tl[r.name]=timeline(j1,r,false));
+  let k=0;
+  Object.entries(tl).forEach(([rn,rows])=>rows.forEach(x=>{if(x.kind!=='s')return;x.members.forEach((no,i)=>{const a=app(j1,no);k++;
+    if(x.e<=j1.nowMin){a.status='접수';a.inR=true;a.outR=true;a.fee=true;a.device=String(k);}
+    else if(x.s<=j1.nowMin){a.status='접수';a.inR=true;a.device=String(k);}
+    else{a.status=rnd(no+'st',3)?'접수':'접수예정';if(a.status==='접수')a.device=String(k);}
+  });}));
+  // 예외 상황: 오전 결시 1명, 오후 조별 불참 1명(세션 재산정), 연락중 1명, DELAY
+  const findNo=(field,idx)=>validRoster(j1).filter(r=>r.field===field)[idx].no;
+  Object.assign(app(j1,findNo('경영',13)),{status:'불참',inR:false,outR:false,fee:false,device:'',note:'당일 불참 연락'});
+  Object.assign(app(j1,findNo('전산',7)),{status:'불참',device:'',note:'불참 의사 표시 (지원자 페이지)'});
+  Object.assign(app(j1,findNo('전산',8)),{status:'연락중',device:'',note:'전화 2회 미응답'});
+  Object.assign(app(j1,findNo('행정',6)),{delay:5,note:'평가위원 질의 연장'});
+  // 평가 시드
+  const crit=j1.ai.crit;
+  Object.entries(tl).forEach(([rn,rows])=>{const evs=j1.evaluators.filter(e=>e.room===rn);
+    rows.forEach(x=>{if(x.kind!=='s')return;x.members.forEach(no=>{const a=app(j1,no);if(a.status==='불참')return;
+      const done=x.e<=j1.nowMin?evs.length:(x.s<=j1.nowMin?1:0);
+      evs.slice(0,done).forEach((ev,ei)=>{const base=2+rnd(no+'base',3);a.evals[ev.name]={lv:crit.map((c,ci)=>Math.max(1,Math.min(5,base+(rnd(no+ev.name+ci,3)-1)))),comment:['직무 이해도가 높고 답변 구조가 명확함','경험은 충분하나 구체적 성과 제시 부족','문제 해결 사례가 구체적이고 실행력 우수','질문 의도 파악에 다소 어려움','협업 경험 풍부, 조직 적응력 기대'][rnd(no+ev.name,5)],at:(DD('2025.06.12')+' ')+HM(x.e+3+ei)};});
+    });});});
+  validRoster(j1).forEach(r=>{const v=rnd(r.no+'bn',12);j1.bonus[r.no]=v===0?{type:'취업지원대상자',pt:10}:v===1?{type:'장애인',pt:5}:v===2?{type:'취업지원대상자',pt:5}:{type:'없음',pt:0};});
+  j1.quota={경영:8,행정:6,전산:4};
+  j1.conduct=[
+    {t:'08:30',txt:'대기실 세팅 · 전자기기 보관함 확인',who:'접수처',done:true},
+    {t:'09:15',txt:'1면접실 · 경영 1조 대기실 이동 준비',who:'인솔',done:true},
+    {t:'11:50',txt:'오전 퇴실자 전자기기 반환',who:'접수처',done:true},
+    {t:'13:20',txt:'2면접실 · 전산 1조 입실 안내',who:'인솔',done:true},
+    {t:'13:55',txt:'1면접실 · 경영 4조 입실 안내',who:'인솔',done:false},
+    {t:'14:25',txt:'2면접실 · 전산 2조 대기실 이동 준비',who:'인솔',done:false},
+    {t:'15:30',txt:'전체 퇴실 안내 · 전자기기 반환',who:'접수처',done:false}
+  ];
+  j1.issues=[
+    {t:'14:05',txt:`${findNo('전산',8)} 지원자 연락 두절`,room:'2면접실',by:'접수처',photo:false,done:false},
+    {t:'13:58',txt:'1면접실 평가위원 노트북 충전 필요',room:'1면접실',by:'상주',photo:true,done:false},
+    {t:'12:40',txt:'대기실 냉방 점검 요청',room:'공통',by:'인솔',photo:false,done:true}
+  ];
+  j1.staff=[
+    {type:'평가위원',name:'김평가',in:'08:41',out:'',doc:true},{type:'평가위원',name:'이심사',in:'08:45',out:'',doc:false},{type:'평가위원',name:'박검토',in:'08:50',out:'',doc:true},
+    {type:'평가위원',name:'최위원',in:'08:38',out:'',doc:true},{type:'평가위원',name:'정위원',in:'08:52',out:'',doc:true},{type:'평가위원',name:'한위원',in:'08:47',out:'',doc:true},
+    {type:'운영자',name:'이현장',in:'08:20',out:'',doc:false},{type:'운영자',name:'박인솔',in:'08:25',out:'',doc:true},{type:'운영자',name:'최상주',in:'08:31',out:'',doc:true}
+  ];
+
+  const j2=newJob({id:'j2',name:TODAY.getFullYear()+'년 경력직원 채용',org:'서울공단',date:DD('2025.06.18'),place:'서울공단 2층 세미나실',stage:'prep',roster:mkRoster([['기술',9],['사무',7]],'B'),cfg:{type:'single',dur:20,rest:5,rooms:2,start:'10:00'}});
+  // 업로드 검증 예시: 중복·분야 누락
+  j2.roster.push(Object.assign({},j2.roster[3]),{no:'B-017',name:'윤하은',field:'',phone:'010-4421-9012',birth:'19980311'});
+  j2.apps['B-017']=blankApp();
+  validateRoster(j2);
+
+  const j3=newJob({id:'j3',name:TODAY.getFullYear()+'년 하반기 신입직원 채용',org:'문화진흥원',date:DD('2025.05.30'),place:'문화진흥원 대회의실',stage:'settle',roster:mkRoster([['문화기획',10]],'C'),cfg:{rooms:1}});
+  buildSchedule(j3);j3.schedConfirmed=true;validRoster(j3).forEach(r=>j3.arrive[r.no]=arriveOf(j3,r.no));
+  j3.ai={qSel:'B',cSel:'A',qs:Q_SETS.B.qs.slice(),crit:CRIT_SETS.A.items.map(x=>x.slice()),saved:true,savedAt:(DD('2025.05.20')+' 10:00')};
+  j3.mask.confirmed=true;j3.schedAt=(DD('2025.05.20')+' 15:00');j3.mask.at=(DD('2025.05.27')+' 11:00');validRoster(j3).forEach(r=>j3.mask.reviewed[r.no]=true);j3.notice.sent=true;
+  j3.evaluators=[{name:'오위원',room:'1면접실',signed:true},{name:'서위원',room:'1면접실',signed:true},{name:'권위원',room:'1면접실',signed:true}];
+  validRoster(j3).forEach(r=>{const a=app(j3,r.no);a.status='접수';a.inR=a.outR=a.fee=true;j3.evaluators.forEach(ev=>{const b=2+rnd(r.no+'b',3);a.evals[ev.name]={lv:j3.ai.crit.map((c,ci)=>Math.max(1,Math.min(5,b+rnd(r.no+ev.name+ci,3)-1))),comment:'무난한 답변',at:DD('2025.05.30')};});j3.bonus[r.no]={type:'없음',pt:0};});
+  j3.quota={문화기획:4};j3.evalClosed=true;j3.evalClosedAt=(DD('2025.05.30')+' 18:10');
+  draftDecisions(j3);j3.resultConfirmed=true;j3.resultAt=(DD('2025.06.02')+' 10:00');j3.published=true;j3.publishedAt=(DD('2025.06.03')+' 18:00');j3.expire=DD('2025.06.21');
+  j3.staff=[{type:'평가위원',name:'오위원',in:'09:30',out:'17:00',doc:true},{type:'평가위원',name:'서위원',in:'09:25',out:'17:00',doc:false},{type:'운영자',name:'박관리',in:'08:50',out:'17:30',doc:true}];
+
+  const j4=newJob({id:'j4',name:TODAY.getFullYear()+'년 청년인턴 채용',org:'경기도일자리재단',date:DD('2025.06.25'),place:'재단 본관 1층',stage:'prep'});
+  JOBS=[j1,j2,j3,j4];
+  [['j1','KPA25'],['j2','SGC25'],['j3','MCB25'],['j4','GGI25']].forEach(([id,c])=>{const j=JOBS.find(x=>x.id===id);j.code=c;initAccounts(j);});
+  JOBS[0].evaluators[0].acc.pw='onsite25!';JOBS[0].ops[0].acc.pw='onsite25!';
+}
+
+/* =====================================================================
+   명단 검증 (PRD 8.1)
+   ===================================================================== */
+const REQ=['수험번호','성명','지원분야','연락처'];
+function validateRoster(j){
+  const errs=[];const seen={};
+  j.roster.forEach((r,i)=>{
+    if(!r.field)errs.push({no:r.no,idx:i,msg:'지원분야 누락'});
+    if(!r.name)errs.push({no:r.no,idx:i,msg:'성명 누락'});
+    if(!r.phone)errs.push({no:r.no,idx:i,msg:'연락처 누락'});
+    if(seen[r.no]!==undefined)errs.push({no:r.no,idx:i,msg:'중복 수험번호',dup:true});
+    else seen[r.no]=i;
+  });
+  // 중복은 두 번째 행만 오류로 표시하기 위해 idx 기준 관리
+  j.rosterErrs=errs;
+}
+function errOf(j,i){return j.rosterErrs.filter(e=>e.idx===i);}
+function parseCSV(text){
+  const rows=[];let row=[],cell='',q=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){if(c==='"'){if(text[i+1]==='"'){cell+='"';i++;}else q=false;}else cell+=c;}
+    else if(c==='"')q=true;else if(c===','){row.push(cell);cell='';}else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cell);rows.push(row);row=[];cell='';}else cell+=c;}
+  if(cell!==''||row.length){row.push(cell);rows.push(row);}
+  return rows;
+}
+function ingest(j,table,fname){
+  const head=(table[0]||[]).map(h=>String(h).trim().replace(/^﻿/,''));
+  const miss=REQ.filter(h=>!head.includes(h));
+  if(miss.length){modal({title:'필수 컬럼 누락',body:`<div class="callout err">${ic('alert')}<span><b>${miss.join(', ')}</b> 컬럼 없음 · 업로드 중단</span></div><div class="muted">필수 컬럼: 수험번호 · 성명 · 지원분야 · 연락처 (생년월일 선택)<br>샘플 양식을 내려받아 컬럼명을 맞춘 뒤 다시 업로드</div>`,actions:[{label:'샘플 양식 다운로드',act:'sampleCsv'},{label:'확인',act:'closeModal',cls:'pri'}]});return;}
+  const ix=h=>head.indexOf(h);let blank=0;const rows=[];
+  table.slice(1).forEach(c=>{const v=c.map(x=>String(x??'').trim());if(v.every(x=>!x)){blank++;return;}
+    rows.push({no:v[ix('수험번호')],name:v[ix('성명')],field:v[ix('지원분야')],phone:v[ix('연락처')],birth:ix('생년월일')>=0?v[ix('생년월일')]:''});});
+  j.roster=rows;j.apps={};rows.forEach(r=>j.apps[r.no]=blankApp());j.rosterFile=fname;j.sched=null;j.schedConfirmed=false;j.arrive={};j.mask.reviewed={};j.mask.confirmed=false;j.notice={sent:false,at:null,res:{}};
+  validateRoster(j);
+  log(j,`명단 업로드 · ${fname} · ${rows.length}명${blank?` · 빈 행 ${blank}개 제거`:''}`);
+  toast(`${rows.length}명 업로드${blank?` · 빈 행 ${blank}개 자동 제거`:''}${j.rosterErrs.length?` · 오류 ${j.rosterErrs.length}건`:''}`,!!j.rosterErrs.length);
+  S.prepTab='roster';render();
+}
+function loadXLSX(){return new Promise((res,rej)=>{if(window.XLSX)return res(window.XLSX);const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=()=>res(window.XLSX);s.onerror=rej;document.head.appendChild(s);});}
+function handleFile(f){
+  const j=cur();if(!f)return;
+  if(/\.csv$/i.test(f.name)){const r=new FileReader();r.onload=()=>ingest(j,parseCSV(r.result),f.name);r.readAsText(f,'utf-8');}
+  else if(/\.xlsx?$/i.test(f.name)){loadXLSX().then(X=>{const r=new FileReader();r.onload=()=>{const wb=X.read(r.result,{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];ingest(j,X.utils.sheet_to_json(ws,{header:1,defval:''}),f.name);};r.readAsArrayBuffer(f);}).catch(()=>toast('엑셀 해석 모듈을 불러오지 못함 · CSV로 저장 후 업로드',true));}
+  else toast('엑셀(.xlsx) 또는 CSV 파일만 업로드 가능',true);
+}
+function download(name,text,type='text/csv'){const b=new Blob(['﻿'+text],{type});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u);}
+
+/* =====================================================================
+   결과 집계 (PRD 12)
+   ===================================================================== */
+function weights(j){return j.ai.crit.length?j.ai.crit:CRIT_SETS.A.items;}
+function evScore(j,e){const W=weights(j);return sum(W.map((c,i)=>c[1]*(e.lv[i]||0)/5));}
+function avgOf(j,no){const ev=Object.values(app(j,no).evals);if(!ev.length)return null;return sum(ev.map(e=>evScore(j,e)))/ev.length;}
+function evalNeed(j,no){const r=roomOf(j,no);return j.evaluators.filter(e=>!r||e.room===r.name).length;}
+function resultRows(j){
+  return validRoster(j).map(r=>{const a=app(j,r.no);const avg=avgOf(j,r.no);const b=(j.bonus[r.no]||{pt:0}).pt;
+    return{no:r.no,ino:a.ino,name:r.name,field:r.field,absent:a.status==='불참',avg,bonus:b,total:avg==null?null:avg+b,evN:Object.keys(a.evals).length,need:evalNeed(j,r.no)};});
+}
+
+function draftDecisions(j){
+  const rows=resultRows(j);const byF={};rows.forEach(x=>(byF[x.field]=byF[x.field]||[]).push(x));
+  Object.entries(byF).forEach(([f,arr])=>{const q=+j.quota[f]||0;arr.filter(x=>!x.absent&&x.total!=null).sort((a,b)=>b.total-a.total).forEach((x,i)=>{j.decision[x.no]={draft:i<q?'합격':'불합격',final:i<q?'합격':'불합격',rank:i+1};});
+    arr.filter(x=>x.absent).forEach(x=>j.decision[x.no]={draft:'불참',final:'불참',rank:null});
+    arr.filter(x=>!x.absent&&x.total==null).forEach(x=>j.decision[x.no]={draft:'평가 미완료',final:'평가 미완료',rank:null});});
+}
+
+/* =====================================================================
+   상태 · 단계 판정
+   ===================================================================== */
+const S={auth:false,loginErr:'',lgId:'',pwShow:{},view:'workspace',jobId:null,page:'prep',prepTab:'roster',setTab:'member',monRoom:0,monQ:'',evSel:null,evQ:'',evRoom:'all',resField:'all',calY:TODAY.getFullYear(),calM:TODAY.getMonth()+1,calSel:`${TODAY.getFullYear()}-${TODAY.getMonth()+1}-${TODAY.getDate()}`,wsQ:''};
+const cur=()=>JOBS.find(x=>x.id===S.jobId);
+function prepState(j){
+  return{
+    roster:!j.roster.length?'대기':j.rosterErrs.length?'오류':'완료',
+    sched:j.schedConfirmed?'확정':j.sched?'검토 중':'대기',
+    ai:j.ai.saved?'완료':j.ai.qSel||j.ai.cSel?'진행 중':'대기',
+    mask:j.mask.confirmed?'확정':Object.keys(j.mask.reviewed).length?'검수 중':'대기',
+    notice:j.notice.sent?'발송 완료':'대기'
+  };
+}
+function stageLabel(j){
+  if(j.published)return['결과 발표','ok'];
+  if(j.resultConfirmed)return['합불 확정','pri'];
+  if(j.stage==='live')return['현장 운영중','pri'];
+  const p=prepState(j);const done=[p.roster==='완료',p.sched==='확정',p.ai==='완료',p.mask==='확정',p.notice==='발송 완료'].filter(Boolean).length;
+  return[`면접 준비 ${done}/5`,''];
+}
+
+/* 워터마크 */
+(function(){const t=`김민경 · 마스터 관리자 · ONSITE`;const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='280' height='140'><text x='10' y='90' transform='rotate(-22 140 70)' font-family='sans-serif' font-size='12' fill='rgba(15,30,69,0.05)'>${t}</text></svg>`;document.documentElement.style.setProperty('--wm',`url("data:image/svg+xml,${encodeURIComponent(svg)}")`);})();
+
+/* =====================================================================
+   NAV
+   ===================================================================== */
+const SETS=[['member','멤버'],['org','기관 설정'],['security','보안 서약서'],['dispatch','발송 설정'],['template','템플릿'],['log','활동 로그'],['account','내 정보']];
+const JOBPAGES=[['prep','면접 준비','cal'],['people','인력·계정','users'],['monitor','현장 운영','clock'],['eval','평가','clip'],['result','결과 확정·발표','flag'],['settle','정산','won']];
+function renderNav(){
+  const j=cur();
+  let body='';
+  if(S.view==='job'&&j){
+    const p=prepState(j);const pd=[p.roster==='완료',p.sched==='확정',p.ai==='완료',p.mask==='확정',p.notice==='발송 완료'].filter(Boolean).length;
+    const openIss=j.issues.filter(x=>!x.done).length;
+    body=`<button class="nav-back" data-act="toWs">${ic('back','s14')}워크스페이스</button>
+    <div class="nav-job"><span class="o">${esc(j.org)}</span><span class="n">${esc(j.name)}</span><span class="m">${j.date} · ${esc(j.place)}</span></div>
+    ${JOBPAGES.map(([id,n,i])=>{let tail='';if(id==='prep')tail=pd===5?ic('check','s14'):`${pd}/5`;if(id==='monitor'&&openIss)tail=`<span style="color:var(--warn)">${openIss}</span>`;if(id==='result'&&j.published)tail=ic('check','s14');
+      return `<button class="nav-item ${S.page===id?'on':''}" data-act="page" data-p="${id}">${ic(i)}${n}<span class="tail">${tail}</span></button>`;}).join('')}`;
+  }else{
+    body=`<button class="nav-item ${S.view==='workspace'?'on':''}" data-act="toWs">${ic('grid')}워크스페이스</button>
+    <button class="nav-item ${S.view==='settings'?'on':''}" data-act="toSet">${ic('gear')}설정</button>
+    ${S.view==='settings'?SETS.map(([k,n])=>`<button class="nav-sub ${S.setTab===k?'on':''}" data-act="setTab" data-k="${k}">${n}</button>`).join(''):''}`;
+  }
+  $('#nav').innerHTML=`<div class="nav-logo">${LOGO}</div><div class="nav-body">${body}</div>
+  <div class="nav-foot"><div class="me" data-act="setTab" data-k="account"><div class="avatar">김</div><div><div class="nm">김민경</div><div class="rl">마스터 관리자</div></div></div></div>`;
+}
+
+/* =====================================================================
+   워크스페이스
+   ===================================================================== */
+function pgWorkspace(){
+  const q=S.wsQ.trim();
+  const list=JOBS.filter(j=>!q||(j.name+j.org).includes(q));
+  const live=JOBS.filter(j=>j.stage==='live').length,prep=JOBS.filter(j=>j.stage==='prep').length,settle=JOBS.filter(j=>j.stage==='settle'&&!j.staff.every(s=>s.doc)).length;
+  const days={};JOBS.forEach(j=>{const[y,m,d]=j.date.split('.').map(Number);(days[`${y}-${m}-${d}`]=days[`${y}-${m}-${d}`]||[]).push(j);});
+  const Y=S.calY,M=S.calM;const first=new Date(Y,M-1,1).getDay(),last=new Date(Y,M,0).getDate();
+  const cells=[];for(let i=0;i<first;i++)cells.push('<span></span>');for(let d=1;d<=last;d++){const k=`${Y}-${M}-${d}`;cells.push(`<button class="${days[k]?'has':''} ${S.calSel===k?'sel':''} ${k===`${TODAY.getFullYear()}-${TODAY.getMonth()+1}-${TODAY.getDate()}`?'today':''}" data-act="calSel" data-k="${k}">${d}</button>`);}
+  const selJobs=days[S.calSel]||[];
+  return `
+  <div class="phead"><div><h1>안녕하세요, 김민경님</h1><p>현장 운영 ${live}건 · 면접 준비 ${prep}건 · 정산 확인 ${settle}건</p></div>
+    <div class="pr"><button class="btn pri" data-act="newJob">${ic('plus','s14')}신규 공고 등록</button></div></div>
+  <div class="kpis">
+    <div class="kpi"><div class="lb">현장 운영</div><div class="vl">${live}<small>건</small></div></div>
+    <div class="kpi"><div class="lb">면접 준비</div><div class="vl">${prep}<small>건</small></div></div>
+    <div class="kpi"><div class="lb">정산 확인</div><div class="vl">${settle}<small>건</small></div></div>
+  </div>
+  <div class="cols" style="grid-template-columns:minmax(0,1fr) 300px">
+    <section>
+      <div class="sec-h"><h2>공고</h2><span class="meta">${list.length}건</span><span class="sp"></span><div class="search" style="width:260px">${ic('search','s14')}<input class="input" placeholder="공고명 또는 기관명 검색" data-inp="wsQ" value="${esc(S.wsQ)}"></div></div>
+      <div class="tbl"><table><thead><tr><th style="width:40%">공고명</th><th>기관</th><th>면접일</th><th>지원자</th><th>진행 단계</th><th></th></tr></thead><tbody>
+      ${list.map(j=>{const[l,t]=stageLabel(j);return `<tr class="click" data-act="openJob" data-j="${j.id}"><td class="strong">${esc(j.name)}</td><td class="muted">${esc(j.org)}</td><td class="muted num">${j.date}</td><td class="muted num">${validRoster(j).length}명</td><td><span class="st ${t}">${l}</span></td><td class="r faint">${ic('chev','s14')}</td></tr>`;}).join('')||`<tr><td colspan="6" class="faint" style="padding:30px;text-align:center">검색 결과 없음</td></tr>`}
+      </tbody></table></div>
+    </section>
+    <aside>
+      <div class="cal-h"><button data-act="calMove" data-d="-1">${ic('back','s14')}</button><b>${Y}. ${pad(M)}</b><button data-act="calMove" data-d="1">${ic('chev','s14')}</button></div>
+      <div class="cal">${['일','월','화','수','목','금','토'].map(w=>`<span class="w">${w}</span>`).join('')}${cells.join('')}</div>
+      <div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px">
+        <div class="strong" style="font-size:13px;color:var(--pri);margin-bottom:6px">${S.calSel.split('-')[1]}월 ${S.calSel.split('-')[2]}일 면접</div>
+        ${selJobs.length?selJobs.map(j=>`<div class="click" data-act="openJob" data-j="${j.id}" style="padding:6px 0;cursor:pointer"><div class="strong" style="font-size:13px">${esc(j.name)}</div><div class="faint" style="font-size:12px">${esc(j.org)} · ${validRoster(j).length}명</div></div>`).join(''):'<div class="faint" style="font-size:12.5px">예정 면접 없음</div>'}
+      </div>
+    </aside>
+  </div>`;
+}
+
+/* =====================================================================
+   면접 준비
+   ===================================================================== */
+const PREP=[['roster','명단 업로드','합격자 명단 등록·검증'],['sched','시간표','자동 생성·수정·확정'],['ai','AI 질문·평가항목','초안 선택·수정·저장'],['mask','블라인드 마스킹','항목 선택·검수·확정'],['notice','안내 발송','알림톡 우선 · SMS 대체']];
+function pgPrep(){
+  const j=cur();const p=prepState(j);
+  const tone=v=>/완료|확정/.test(v)?'ok':/오류/.test(v)?'err':/중|검토/.test(v)?'pri':'';
+  return `
+  <div class="phead"><div><h1>면접 준비</h1><p>명단 등록부터 지원자 안내까지 면접 전 준비 작업</p></div></div>
+  <div class="steps">${PREP.map(([k,n,d])=>{const v=p[k];return `<button class="step ${S.prepTab===k?'on':''} ${/완료|확정/.test(v)?'done':''}" data-act="prepTab" data-k="${k}"><span class="bar"></span><div class="t"><b>${n}</b><span class="st ${tone(v)}">${v}</span></div><div class="d">${d}</div></button>`;}).join('')}</div>
+  ${({roster:prepRoster,sched:prepSched,ai:prepAI,mask:prepMask,notice:prepNotice})[S.prepTab](j)}`;
+}
+function prepRoster(j){
+  const F=fields(j);
+  return `
+  <div class="cols" style="grid-template-columns:minmax(0,1fr) 300px">
+    <section>
+      <div class="drop" data-act="pickFile" id="drop">${ic('upload')}<b class="mt8">엑셀(.xlsx)·CSV 파일 드래그 또는 클릭 업로드</b><span>필수 컬럼: 수험번호 · 성명 · 지원분야 · 연락처 · 업로드 시 기존 명단 대체</span></div>
+      <div class="row mt12"><button class="btn sm ghost" data-act="sampleCsv">${ic('download','s14')}샘플 양식</button><span class="sp"></span>${j.rosterFile?`<span class="faint" style="font-size:12.5px">${esc(j.rosterFile)}</span>`:''}</div>
+      ${j.rosterErrs.length?`<div class="callout err mt16">${ic('alert')}<span><b>확인 필요 ${j.rosterErrs.length}건</b> · 아래 표시된 행을 수정하거나 삭제해 주세요</span></div>`:j.roster.length?`<div class="callout ok mt16">${ic('check')}<span><b>확인 완료</b> · 누락되거나 중복된 정보 없음</span></div>`:''}
+      ${j.roster.length?`
+      <div class="sec-h mt16"><h2>명단</h2><span class="meta">${j.roster.length}명</span><span class="sp"></span><span class="faint" style="font-size:12px">${ic('lock','s14')} 개인정보 · 캡처 방지</span></div>
+      <div class="tbl secure wm"><table><thead><tr><th>#</th><th>수험번호</th><th>성명</th><th>지원분야</th><th>연락처</th><th>생년월일</th><th>검증</th><th></th></tr></thead><tbody>
+      ${j.roster.map((r,i)=>{const e=errOf(j,i);return `<tr class="${e.length?'bad':''}"><td class="faint num">${i+1}</td><td class="strong num">${esc(r.no)}</td><td>${esc(r.name)}</td>
+        <td>${e.some(x=>x.msg==='지원분야 누락')?`<select class="select sm" data-chg="setField" data-i="${i}" style="width:110px"><option value="">선택</option>${Object.keys(F).concat(['기타']).map(f=>`<option>${f}</option>`).join('')}</select>`:esc(r.field)}</td>
+        <td class="muted num">${esc(r.phone)}</td><td class="muted num">${esc(r.birth)}</td>
+        <td>${e.length?`<span class="st err">${e.map(x=>x.msg).join(' · ')}</span>`:'<span class="st off">정상</span>'}</td>
+        <td class="r">${e.length?`<button class="btn xs ghost danger" data-act="delRow" data-i="${i}">삭제</button>`:''}</td></tr>`;}).join('')}
+      </tbody></table></div>`:`<div class="empty mt24">아직 등록된 명단이 없어요 · 양식을 내려받아 작성하거나 샘플로 둘러보세요<div class="mt12"><button class="btn sm" data-act="loadSample">샘플 명단 불러오기</button></div></div>`}
+    </section>
+    <aside class="sticky">
+      <div class="sec-h"><h2>분야별 인원</h2></div>
+      ${Object.keys(F).length?Object.entries(F).map(([f,n])=>`<div class="kv"><span class="k">${esc(f)}</span><span class="strong num">${n}명</span></div>`).join('')+`<div class="kv"><span class="k strong" style="color:var(--tx)">합계</span><span class="strong num">${sum(Object.values(F))}명</span></div>`:'<div class="faint" style="font-size:13px">명단 업로드 후 자동 집계</div>'}
+      <div class="note">분야별 인원은 시간표 생성에 자동 반영</div>
+      ${j.roster.length&&!j.rosterErrs.length?`<button class="btn pri block mt16" data-act="prepTab" data-k="sched">시간표 생성으로 이동${ic('arrow','s14')}</button>`:''}
+    </aside>
+  </div>`;
+}
+function prepSched(j){
+  const c=j.cfg;const F=fields(j);const lock=j.schedConfirmed;
+  const canGen=validRoster(j).length&&!j.rosterErrs.length;
+  return `
+  <div class="cols" style="grid-template-columns:300px minmax(0,1fr)">
+    <aside class="panel">
+      <div class="panel-h"><h3>생성 조건</h3></div>
+      <div class="field"><label>분야당 인원</label><div style="font-size:13px">${Object.entries(F).map(([f,n])=>`${esc(f)} ${n}명`).join(' · ')||'<span class="faint">명단 없음</span>'}</div></div>
+      <div class="fgrid">
+        <div class="field"><label>면접 시작시간</label><input class="input" type="time" value="${c.start}" data-cfg="start"></div>
+        <div class="field"><label>병렬 면접실</label><input class="input" type="number" min="1" max="6" value="${c.rooms}" data-cfg="rooms"></div>
+      </div>
+      <div class="field"><label>면접 유형</label><div class="seg"><button class="${c.type==='single'?'on':''}" data-act="cfgType" data-v="single">개별 면접</button><button class="${c.type==='group'?'on':''}" data-act="cfgType" data-v="group">조별 면접</button></div></div>
+      ${c.type==='group'?`
+      <div class="fgrid">
+        <div class="field"><label>최대 묶음 인원</label><input class="input" type="number" min="1" value="${c.groupMax}" data-cfg="groupMax"></div>
+        <div class="field"><label>최대 면접시간(분)</label><input class="input" type="number" min="5" value="${c.groupMaxMin}" data-cfg="groupMaxMin"></div>
+        <div class="field"><label>인당 배분시간(분)</label><input class="input" type="number" min="1" value="${c.perMin}" data-cfg="perMin"></div>
+        <div class="field"><label>휴식·평정(분)</label><input class="input" type="number" min="0" value="${c.rest}" data-cfg="rest"></div>
+      </div>
+      <div class="note" style="margin:-4px 0 14px">조 면접시간은 인원 × 1인당 시간으로 계산 (최대 시간 이내) · ${c.groupMax}명 조 ${Math.min(c.groupMaxMin,c.groupMax*c.perMin)}분</div>`
+      :`<div class="fgrid"><div class="field"><label>면접 소요시간(분)</label><input class="input" type="number" min="5" value="${c.dur}" data-cfg="dur"></div><div class="field"><label>휴식·평정(분)</label><input class="input" type="number" min="0" value="${c.rest}" data-cfg="rest"></div></div>`}
+      <div class="field"><label class="chk"><input type="checkbox" ${c.lunch?'checked':''} data-cfgchk="lunch">점심시간 포함</label></div>
+      ${c.lunch?`<div class="fgrid"><div class="field"><label>점심 기준 시각</label><input class="input" type="time" value="${c.lunchStart}" data-cfg="lunchStart"></div><div class="field"><label>점심 길이(분)</label><input class="input" type="number" value="${c.lunchLen}" data-cfg="lunchLen"></div></div><div class="note" style="margin:-4px 0 14px">11:30~13:30 사이 면접 흐름에 맞춰 자동 배치</div>`:''}
+      <div class="field"><label>도착시간 기준 (면접 시작 N분 전)</label><input class="input" type="number" min="0" max="120" value="${c.arrive}" data-cfg="arrive"><div class="hint">보통 면접 20~30분 전으로 안내</div></div>
+      <button class="btn pri block" data-act="genSched" ${canGen?'':'disabled'}>${j.sched?'시간표 다시 생성':'시간표 자동 생성'}</button>
+      ${!canGen?`<div class="note">${j.rosterErrs.length?`명단 오류 ${j.rosterErrs.length}건 정리 후 생성 가능`:'명단 업로드 후 생성 가능'}</div>`:''}
+      ${lock?`<div class="note">확정 후 다시 생성하면 면접번호·도착시간이 바뀌어 지원자 재안내 필요</div>`:''}
+    </aside>
+    <section>
+      ${!j.sched?`<div class="empty">생성 조건 입력 후 시간표 자동 생성</div>`:`
+      ${lock?`<div class="callout ok">${ic('lock')}<span><b>시간표 확정</b> · ${j.schedAt} · 이후 수정 내용은 변경 이력에 기록</span></div>`
+      :`<div class="callout pri">${ic('info')}<span>자동 생성 초안 · 시간·면접실·지원자 배치·점심/휴식 블록 수정 후 확정</span><span class="sp"></span><button class="btn sm pri" data-act="confirmSched">시간표 확정</button></div>`}
+      <div class="rooms">${j.sched.rooms.map((r,ri)=>schedRoom(j,r,ri)).join('')}</div>
+      ${j.history.length?`<div class="sec"><div class="sec-h"><h2>변경 이력</h2><span class="meta">확정 이후 수정</span></div><div class="hist">${j.history.map(h=>`<div><span>${h.at}</span>${esc(h.txt)}</div>`).join('')}</div></div>`:''}`}
+    </section>
+  </div>`;
+}
+function schedRoom(j,r,ri){
+  const rows=timeline(j,r,false);const end=rows.length?rows[rows.length-1].e:T(r.start);
+  return `<div>
+    <div class="room-h"><b>${r.name}</b><span class="faint" style="font-size:12.5px">시작</span><input class="input sm" type="time" value="${r.start}" data-roomstart="${ri}" style="width:110px"><span class="faint" style="font-size:12.5px">종료 ${HM(end)} · 세션 ${rows.filter(x=>x.kind==='s').length}개</span><span class="sp"></span>${j.cfg.lunch&&!r.items.some(i=>i.kind==='lunch')?`<button class="btn xs ghost" data-act="addLunch" data-r="${ri}">${ic('plus','s14')}점심 블록</button>`:''}<button class="btn xs ghost" data-act="addBreak" data-r="${ri}">${ic('plus','s14')}휴식 블록</button></div>
+    <div class="tbl secure"><table><thead><tr><th style="width:120px">시간</th><th style="width:110px">도착</th><th>조</th><th>면접번호</th><th>수험번호</th><th>성명</th><th class="r">편집</th></tr></thead><tbody>
+    ${rows.map((x,xi)=>{
+      if(x.kind!=='s'){const idx=r.items.indexOf(x.it);return `<tr class="block"><td class="num">${HM(x.s)}–${HM(x.e)}</td><td></td><td colspan="4">${x.kind==='lunch'?'점심시간':'휴식 및 평정'} · <input class="input sm" type="time" value="${x.it.start}" data-blk="${ri}:${idx}:start" style="width:100px;display:inline-block"> <input class="input sm" type="number" value="${x.it.len}" data-blk="${ri}:${idx}:len" style="width:64px;display:inline-block">분</td><td class="r"><button class="btn xs ghost" data-act="delBlk" data-r="${ri}" data-i="${idx}">삭제</button></td></tr>`;}
+      const idx=r.items.indexOf(x.it);
+      return x.members.map((no,mi)=>{const p=person(j,no);const a=app(j,no);return `<tr class="${mi===0?'gsep':''}">
+        ${mi===0?`<td rowspan="${x.members.length}" style="vertical-align:top"><span class="sess-t">${HM(x.s)}–${HM(x.e)}</span><div class="faint" style="font-size:11.5px">${x.len}분</div></td>`:''}
+        <td class="muted num">${arriveOf(j,no)}</td>
+        ${mi===0?`<td rowspan="${x.members.length}" style="vertical-align:top" class="strong">${x.label||''}</td>`:''}
+        <td class="strong num">${a.ino}</td><td class="muted num">${no}</td><td>${esc(p?p.name:'')}</td>
+        <td class="r">${mi===0?`<select class="select sm" data-chg="moveRoom" data-r="${ri}" data-i="${idx}" style="width:auto;display:inline-block"><option value="">면접실 이동</option>${j.sched.rooms.map((rr,k)=>k!==ri?`<option value="${k}">${rr.name}</option>`:'').join('')}</select> `:''}${j.cfg.type==='group'&&!j.schedConfirmed?`<button class="btn xs ghost" data-act="movePerson" data-no="${no}">배치 변경</button>`:''}</td></tr>`;}).join('');
+    }).join('')}
+    </tbody></table></div></div>`;
+}
+function prepAI(j){
+  const F=Object.keys(fields(j));
+  const qd=Object.entries(Q_SETS),cd=Object.entries(CRIT_SETS);
+  const wsum=sum(j.ai.crit.map(c=>+c[1]||0));
+  return `
+  <div class="callout">${ic('spark')}<span>${F.join('·')||'공고'} 직무에 맞춘 AI 초안 · 안을 고른 뒤 자유롭게 수정 · 저장한 템플릿은 다음 공고에서 다시 사용</span></div>
+  <section>
+    <div class="sec-h"><h2>면접 질문 가이드</h2><span class="tag ai">${ic('spark','s14')}AI 초안 3안</span></div>
+    <div class="drafts">${qd.map(([k,v])=>`<button class="draft ${j.ai.qSel===k?'on':''}" data-act="pickQ" data-k="${k}"><b>${k}안 · ${v.name}</b><p>${esc(v.qs[0])}<br><span class="faint">외 ${v.qs.length-1}문항</span></p></button>`).join('')}</div>
+    ${j.ai.qSel?`<div style="border-top:1px solid var(--line2)">${j.ai.qs.map((q,i)=>`<div class="qedit"><span class="n">Q${i+1}</span><textarea class="textarea" data-aiq="${i}">${esc(q)}</textarea><button class="btn xs ghost" data-act="delQ" data-i="${i}" aria-label="삭제">${ic('x','s14')}</button></div>`).join('')}</div>
+    <button class="btn sm ghost mt8" data-act="addQ">${ic('plus','s14')}질문 추가</button>`:'<div class="empty">초안 선택 시 편집 영역 표시</div>'}
+  </section>
+  <section class="sec">
+    <div class="sec-h"><h2>평가 항목 템플릿</h2><span class="tag ai">${ic('spark','s14')}AI 초안 3안</span></div>
+    <div class="drafts">${cd.map(([k,v])=>`<button class="draft ${j.ai.cSel===k?'on':''}" data-act="pickC" data-k="${k}"><b>${k}안 · ${v.name}</b><p>${v.items.map(x=>`${x[0]} ${x[1]}`).join(' · ')}</p></button>`).join('')}</div>
+    ${j.ai.cSel?`<div class="tbl"><table><thead><tr><th>평가 항목</th><th style="width:110px">배점</th><th>평가 요소</th><th></th></tr></thead><tbody>
+      ${j.ai.crit.map((c,i)=>`<tr><td><input class="input sm" value="${esc(c[0])}" data-aic="${i}:0"></td><td><input class="input sm" type="number" value="${c[1]}" data-aic="${i}:1"></td><td><input class="input sm" value="${esc(c[2])}" data-aic="${i}:2"></td><td class="r"><button class="btn xs ghost" data-act="delC" data-i="${i}">${ic('x','s14')}</button></td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="row mt8"><button class="btn sm ghost" data-act="addC">${ic('plus','s14')}항목 추가</button><span class="sp"></span><span class="st ${wsum===100?'ok':'err'}">배점 합계 ${wsum}점${wsum===100?'':' · 100점 필요'}</span></div>
+    <div class="note">5단계 등급으로 평가 · 매우 우수는 배점 만점 · 가점은 결과 확정 단계에서 반영</div>`:'<div class="empty">초안 선택 시 편집 영역 표시</div>'}
+  </section>
+  <div class="row sec" style="margin-top:28px">
+    <span class="faint" style="font-size:12.5px">${j.ai.saved?`저장 · ${j.ai.savedAt} · 평가자 화면 반영`:'미저장'}</span><span class="sp"></span>
+    <button class="btn" data-act="saveTpl" ${j.ai.qSel&&j.ai.cSel?'':'disabled'}>직무 기본 템플릿으로 저장</button>
+    <button class="btn pri" data-act="saveAI" ${j.ai.qSel&&j.ai.cSel&&wsum===100?'':'disabled'}>공고에 적용·저장</button>
+  </div>`;
+}
+const TEMPLATES=[{name:'경영지원 · 기본',type:'질문 5 · 항목 4',at:DD('2025.04.18')},{name:'전산 · 기본',type:'질문 5 · 항목 4',at:DD('2025.03.02')}];
+function maskText(j,txt){
+  let s=esc(txt);const m=j.mask.items;const MK=l=>`<span class="mk">${ic('lock','s14')}${l}</span>`;
+  if(m.school)SCHOOLS.forEach(x=>s=s.split(x).join(MK('학교명')));
+  if(m.region)REGIONS.forEach(x=>s=s.replace(new RegExp(x+'(광역시|특별시|도)?','g'),MK('지역')));
+  if(m.family)FAMILY.forEach(x=>s=s.split(x).join(MK('가족관계')));
+  return s;
+}
+function rawHighlight(j,txt){let s=esc(txt);SCHOOLS.concat(REGIONS,FAMILY).forEach(x=>s=s.split(x).join(`<span class="hl-miss">${x}</span>`));return s;}
+function prepMask(j){
+  const R=validRoster(j);const rv=Object.keys(j.mask.reviewed).filter(k=>j.mask.reviewed[k]).length;
+  const sel=S.maskSel&&person(j,S.maskSel)?S.maskSel:(R[0]&&R[0].no);
+  const p=sel&&person(j,sel);const d=p&&mkResume(p);const m=j.mask.items;const MK=l=>`<span class="mk">${ic('lock','s14')}${l}</span>`;
+  const H=(k,label,val)=>m[k]?MK(label):esc(val);
+  return `
+  ${j.mask.confirmed?`<div class="callout ok">${ic('check')}<span><b>마스킹 확정</b> · ${j.mask.at} · 평가위원 열람 중</span><span class="sp"></span><button class="btn sm" data-act="unmask">확정 해제</button></div>`
+  :`<div class="callout pri">${ic('info')}<span>가릴 항목 선택 → 자동 가림 결과 검수 → 확정하면 평가위원에게 공개</span></div>`}
+  ${!R.length?'<div class="empty">명단 업로드 후 진행 가능</div>':`
+  <div class="cols" style="grid-template-columns:240px minmax(0,1fr) 260px">
+    <aside>
+      <div class="sec-h"><h2>마스킹 항목</h2></div>
+      ${MASK_ITEMS.map(([k,n])=>`<div class="kv" style="padding:9px 0"><span>${n}</span><button class="tg ${m[k]?'on':''}" data-act="maskItem" data-k="${k}" ${j.mask.confirmed?'disabled':''} aria-label="${n}"></button></div>`).join('')}
+      <div class="note">항목을 바꾸면 검수를 다시 진행</div>
+    </aside>
+    <section>
+      <div class="sec-h"><h2>검수 · ${esc(app(j,sel).ino||sel)}</h2><span class="sp"></span><div class="seg"><button class="${S.maskRaw?'':'on'}" data-act="maskRaw" data-v="0">마스킹 결과</button><button class="${S.maskRaw?'on':''}" data-act="maskRaw" data-v="1">원문 대조</button></div></div>
+      <div class="doc secure wm">
+        <h5>인적 사항</h5>
+        <div style="display:grid;grid-template-columns:auto 1fr auto 1fr;gap:6px 16px">
+          <span class="faint">성명</span><span>${S.maskRaw?esc(d.head.name):H('name','성명',d.head.name)}</span><span class="faint">생년월일</span><span>${S.maskRaw?esc(d.head.birth):H('birth','생년월일',d.head.birth)}</span>
+          <span class="faint">연락처</span><span>${S.maskRaw?esc(d.head.phone):H('phone','연락처',d.head.phone)}</span><span class="faint">성별</span><span>${S.maskRaw?esc(d.head.gender):H('gender','성별',d.head.gender)}</span>
+          <span class="faint">주소</span><span style="grid-column:span 3">${S.maskRaw?esc(d.head.addr):H('addr','주소',d.head.addr)}</span>
+          <span class="faint">사진</span><span>${S.maskRaw||!m.photo?'첨부 이미지':MK('사진')}</span><span class="faint">지원분야</span><span class="strong">${esc(p.field)}</span>
+        </div>
+        <h5>학력</h5><div>${S.maskRaw?rawHighlight(j,d.edu):maskText(j,d.edu)}</div>
+        <h5>경력</h5><div>${esc(d.career)}</div>
+        <h5>자기소개서</h5><div>${S.maskRaw?rawHighlight(j,d.intro):maskText(j,d.intro)}</div>
+      </div>
+      <div class="row mt12"><span class="faint" style="font-size:12.5px">${S.maskRaw?'주황 표시 = 자동 탐지 식별 표현':'자동 마스킹 결과 · 누락 표현 확인 후 검수 완료'}</span><span class="sp"></span>
+        <button class="btn sm ${j.mask.reviewed[sel]?'':'pri'}" data-act="review" data-no="${sel}" ${j.mask.confirmed?'disabled':''}>${j.mask.reviewed[sel]?'검수 취소':'검수 완료 · 다음'}</button></div>
+    </section>
+    <aside>
+      <div class="sec-h"><h2>지원자</h2><span class="meta">검수 ${rv}/${R.length}</span></div>
+      <div class="prog" style="height:4px;background:var(--line);border-radius:2px;margin-bottom:10px"><i style="display:block;height:100%;width:${R.length?rv/R.length*100:0}%;background:var(--pri);border-radius:2px"></i></div>
+      <div class="plist" style="max-height:440px">${R.map(r=>`<button class="prow ${r.no===sel?'on':''}" data-act="maskSel" data-no="${r.no}"><div class="r1"><span>${esc(app(j,r.no).ino||r.no)}</span>${j.mask.reviewed[r.no]?'<span class="st ok">검수</span>':'<span class="st">대기</span>'}</div><div class="r2"><span>${esc(r.field)}</span><span>${r.no}</span></div></button>`).join('')}</div>
+      <button class="btn sm ghost mt8" data-act="reviewAll" ${j.mask.confirmed?'disabled':''}>남은 지원자 일괄 검수</button>
+      <button class="btn pri block mt16" data-act="confirmMask" ${rv===R.length&&!j.mask.confirmed?'':'disabled'}>마스킹 확정 · 평가자 노출</button>
+      ${rv<R.length?`<div class="note">전원 검수 완료 후 확정 가능 · 남은 ${R.length-rv}명</div>`:''}
+    </aside>
+  </div>`}`;
+}
+function noticeMsg(j,no){const p=person(j,no);const a=app(j,no);return `<b>[${esc(j.org)}] 면접 안내</b>${esc(p?p.name:'지원자')}님, ${esc(j.name)} 면접 안내드립니다.
+· 일자: ${j.date}
+· 도착시간: ${arriveOf(j,no)}까지
+· 장소: ${esc(j.place)}
+· 준비물: 신분증 원본, 필기구
+· 지원자 페이지: onsite.kr/a (수험번호·생년월일 로그인)
+불참 시 ${ORG.absentCutoff}까지 지원자 페이지에서 표시 바랍니다.`;}
+function prepNotice(j){
+  const R=validRoster(j);const res=j.notice.res;
+  const sample=R[0]&&R[0].no;
+  const kakao=R.filter(r=>res[r.no]==='kakao').length,sms=R.filter(r=>res[r.no]==='sms').length,fail=R.filter(r=>res[r.no]==='fail').length;
+  return `
+  ${!j.schedConfirmed?`<div class="callout warn">${ic('lock')}<span><b>시간표 확정 필요</b> · 도착시간이 고정된 뒤에만 발송 가능</span><span class="sp"></span><button class="btn sm" data-act="prepTab" data-k="sched">시간표로 이동</button></div>`:''}
+  <div class="cols" style="grid-template-columns:minmax(0,1fr) 340px">
+    <section>
+      ${j.notice.sent?`<div class="kpis"><div class="kpi"><div class="lb">알림톡</div><div class="vl">${kakao}<small>명</small></div></div><div class="kpi"><div class="lb">SMS 대체</div><div class="vl">${sms}<small>명</small></div></div><div class="kpi"><div class="lb">실패</div><div class="vl ${fail?'err':''}">${fail}<small>명</small></div></div><div class="kpi"><div class="lb">발송 시각</div><div class="vl" style="font-size:16px;padding-top:6px">${j.notice.at}</div></div></div>`:''}
+      <div class="sec-h"><h2>발송 대상</h2><span class="meta">${R.length}명</span></div>
+      ${R.length?`<div class="tbl secure wm"><table><thead><tr><th>면접번호</th><th>수험번호</th><th>성명</th><th>연락처</th><th>도착시간</th><th>발송 결과</th></tr></thead><tbody>
+      ${R.map(r=>{const v=res[r.no];return `<tr><td class="strong">${app(j,r.no).ino||'—'}</td><td class="muted num">${r.no}</td><td>${esc(r.name)}</td><td class="muted num">${esc(r.phone)}</td><td class="num">${j.schedConfirmed?arriveOf(j,r.no):'—'}</td><td>${v==='kakao'?'<span class="st ok">알림톡</span>':v==='sms'?'<span class="st warn">알림톡 실패 · SMS 발송</span>':v==='fail'?'<span class="st err">발송 실패</span>':'<span class="st">미발송</span>'}</td></tr>`;}).join('')}
+      </tbody></table></div>`:'<div class="empty">명단 없음</div>'}
+    </section>
+    <aside class="sticky">
+      <div class="sec-h"><h2>메시지 미리보기</h2></div>
+      ${sample?`<div class="msg">${noticeMsg(j,sample)}</div>`:'<div class="faint">명단 없음</div>'}
+      <div class="kv mt16"><span class="k">채널</span><span>${ORG.channel}</span></div>
+      <div class="kv"><span class="k">발송 시점</span><span>${ORG.sendTiming}</span></div>
+      <button class="btn pri block mt16" data-act="sendNotice" ${j.schedConfirmed&&R.length?'':'disabled'}>${j.notice.sent?'재발송':'지금 발송'}</button>
+      ${j.notice.sent&&fail?`<button class="btn block mt8" data-act="resendFail">실패 ${fail}명 SMS 재발송</button>`:''}
+      <div class="note">지원자에게는 도착시간만 안내 · 면접 시작시간은 공개되지 않음</div>
+    </aside>
+  </div>`;
+}
+
+/* =====================================================================
+   현장 운영 (PRD 9 · 10)
+   ===================================================================== */
+function pgMonitor(){
+  const j=cur();
+  if(!j.schedConfirmed)return `<div class="phead"><div><h1>현장 운영</h1><p>면접실별 접수·입퇴실·지연 현황</p></div></div><div class="callout warn">${ic('lock')}<span><b>시간표 확정 후 이용 가능</b></span><span class="sp"></span><button class="btn sm" data-act="page" data-p="prep">면접 준비로 이동</button></div>`;
+  const R=validRoster(j);const st=k=>R.filter(r=>app(j,r.no).status===k).length;
+  const nowM=j.nowMin;const late=j.conduct.filter(c=>!c.done&&nowM!=null&&T(c.t)<nowM);
+  const room=j.sched.rooms[S.monRoom]||j.sched.rooms[0];
+  const rows=timeline(j,room,true),plan=timeline(j,room,false);
+  const q=S.monQ.trim();
+  const roomDelay=sum(rows.filter(x=>x.kind==='s').map(x=>x.delay));
+  const totalDelay=(()=>{const last=rows.filter(x=>x.kind==='s').pop(),lp=plan.filter(x=>x.kind==='s').pop();return last&&lp?last.e-lp.e:0;})();
+  const cols=['도착','면접대기','시작','종료','분야','면접번호','수험번호','성명','접수'].concat(ORG.useDevice?['전자기기']:[],['입실','퇴실'],ORG.useFee?['면접비']:[],['DELAY','비고']);
+  return `
+  <div class="phead"><div><h1>현장 운영</h1><p>면접실별 접수·입퇴실·지연 현황</p></div>
+    <div class="pr">${nowM!=null?`<span class="faint" style="font-size:12.5px">현재 ${HM(nowM)}</span>`:''}</div></div>
+  <div class="kpis">
+    <div class="kpi"><div class="lb">접수 / 전체</div><div class="vl">${st('접수')}<small>/ ${R.length}명</small></div></div>
+    <div class="kpi"><div class="lb">접수예정 · 공란</div><div class="vl">${st('접수예정')+st('')}<small>명</small></div></div>
+    <div class="kpi"><div class="lb">연락중</div><div class="vl ${st('연락중')?'warn':''}">${st('연락중')}<small>명</small></div></div>
+    <div class="kpi"><div class="lb">불참</div><div class="vl">${st('불참')}<small>명</small></div></div>
+    <div class="kpi"><div class="lb">미해결 이슈</div><div class="vl ${j.issues.some(x=>!x.done)?'warn':''}">${j.issues.filter(x=>!x.done).length}<small>건</small></div></div>
+    <div class="kpi"><div class="lb">행동 강령 미완료</div><div class="vl ${late.length?'err':''}">${late.length}<small>건</small></div></div>
+  </div>
+  ${late.length?`<div class="callout err">${ic('alert')}<span><b>행동 강령 미완료 ${late.length}건</b> · ${late.map(c=>`${c.t} ${esc(c.txt)}`).join(' · ')}</span><span class="sp"></span><button class="btn sm" data-act="remind">재알림 발송</button></div>`:''}
+  <div class="row mb12">
+    <div class="seg">${j.sched.rooms.map((r,i)=>`<button class="${i===S.monRoom?'on':''}" data-act="monRoom" data-i="${i}">${r.name}</button>`).join('')}</div>
+    <span class="faint" style="font-size:12.5px;margin-left:8px">누적 지연 ${totalDelay>0?`<b style="color:var(--err)">+${totalDelay}분</b>`:totalDelay<0?`<b style="color:var(--ok)">${totalDelay}분</b>`:'없음'} · 입력 DELAY 합 ${roomDelay}분</span>
+    <span class="sp"></span><div class="search" style="width:240px">${ic('search','s14')}<input class="input" placeholder="이름·수험번호·면접번호 검색" data-inp="monQ" value="${esc(q)}"></div>
+  </div>
+  <div class="tbl-wrap secure wm"><div class="tbl"><table class="board" style="min-width:1180px"><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>
+  ${rows.map((x,xi)=>{
+    if(x.kind!=='s')return `<tr class="block"><td colspan="${cols.length}">${HM(x.s)}–${HM(x.e)} · ${x.kind==='lunch'?'점심시간':'휴식 및 평정'}</td></tr>`;
+    const p0=plan[xi];const shift=x.s-p0.s;const isNow=nowM!=null&&x.s<=nowM&&x.e>nowM;
+    const mem=x.members.filter(no=>{if(!q)return true;const p=person(j,no);return (p.name+no+app(j,no).ino).includes(q);});
+    if(!mem.length)return '';
+    return mem.map((no,mi)=>{const p=person(j,no);const a=app(j,no);
+      return `<tr class="${mi===0?'gsep':''} ${isNow?'now':''}">
+      <td class="num">${arriveOf(j,no)}</td>
+      ${mi===0?`<td rowspan="${mem.length}" class="num faint" style="vertical-align:top">${HM(x.s-10)}</td><td rowspan="${mem.length}" style="vertical-align:top"><span class="sess-t">${HM(x.s)}</span>${shift>0?`<span class="dly">+${shift}</span>`:shift<0?`<span class="shr">${shift}</span>`:''}${j.cfg.type==='group'?`<div class="faint" style="font-size:11.5px">${x.label} · ${x.attend}/${x.members.length}명 · ${x.len}분${x.len!==x.planLen?` <span style="color:var(--ok)">(재산정)</span>`:''}</div>`:''}</td><td rowspan="${mem.length}" class="num" style="vertical-align:top">${HM(x.e)}</td>`:''}
+      <td class="muted">${esc(p.field)}</td><td class="strong">${a.ino}</td><td class="muted num">${no}</td><td>${esc(p.name)}</td>
+      <td><select class="select sm" data-app="${no}:status" style="width:96px">${ORG.statuses.map(s=>`<option value="${s}" ${a.status===s?'selected':''}>${s||'공란'}</option>`).join('')}</select></td>
+      ${ORG.useDevice?`<td><input class="input sm" value="${esc(a.device)}" data-app="${no}:device" style="width:56px" placeholder="—"></td>`:''}
+      <td class="c"><input type="checkbox" ${a.inR?'checked':''} data-appchk="${no}:inR"></td><td class="c"><input type="checkbox" ${a.outR?'checked':''} data-appchk="${no}:outR"></td>
+      ${ORG.useFee?`<td class="c"><input type="checkbox" ${a.fee?'checked':''} data-appchk="${no}:fee"></td>`:''}
+      <td><input class="input sm num" type="number" value="${a.delay||''}" data-app="${no}:delay" style="width:60px" placeholder="0"></td>
+      <td><input class="input sm" value="${esc(a.note)}" data-app="${no}:note" style="min-width:140px" placeholder="—"></td></tr>`;}).join('');
+  }).join('')}
+  </tbody></table></div></div>
+  <div class="note">지연(DELAY)을 입력하면 이후 일정이 자동 조정 · 도착시간과 면접 순서는 그대로 · 조별 면접 불참 시 해당 조 시간 자동 단축</div>
+
+  <div class="cols sec" style="grid-template-columns:1fr 1fr">
+    <section>
+      <div class="sec-h"><h2>행동 강령</h2><span class="meta">완료 ${j.conduct.filter(c=>c.done).length}/${j.conduct.length}</span><span class="sp"></span><button class="btn xs ghost" data-act="addConduct">${ic('plus','s14')}추가</button></div>
+      <div style="border-top:1px solid var(--line2)">${j.conduct.slice().sort((a,b)=>T(a.t)-T(b.t)).map(c=>{const i=j.conduct.indexOf(c);const isLate=!c.done&&nowM!=null&&T(c.t)<nowM;return `<div class="conduct ${c.done?'done':''} ${isLate?'late':''}"><span class="tm">${c.t}</span><span class="tx">${esc(c.txt)} <span class="faint">· ${c.who}</span></span>${c.done?'<span class="st ok">완료</span>':isLate?'<span class="st err">미완료</span>':'<span class="st">예정</span>'}<input type="checkbox" ${c.done?'checked':''} data-act="conductToggle" data-i="${i}" style="accent-color:var(--pri)"></div>`;}).join('')}</div>
+      <div class="note">운영관리자가 모바일에서 완료 체크 · 시각이 지나면 미완료로 표시</div>
+    </section>
+    <section>
+      <div class="sec-h"><h2>이슈</h2><span class="meta">미해결 ${j.issues.filter(x=>!x.done).length}건</span><span class="sp"></span><button class="btn xs ghost" data-act="addIssue">${ic('plus','s14')}등록</button></div>
+      <div style="border-top:1px solid var(--line2)">${j.issues.map((x,i)=>`<div class="iss ${x.done?'':'open'}"><div class="t">${esc(x.txt)}</div><div class="m"><span class="num">${x.t}</span><span>${x.room}</span><span>${x.by}</span>${x.photo?`<span>${ic('image','s14')} 사진</span>`:''}<span class="sp"></span>${x.done?'<span class="st ok">해결</span>':`<button class="btn xs" data-act="resolve" data-i="${i}">해결 처리</button>`}</div></div>`).join('')||'<div class="empty">등록된 이슈 없음</div>'}</div>
+    </section>
+  </div>`;
+}
+
+/* =====================================================================
+   평가 (PRD 11)
+   ===================================================================== */
+function pgEval(){
+  const j=cur();
+  const R=validRoster(j).filter(r=>app(j,r.no).status!=='불참');
+  if(!j.schedConfirmed||!j.evaluators.length)return `<div class="phead"><div><h1>평가</h1><p>위원별 평가 현황 · 마감 후에는 점수 수정 불가</p></div></div><div class="empty">시간표 확정과 평가위원 배정 후 확인할 수 있어요</div>`;
+  const done=R.filter(r=>Object.keys(app(j,r.no).evals).length>=evalNeed(j,r.no)).length;
+  const part=R.filter(r=>{const n=Object.keys(app(j,r.no).evals).length;return n&&n<evalNeed(j,r.no);}).length;
+  const q=S.evQ.trim();
+  const list=R.filter(r=>(S.evRoom==='all'||(roomOf(j,r.no)||{}).name===S.evRoom)&&(!q||(r.no+app(j,r.no).ino).includes(q)));
+  const sel=list.find(r=>r.no===S.evSel)||list[0];
+  const W=weights(j);
+  return `
+  <div class="phead"><div><h1>평가</h1><p>위원별 평가 현황 · 마감 후에는 점수 수정 불가</p></div>
+    <div class="pr">${j.evalClosed?`<span class="st">마감 · ${j.evalClosedAt}</span><button class="btn" data-act="reopenEval" ${j.resultConfirmed?'disabled':''}>마감 해제</button>`:`<button class="demo-chip" data-act="fillEval" style="margin-right:4px">${ic('spark','s14')}시연 · 남은 평가 입력</button><button class="btn pri" data-act="closeEval">${ic('lock','s14')}평가 마감</button>`}</div></div>
+  <div class="kpis">
+    <div class="kpi"><div class="lb">평가 완료 / 대상</div><div class="vl">${done}<small>/ ${R.length}명</small></div></div>
+    <div class="kpi"><div class="lb">진행 중</div><div class="vl">${part}<small>명</small></div></div>
+    <div class="kpi"><div class="lb">위원 서명</div><div class="vl">${j.evaluators.filter(e=>e.signed).length}<small>/ ${j.evaluators.length}명</small></div></div>
+    <div class="kpi"><div class="lb">블라인드 표현 경고</div><div class="vl">${banCount(j)}<small>건</small></div></div>
+  </div>
+  <div class="cols" style="grid-template-columns:230px minmax(0,1fr)">
+    <aside class="sticky">
+      <div class="seg mb12">${['all'].concat(j.sched.rooms.map(r=>r.name)).map(k=>`<button class="${S.evRoom===k?'on':''}" data-act="evRoom" data-k="${k}">${k==='all'?'전체':k}</button>`).join('')}</div>
+      <div class="search mb12">${ic('search','s14')}<input class="input" placeholder="면접번호 검색" data-inp="evQ" value="${esc(q)}"></div>
+      <div class="plist">${list.map(r=>{const a=app(j,r.no);const n=Object.keys(a.evals).length,need=evalNeed(j,r.no);const avg=avgOf(j,r.no);return `<button class="prow ${sel&&r.no===sel.no?'on':''}" data-act="evSel" data-no="${r.no}"><div class="r1"><span>${a.ino}</span>${n>=need?'<span class="st ok">완료</span>':n?'<span class="st pri">진행</span>':'<span class="st">대기</span>'}</div><div class="r2"><span>위원 ${n}/${need}</span><span>${avg==null?'—':avg.toFixed(1)+'점'}</span></div></button>`;}).join('')||'<div class="faint" style="padding:10px">결과 없음</div>'}</div>
+    </aside>
+    <section>
+      ${sel?(()=>{const a=app(j,sel.no);const avg=avgOf(j,sel.no);const evs=Object.entries(a.evals);
+      return `<div class="sec-h"><h2>${a.ino} · 위원별 평가</h2><span class="meta">${esc(sel.field)} · ${(roomOf(j,sel.no)||{}).name||''}</span><span class="sp"></span><span class="faint" style="font-size:12.5px">위원 평균</span><span class="big-score">${avg==null?'—':avg.toFixed(1)}</span></div>
+      <div class="secure wm" style="border-top:1px solid var(--line2);padding-top:16px">
+      ${evs.length?evs.map(([nm,e])=>{const hits=BAN.filter(w=>e.comment.includes(w));return `<div class="ev-row"><div class="ev-h"><div class="avatar">${nm[0]}</div><b>${nm} 위원</b><span class="faint" style="font-size:12px">${e.at}</span><span class="sp"></span><b class="num" style="color:var(--pri);font-size:16px">${evScore(j,e).toFixed(1)}점</b></div>
+        <div class="ev-sc" style="grid-template-columns:repeat(${W.length},1fr)">${W.map((c,i)=>`<div>${c[0]}<b>${['매우 미흡','미흡','보통','우수','매우 우수'][e.lv[i]-1]} · ${(c[1]*e.lv[i]/5).toFixed(1)}</b></div>`).join('')}</div>
+        <div class="ev-cm">${esc(e.comment)}${hits.length?` <span class="st err">블라인드 표현 · ${hits.join(', ')}</span>`:''}</div></div>`;}).join(''):'<div class="empty" style="border:0">제출된 평가 없음</div>'}
+      ${j.evaluators.filter(e=>e.room===(roomOf(j,sel.no)||{}).name&&!a.evals[e.name]).map(e=>`<div class="ev-row"><div class="ev-h"><div class="avatar">${e.name[0]}</div><b>${e.name} 위원</b><span class="sp"></span><span class="st">미제출</span></div></div>`).join('')}
+      </div>`;})():'<div class="empty">지원자 선택</div>'}
+      <section class="sec">
+        <div class="sec-h"><h2>위원 원점수 전자서명</h2><span class="meta">평가 마감 후 서명 요청 가능</span><span class="sp"></span><button class="btn sm" data-act="evalCsv">${ic('download','s14')}원점수 다운로드</button></div>
+        <div class="tbl"><table><thead><tr><th>위원</th><th>면접실</th><th>평가 완료</th><th>서명</th><th class="r"></th></tr></thead><tbody>
+        ${j.evaluators.map((e,i)=>{const mine=validRoster(j).filter(r=>(roomOf(j,r.no)||{}).name===e.room&&app(j,r.no).status!=='불참');const dn=mine.filter(r=>app(j,r.no).evals[e.name]).length;return `<tr><td class="strong">${e.name}</td><td class="muted">${e.room}</td><td class="num">${dn}/${mine.length}</td><td>${e.signed?'<span class="st ok">서명 완료</span>':e.requested?'<span class="st pri">서명 요청됨</span>':'<span class="st">대기</span>'}</td><td class="r">${e.signed?'':`<button class="btn xs" data-act="reqSign" data-i="${i}" ${j.evalClosed?'':'disabled'}>서명 요청</button> <button class="btn xs ghost" data-act="mockSign" data-i="${i}" ${j.evalClosed&&e.requested?'':'disabled'}>서명 반영</button>`}</td></tr>`;}).join('')}
+        </tbody></table></div>
+      </section>
+    </section>
+  </div>`;
+}
+const BAN=['출신','학교','대학','고향','나이','결혼','자녀','부모','아버지','어머니','가족','종교','성별','외모'];
+function banCount(j){let n=0;validRoster(j).forEach(r=>Object.values(app(j,r.no).evals).forEach(e=>{if(BAN.some(w=>e.comment.includes(w)))n++;}));return n;}
+
+/* =====================================================================
+   결과 확정·발표 (PRD 12)
+   ===================================================================== */
+function pgResult(){
+  const j=cur();
+  if(!j.schedConfirmed)return `<div class="phead"><div><h1>결과 확정·발표</h1></div></div><div class="empty">면접 진행 후 이용 가능</div>`;
+  const rows=resultRows(j);const F=[...new Set(rows.map(r=>r.field))];
+  if(!Object.keys(j.decision).length)draftDecisions(j);
+  const signedAll=j.evaluators.every(e=>e.signed);
+  const lock=j.resultConfirmed;
+  const show=rows.filter(r=>S.resField==='all'||r.field===S.resField).sort((a,b)=>a.field.localeCompare(b.field)||((b.total??-1)-(a.total??-1)));
+  const pass=rows.filter(r=>(j.decision[r.no]||{}).final==='합격').length;
+  const gate=[[j.evalClosed,'평가 마감',j.evalClosedAt||'마감 전'],[signedAll,'위원 원점수 전자서명',`${j.evaluators.filter(e=>e.signed).length}/${j.evaluators.length}명`],[rows.every(r=>r.absent||r.evN>=r.need),'평가 미완료 지원자 없음',`미완료 ${rows.filter(r=>!r.absent&&r.evN<r.need).length}명`]];
+  const ready=gate.every(g=>g[0]);
+  return `
+  <div class="phead"><div><h1>결과 확정·발표</h1><p>평가 점수와 가점으로 결과 초안 작성 · 최종 합격자 확정 후 발표</p></div>
+    <div class="pr"><button class="btn" data-act="resCsv">${ic('download','s14')}결과표 내보내기</button></div></div>
+  ${j.published?`<div class="callout ok">${ic('check')}<span><b>결과 발표 완료</b> · ${j.publishedAt} · 지원자 페이지 ${j.expire}까지 열람 후 만료</span></div>`
+  :lock?`<div class="callout pri">${ic('lock')}<span><b>최종 합불 확정</b> · ${j.resultAt} · 수정 불가 · 발표 대기</span></div>`:''}
+  <div class="cols" style="grid-template-columns:minmax(0,1fr) 320px">
+    <section>
+      <div class="kpis">
+        <div class="kpi"><div class="lb">합격 (초안 기준)</div><div class="vl">${pass}<small>명</small></div></div>
+        ${F.map(f=>`<div class="kpi"><div class="lb">${esc(f)} 선발 인원</div><div class="vl"><input class="input num" type="number" min="0" value="${j.quota[f]||0}" data-quota="${esc(f)}" style="width:72px;height:32px;font-size:18px;font-weight:700" ${lock?'disabled':''}><small>/ ${rows.filter(r=>r.field===f).length}명</small></div></div>`).join('')}
+      </div>
+      <div class="callout ${j.bonusRule?'pri':''}">${ic('info')}<span>${j.bonusRule?'<b>가점 기준 있음</b> · 취업지원대상자 5·10%, 장애인 5% · 제출 서류 확인 후 지원자별로 선택':'이 공고는 가점 기준이 없음'}</span><span class="sp"></span><label class="chk" style="font-size:12.5px;white-space:nowrap;flex-shrink:0"><input type="checkbox" ${j.bonusRule?'checked':''} data-act="bonusRule" ${lock?'disabled':''}>가점 기준 있음</label></div>
+      <div class="row mb12"><div class="seg">${['all'].concat(F).map(k=>`<button class="${S.resField===k?'on':''}" data-act="resField" data-k="${esc(k)}">${k==='all'?'전체':esc(k)}</button>`).join('')}</div><span class="sp"></span>${lock?'':`<button class="btn sm" data-act="redraft">${ic('spark','s14')}결과 초안 다시 산출</button>`}</div>
+      <div class="tbl secure wm"><table><thead><tr><th>순위</th><th>면접번호</th><th>분야</th><th class="r">위원 평균</th><th>가점 (서류 기준)</th><th class="r">합계</th><th>초안</th><th>최종</th></tr></thead><tbody>
+      ${show.map(r=>{const d=j.decision[r.no]||{};return `<tr><td class="num faint">${d.rank||'—'}</td><td class="strong">${r.ino}</td><td class="muted">${esc(r.field)}</td>
+        <td class="r num">${r.avg==null?'<span class="faint">—</span>':r.avg.toFixed(1)}${r.avg!=null&&r.evN<r.need?` <span class="faint" style="font-size:11.5px">(${r.evN}/${r.need})</span>`:''}</td>
+        <td>${j.bonusRule&&!r.absent?`<select class="select sm" data-bonus="${r.no}" style="width:150px" ${lock?'disabled':''}>${[['없음',0],['취업지원대상자',5],['취업지원대상자',10],['장애인',5]].map(([t,p])=>{const b=j.bonus[r.no]||{type:'없음',pt:0};return `<option value="${t}|${p}" ${b.type===t&&b.pt===p?'selected':''}>${t}${p?` +${p}`:''}</option>`;}).join('')}</select>`:'<span class="faint">—</span>'}</td>
+        <td class="r num strong">${r.total==null?'<span class="faint">—</span>':r.total.toFixed(1)}</td>
+        <td>${d.draft==='합격'?'<span class="st pri">합격</span>':d.draft==='불합격'?'<span class="st">불합격</span>':`<span class="st off">${d.draft||'—'}</span>`}</td>
+        <td>${r.absent||r.total==null?`<span class="st off">${r.absent?'불참':'미완료'}</span>`:`<select class="select sm" data-final="${r.no}" style="width:92px" ${lock?'disabled':''}><option ${d.final==='합격'?'selected':''}>합격</option><option ${d.final==='불합격'?'selected':''}>불합격</option></select>${d.final!==d.draft?' <span class="st warn">조정</span>':''}`}</td></tr>`;}).join('')}
+      </tbody></table></div>
+      <div class="note">선발 인원만큼 분야별 상위자를 합격 초안으로 표시 · 동점이면 위원 평균이 높은 순 · 최종 열에서 조정 가능</div>
+    </section>
+    <aside class="panel sticky">
+      <div class="panel-h"><h3>최종 합불 확정</h3></div>
+      ${gate.map(([ok,t,s])=>`<div class="kv" style="border-top:0"><span class="k" style="color:var(--tx)">${t}<small>${s}</small></span>${ok?'<span class="st ok">완료</span>':'<span class="st warn">필요</span>'}</div>`).join('')}
+      <button class="btn pri block mt16" data-act="confirmResult" ${ready&&!lock?'':'disabled'}>${lock?'확정 완료':'최종 합불 확정'}</button>
+      ${!ready&&!lock?`<div class="note">${!j.evalClosed?'평가 메뉴에서 평가 마감 후 위원 서명 요청':'위 항목이 모두 완료되면 확정 가능'}</div>`:''}
+      <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+        <div class="field"><label>지원자 페이지 만료일</label><input class="input" type="date" value="${(j.expire||'').replace(/\./g,'-')}" data-expire ${j.published?'disabled':''}><div class="hint">발표 후 ${ORG.expireDays}일까지 열람 · 이후 접속 불가</div></div>
+        <button class="btn block" data-act="publish" ${lock&&!j.published?'':'disabled'}>${ic('send','s14')}결과 발표</button>
+        <div class="note">발표하면 지원자 페이지에 결과가 열리고 알림톡(실패 시 문자)으로 안내</div>
+      </div>
+    </aside>
+  </div>`;
+}
+
+/* =====================================================================
+   정산
+   ===================================================================== */
+function hoursOf(s,endDefault){const e=s.out||endDefault;if(!s.in||!e)return 0;return Math.max(0,T(e)-T(s.in));}
+function pgSettle(){
+  const j=cur();
+  const endD=j.stage==='live'?null:'17:00';
+  const rows=j.staff.map(s=>{const m=hoursOf(s,s.out||(j.nowMin?HM(j.nowMin):endD));const rate=ORG.rates[s.type]||0;return Object.assign({},s,{m,amt:Math.round(m/60*rate/10)*10,rate});});
+  const total=sum(rows.map(r=>r.amt));
+  const docs=[['전자근로계약서',rows.filter(r=>r.doc).length],['보안서약서',rows.length],['신분증 사본',rows.length-1],['통장 사본',rows.filter(r=>r.doc).length]];
+  return `
+  <div class="phead"><div><h1>정산</h1><p>근무시간과 단가로 정산 금액 자동 계산 · 제출 서류 확인</p></div><div class="pr"><button class="btn pri" data-act="settleCsv" ${rows.length?'':'disabled'}>${ic('download','s14')}정산 엑셀 다운로드</button></div></div>
+  ${!rows.length?'<div class="empty">면접 진행 후 인력 출퇴근 기록 표시</div>':`
+  <div class="kpis"><div class="kpi"><div class="lb">정산 대상</div><div class="vl">${rows.length}<small>명</small></div></div><div class="kpi"><div class="lb">예상 정산액</div><div class="vl">₩${won(total)}</div></div><div class="kpi"><div class="lb">서류 미제출</div><div class="vl ${rows.some(r=>!r.doc)?'warn':''}">${rows.filter(r=>!r.doc).length}<small>명</small></div></div></div>
+  <div class="row mb12"><span class="strong" style="font-size:13px">단가 (시급)</span>${Object.entries(ORG.rates).map(([k,v])=>`<span class="faint" style="font-size:12.5px;margin-left:12px">${k}</span><input class="input sm num" type="number" value="${v}" data-rate="${k}" style="width:100px">`).join('')}<span class="faint" style="font-size:12px;margin-left:8px">원</span></div>
+  <div class="tbl secure"><table><thead><tr><th>구분</th><th>성명</th><th>출근</th><th>퇴근</th><th>근무 시간</th><th class="r">단가</th><th class="r">산출액</th><th>제출 서류</th></tr></thead><tbody>
+  ${rows.map(r=>`<tr><td><span class="tag ${r.type==='운영자'?'pri':''}">${r.type}</span></td><td class="strong">${r.name}</td><td class="num">${r.in}</td><td class="num">${r.out||'<span class="faint">근무 중</span>'}</td><td class="num">${Math.floor(r.m/60)}h ${pad(r.m%60)}m</td><td class="r num muted">${won(r.rate)}</td><td class="r num strong" style="color:var(--pri)">${won(r.amt)}원</td><td>${r.doc?'<span class="st ok">완료</span>':'<span class="st warn">미제출</span>'}</td></tr>`).join('')}
+  </tbody></table></div>
+  <div class="sec"><div class="sec-h"><h2>제출 서류</h2></div>${docs.map(([n,d])=>`<div class="kv"><span>${n}</span><span class="row"><span class="num muted">${d}/${rows.length}</span>${d===rows.length?'<span class="st ok">완료</span>':'<span class="st warn">대기</span>'}</span></div>`).join('')}</div>`}`;
+}
+
+/* =====================================================================
+   설정
+   ===================================================================== */
+const MEMBERS=[{n:'김민경',e:'admin@onsite.kr',d:DD('2025.04.10'),a:true},{n:'이담당',e:'lee@onsite.kr',d:DD('2025.05.02'),a:true},{n:'박매니저',e:'park@onsite.kr',d:'',a:false}];
+function pgSettings(){
+  const t=S.setTab;const H=(a,b)=>`<div class="phead"><div><h1>${a}</h1><p>${b}</p></div></div>`;
+  if(t==='member')return H('멤버','채용 담당자(관리자) 초대 · 평가위원·운영인력 계정은 공고별 인력·계정 메뉴에서 발급')+`
+    <div class="row mb12"><span class="sp"></span><button class="btn pri" data-act="invite">${ic('plus','s14')}마스터 관리자 초대</button></div>
+    <div class="tbl"><table><thead><tr><th>이름</th><th>이메일</th><th>합류일</th><th>상태</th><th></th></tr></thead><tbody>${MEMBERS.map(m=>`<tr><td class="strong">${m.n}</td><td class="muted">${m.e}</td><td class="muted num">${m.d||'—'}</td><td>${m.a?'<span class="st ok">활성</span>':'<span class="st warn">초대중</span>'}</td><td class="r"><button class="btn xs ghost">관리</button></td></tr>`).join('')}</tbody></table></div>`;
+  if(t==='org')return H('기관 설정','모든 공고에 기본 적용되는 운영 정책')+`
+    <div class="cols" style="grid-template-columns:1fr 1fr">
+    <section><div class="sec-h"><h2>운영보드</h2></div>
+      <div class="kv"><span class="k">전자기기 보관번호 사용<small>미사용 시 운영보드 컬럼 숨김</small></span><button class="tg ${ORG.useDevice?'on':''}" data-act="orgTg" data-k="useDevice"></button></div>
+      <div class="kv"><span class="k">면접비 컬럼 노출<small>기관 템플릿에 따라 노출</small></span><button class="tg ${ORG.useFee?'on':''}" data-act="orgTg" data-k="useFee"></button></div>
+      <div class="kv"><span class="k">접수 상태값<small>기본값 · 공란 / 접수예정 / 접수 / 연락중 / 불참</small></span><span class="muted">${ORG.statuses.map(s=>s||'공란').join(' · ')}</span></div>
+      <div class="sec-h mt24"><h2>보안</h2></div>
+      <div class="kv"><span class="k">운영관리자 화면 캡처 제한<small>현장 화면은 항상 적용</small></span><span class="st ok">항상 적용</span></div>
+      <div class="kv"><span class="k">평가자 개인정보·평가정보 영역</span><button class="tg ${ORG.captureEval?'on':''}" data-act="orgTg" data-k="captureEval"></button></div>
+      <div class="kv"><span class="k">기타 개인정보 노출 화면</span><button class="tg ${ORG.captureEtc?'on':''}" data-act="orgTg" data-k="captureEtc"></button></div>
+    </section>
+    <section><div class="sec-h"><h2>지원자 · 데이터</h2></div>
+      <div class="kv"><span class="k">불참 의사 표시 마감</span><input class="input sm" value="${ORG.absentCutoff}" data-org="absentCutoff" style="width:140px"></div>
+      <div class="kv"><span class="k">지원자 페이지 유효기간<small>결과 발표 후 N일 · 이후 접속 불가</small></span><input class="input sm num" type="number" value="${ORG.expireDays}" data-org="expireDays" style="width:80px"></div>
+      <div class="kv"><span class="k">QR 노출</span><span class="muted">면접 당일 00시부터</span></div>
+      <div class="kv"><span class="k">데이터 보관 기간<small>기본 6개월 · 기관별 수정</small></span><select class="select sm" data-org="retentionMonths" style="width:110px">${[3,6,12,24].map(m=>`<option value="${m}" ${ORG.retentionMonths==m?'selected':''}>${m}개월</option>`).join('')}</select></div>
+    </section></div>`;
+  if(t==='security')return H('보안 서약서','평가위원·운영인력이 첫 로그인 시 동의하는 서약서')+`<div class="doc" style="max-width:720px">본인은 ONSITE를 통해 열람하는 지원자 개인정보 및 평가정보를 면접 운영 목적 외로 사용하지 않으며, 화면 캡처·촬영·외부 메신저 전송을 하지 않을 것을 서약함.<br><br>1. 지원자 식별 정보 비공개<br>2. 평가 결과 외부 유출 금지<br>3. 블라인드 원칙 준수<br>4. 위반 시 위촉 해제 및 관련 법령에 따른 책임</div><div class="row mt12"><span class="faint" style="font-size:12.5px">최종 수정 ${DD('2025.04.18')}</span><span class="sp"></span><button class="btn" data-act="noop">수정</button></div>`;
+  if(t==='dispatch')return H('발송 설정','지원자 안내 발송 채널 · 시점')+`
+    <div class="kv"><span class="k">채널<small>PRD 8.7</small></span><span>${ORG.channel}</span></div>
+    <div class="kv"><span class="k">발송 시점</span><select class="select sm" data-org="sendTiming" style="width:180px">${['면접 5일 전 10:00','면접 3일 전 10:00','면접 1일 전 10:00','시간표 확정 즉시'].map(x=>`<option ${ORG.sendTiming===x?'selected':''}>${x}</option>`).join('')}</select></div>
+    <div class="kv"><span class="k">당일 안내<small>면접 당일 07:00 도착시간 재안내</small></span><span class="st ok">사용</span></div>
+    <div class="kv"><span class="k">결과 발표 알림</span><span class="st ok">사용</span></div>`;
+  if(t==='template')return H('템플릿','직무별 기본 템플릿 · 공고별 복사 후 수정')+`
+    <div class="tbl"><table><thead><tr><th>템플릿</th><th>구성</th><th>저장일</th><th></th></tr></thead><tbody>${TEMPLATES.map(x=>`<tr><td class="strong">${esc(x.name)}</td><td class="muted">${x.type}</td><td class="muted num">${x.at}</td><td class="r"><span class="tag ai">${ic('spark','s14')}AI 초안 기반</span></td></tr>`).join('')}</tbody></table></div>`;
+  if(t==='log')return H('활동 로그','시간표 변경 이력 · 확정 · 발송 · 합불 조정 기록')+`
+    ${LOG.length?`<div class="tbl"><table><thead><tr><th style="width:160px">일시</th><th style="width:30%">공고</th><th>내용</th></tr></thead><tbody>${LOG.map(l=>`<tr><td class="num muted">${l.at}</td><td class="muted">${esc(l.job)}</td><td>${esc(l.txt)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">이번 세션 활동 없음</div>'}`;
+  return H('내 정보','계정 정보')+`<div style="max-width:520px"><div class="kv"><span class="k">이름</span><span>김민경</span></div><div class="kv"><span class="k">권한</span><span>마스터 관리자</span></div><div class="kv"><span class="k">이메일</span><span>admin@onsite.kr</span></div><div class="kv"><span class="k">소속</span><span>${ORG.name} 인사팀</span></div><button class="btn mt16" data-act="logout">로그아웃</button></div>`;
+}
+
+/* =====================================================================
+   렌더
+   ===================================================================== */
+function pgLogin(){
+  return `<div class="login-wrap"><div class="login">
+    <div class="lg-logo">${LOGO}</div>
+    <h1>관리자 로그인</h1>
+    <p class="lg-s">채용 담당자 계정으로 로그인해 주세요</p>
+    <div class="field"><label>이메일</label><input class="input lg" id="lg-id" placeholder="name@org.kr" autocomplete="off" value="${esc(S.lgId)}"></div>
+    <div class="field"><label>비밀번호</label><input class="input lg" id="lg-pw" type="password" placeholder="비밀번호"></div>
+    ${S.loginErr?`<div class="lg-err">${ic('alert','s14')}${S.loginErr}</div>`:''}
+    <button class="btn pri block lg" data-act="login">로그인</button>
+    <div class="demo-chips"><button class="demo-chip" data-act="demoFill">${ic('spark','s14')}시연용 계정 입력</button></div>
+    <div class="lg-foot">비밀번호를 잊으셨나요? <a data-act="noop">비밀번호 재설정</a></div>
+  </div></div>`;
+}
+function render(){
+  if(!S.auth){document.querySelector('.app').classList.add('pre');$('#nav').innerHTML='';$('#view').innerHTML=pgLogin();return;}
+  document.querySelector('.app').classList.remove('pre');
+  renderNav();
+  let h='';
+  if(S.view==='workspace')h=pgWorkspace();
+  else if(S.view==='settings')h=pgSettings();
+  else h=({people:pgPeople,prep:pgPrep,monitor:pgMonitor,eval:pgEval,result:pgResult,settle:pgSettle})[S.page]();
+  $('#view').innerHTML=h;
+  const dz=$('#drop');if(dz){dz.ondragover=e=>{e.preventDefault();dz.classList.add('over');};dz.ondragleave=()=>dz.classList.remove('over');dz.ondrop=e=>{e.preventDefault();dz.classList.remove('over');handleFile(e.dataTransfer.files[0]);};}
+}
+function keepScroll(fn){const y=window.scrollY;fn();window.scrollTo(0,y);}
+
+/* =====================================================================
+   이벤트
+   ===================================================================== */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-act]');if(!t)return;
+  const a=t.dataset.act;const j=cur();
+  switch(a){
+    case 'ov':if(e.target===t)closeModal();break;
+    case 'demoFill':$('#lg-id').value='admin@onsite.kr';$('#lg-pw').value='onsite25!';break;
+    case 'login':{const id=$('#lg-id').value.trim().toLowerCase(),pw=$('#lg-pw').value;S.lgId=id;S.fail=(S.fail||0);
+      if(!id||!pw){S.loginErr='이메일과 비밀번호를 입력해 주세요';render();break;}
+      if(id!=='admin@onsite.kr'||pw!=='onsite25!'){S.fail++;S.loginErr=S.fail>=5?'로그인을 5회 실패해 10분 동안 잠겼어요':`이메일 또는 비밀번호가 맞지 않아요 (${S.fail}/5)`;render();break;}
+      S.auth=true;S.loginErr='';S.fail=0;S.view='workspace';log(null,'관리자 로그인');render();break;}
+    case 'logout':S.auth=false;S.lgId='';render();break;
+    case 'closeModal':closeModal();break;
+    case 'noop':toast('준비 중인 기능이에요');break;
+    case 'toWs':S.view='workspace';S.jobId=null;render();break;
+    case 'toSet':S.view='settings';render();break;
+    case 'setTab':S.view='settings';S.setTab=t.dataset.k;S.jobId=null;render();break;
+    case 'openJob':S.view='job';S.jobId=t.dataset.j;const jj=cur();S.page=jj.stage==='live'?'monitor':jj.stage==='settle'?'result':'prep';S.prepTab=!jj.roster.length||jj.rosterErrs.length?'roster':'sched';S.evSel=null;S.monRoom=0;render();window.scrollTo(0,0);break;
+    case 'page':S.page=t.dataset.p;render();window.scrollTo(0,0);break;
+    case 'prepTab':S.prepTab=t.dataset.k;render();break;
+    case 'calSel':S.calSel=t.dataset.k;render();break;
+    case 'calMove':{let m=S.calM+ +t.dataset.d,y=S.calY;if(m<1){m=12;y--;}if(m>12){m=1;y++;}S.calM=m;S.calY=y;render();break;}
+    case 'newJob':modal({title:'신규 공고 등록',body:`<div class="field"><label>공고명</label><input class="input" id="nj-name" placeholder="예) 2025년 하반기 공개채용"></div><div class="fgrid"><div class="field"><label>기관</label><input class="input" id="nj-org" value="${ORG.name}"></div><div class="field"><label>면접일</label><input class="input" type="date" id="nj-date"></div></div><div class="field"><label>면접 장소 (안내 문구 사용)</label><input class="input" id="nj-place" placeholder="예) 본관 3층 대기실"></div><div class="field" style="margin:0"><label>면접 유형</label><select class="select" id="nj-type"><option value="single">개별 면접 (일대다·다대다)</option><option value="group">조별 면접</option></select></div>`,actions:[{label:'취소',act:'closeModal'},{label:'등록',act:'createJob',cls:'pri'}]});break;
+    case 'createJob':{const n=$('#nj-name').value.trim(),d=$('#nj-date').value;if(!n||!d){toast('공고명·면접일 입력 필요',true);break;}
+      const nj=newJob({id:'j'+(JOBS.length+1)+Date.now()%1000,name:n,org:$('#nj-org').value.trim()||ORG.name,date:d.replace(/-/g,'.'),place:$('#nj-place').value.trim()||'면접 장소 미정',stage:'prep',cfg:{type:$('#nj-type').value}});
+      nj.code='N'+String(Date.now()).slice(-4);initAccounts(nj);JOBS.unshift(nj);log(nj,'공고 등록');closeModal();S.view='job';S.jobId=nj.id;S.page='prep';S.prepTab='roster';render();toast('공고 등록 · 명단 업로드부터 시작');break;}
+
+    /* 명단 */
+    case 'pickFile':$('#fileIn').value='';$('#fileIn').click();break;
+    case 'sampleCsv':download('ONSITE_명단양식.csv','수험번호,성명,지원분야,연락처,생년월일\nA-001,홍길동,경영,010-1234-5678,19980101\nA-002,김철수,경영,010-2345-6789,19990512\nA-003,이영희,행정,010-3456-7890,19970820\n');break;
+    case 'loadSample':{const rows=mkRoster([['경영',12],['행정',8]],'N');ingest(j,[REQ.concat('생년월일')].concat(rows.map(r=>[r.no,r.name,r.field,r.phone,r.birth])).concat([['','','','','']]),'샘플_합격자명단.xlsx');break;}
+    case 'delRow':{const i=+t.dataset.i;const r=j.roster[i];j.roster.splice(i,1);validateRoster(j);log(j,`명단 오류 행 삭제 · ${r.no}`);render();break;}
+
+    /* 시간표 */
+    case 'cfgType':j.cfg.type=t.dataset.v;render();break;
+    case 'genSched':{const regen=!!j.sched;const was=j.schedConfirmed;buildSchedule(j);
+      if(was){j.schedConfirmed=true;validRoster(j).forEach(r=>j.arrive[r.no]=arriveOf(j,r.no));j.arrive={};validRoster(j).forEach(r=>j.arrive[r.no]=HM(planOf(j)[r.no].s-(+j.cfg.arrive)));histLog(j,'확정 후 시간표 재생성 · 면접번호·도착시간 재산정');j.notice.sent&&toast('도착시간 변경 · 안내 재발송 필요',true);}
+      else{log(j,regen?'시간표 재생성':'시간표 자동 생성');toast(`시간표 생성 · 면접실 ${j.sched.rooms.length}개 · 세션 ${sum(j.sched.rooms.map(r=>r.items.filter(i=>i.kind==='s').length))}개`);}
+      render();break;}
+    case 'confirmSched':modal({title:'시간표 확정',body:`<div>확정하면 면접번호와 도착시간이 고정되고, 이후 수정 내용은 변경 이력에 남아요.</div><div class="callout mt12" style="margin-bottom:0">${ic('info')}<span>도착시간 = 면접 시작 ${j.cfg.arrive}분 전 · 지원자에게는 도착시간만 안내</span></div>`,actions:[{label:'취소',act:'closeModal'},{label:'확정',act:'doConfirmSched',cls:'pri'}]});break;
+    case 'doConfirmSched':{closeModal();const P=planOf(j);j.arrive={};validRoster(j).forEach(r=>j.arrive[r.no]=HM(P[r.no].s-(+j.cfg.arrive)));j.schedConfirmed=true;j.schedAt=nowStamp();log(j,'시간표 확정');toast('시간표 확정 · 안내 발송 가능');render();break;}
+    case 'addLunch':{const r=j.sched.rooms[+t.dataset.r];const at=r.items.findIndex((it,k)=>{const tl=timeline(j,r,false);const x=tl[k];return x&&x.s>=T('11:30');});r.items.splice(at<0?r.items.length:at,0,{kind:'lunch',id:'l'+Date.now(),start:'12:00',len:+j.cfg.lunchLen||60});histLog(j,`${r.name} 점심 블록 추가`);render();break;}
+    case 'addBreak':{const r=j.sched.rooms[+t.dataset.r];const tl=timeline(j,r,false);const mid=Math.floor(r.items.length/2);r.items.splice(mid,0,{kind:'break',id:'b'+Date.now(),start:HM(tl[mid]?tl[mid].s:T(r.start)),len:10});histLog(j,`${r.name} 휴식 블록 추가`);render();break;}
+    case 'delBlk':{const r=j.sched.rooms[+t.dataset.r];const it=r.items.splice(+t.dataset.i,1)[0];histLog(j,`${r.name} ${it.kind==='lunch'?'점심':'휴식'} 블록 삭제`);render();break;}
+    case 'movePerson':{const no=t.dataset.no;const r=roomOf(j,no);const opts=[];j.sched.rooms.forEach(rr=>rr.items.forEach(it=>{if(it.kind==='s'&&it.field===person(j,no).field&&!it.members.includes(no))opts.push({it,label:`${rr.name} · ${it.label} (${it.members.length}명)`});}));
+      modal({title:`${app(j,no).ino} 배치 변경`,body:`<div class="field"><label>이동할 조 (같은 분야)</label><select class="select" id="mv-to">${opts.map((o,k)=>`<option value="${k}" ${o.it.members.length>=j.cfg.groupMax?'disabled':''}>${o.label}${o.it.members.length>=j.cfg.groupMax?' · 정원 초과':''}</option>`).join('')}</select></div><div class="note">확정 전 배치 조정 · 면접번호는 시간표 순서로 재부여</div>`,actions:[{label:'취소',act:'closeModal'},{label:'이동',act:'doMove',cls:'pri',data:`data-no="${no}"`}]});
+      window._mvOpts=opts;break;}
+    case 'doMove':{const no=t.dataset.no;const o=window._mvOpts[+$('#mv-to').value];if(!o)break;j.sched.rooms.forEach(rr=>rr.items.forEach(it=>{if(it.kind==='s')it.members=it.members.filter(x=>x!==no);}));o.it.members.push(no);j.sched.rooms.forEach(rr=>rr.items=rr.items.filter(it=>it.kind!=='s'||it.members.length));numberSchedule(j);closeModal();log(j,`지원자 배치 변경 · ${no}`);render();break;}
+
+    /* AI */
+    case 'pickQ':j.ai.qSel=t.dataset.k;j.ai.qs=Q_SETS[t.dataset.k].qs.slice();j.ai.saved=false;render();break;
+    case 'pickC':j.ai.cSel=t.dataset.k;j.ai.crit=CRIT_SETS[t.dataset.k].items.map(x=>x.slice());j.ai.saved=false;render();break;
+    case 'addQ':j.ai.qs.push('');j.ai.saved=false;render();break;
+    case 'delQ':j.ai.qs.splice(+t.dataset.i,1);j.ai.saved=false;render();break;
+    case 'addC':j.ai.crit.push(['새 항목',0,'']);j.ai.saved=false;render();break;
+    case 'delC':j.ai.crit.splice(+t.dataset.i,1);j.ai.saved=false;render();break;
+    case 'saveAI':j.ai.qs=j.ai.qs.filter(q=>q.trim());j.ai.saved=true;j.ai.savedAt=nowStamp();log(j,`질문 ${j.ai.qs.length}문항 · 평가항목 ${j.ai.crit.length}개 공고 적용`);toast('공고 템플릿 저장 · 평가자 화면 반영');render();break;
+    case 'saveTpl':{const f=Object.keys(fields(j))[0]||'공통';TEMPLATES.unshift({name:`${f} · ${j.org}`,type:`질문 ${j.ai.qs.length} · 항목 ${j.ai.crit.length}`,at:nowStamp().slice(0,10)});log(j,'직무 기본 템플릿 저장');toast('템플릿 저장 · 설정 > 템플릿에서 확인');break;}
+
+    /* 마스킹 */
+    case 'maskItem':j.mask.items[t.dataset.k]=!j.mask.items[t.dataset.k];j.mask.reviewed={};render();toast('마스킹 항목 변경 · 검수 초기화');break;
+    case 'maskRaw':S.maskRaw=t.dataset.v==='1';render();break;
+    case 'maskSel':S.maskSel=t.dataset.no;render();break;
+    case 'review':{const no=t.dataset.no;j.mask.reviewed[no]=!j.mask.reviewed[no];if(j.mask.reviewed[no]){const R=validRoster(j);const nx=R.find(r=>!j.mask.reviewed[r.no]);if(nx)S.maskSel=nx.no;}render();break;}
+    case 'reviewAll':validRoster(j).forEach(r=>j.mask.reviewed[r.no]=true);log(j,'마스킹 일괄 검수');render();break;
+    case 'confirmMask':j.mask.confirmed=true;j.mask.at=nowStamp();log(j,'블라인드 마스킹 확정 · 평가자 노출');toast('마스킹 확정 · 평가자 화면 노출');render();break;
+    case 'unmask':j.mask.confirmed=false;log(j,'마스킹 확정 해제');render();break;
+
+    /* 안내 발송 */
+    case 'sendNotice':modal({title:'안내 발송',body:`<div>${validRoster(j).length}명에게 도착시간·장소·준비사항 안내 발송</div><div class="kv mt12"><span class="k">채널</span><span>${ORG.channel}</span></div>`,actions:[{label:'취소',act:'closeModal'},{label:'발송',act:'doSend',cls:'pri'}]});break;
+    case 'doSend':{closeModal();j.notice.res={};validRoster(j).forEach(r=>{const v=rnd(r.no+'k'+Date.now()%7,10);j.notice.res[r.no]=v===0?'fail':v<3?'sms':'kakao';});j.notice.sent=true;j.notice.at=nowStamp();const f=Object.values(j.notice.res).filter(x=>x==='fail').length;log(j,`지원자 안내 발송 · ${validRoster(j).length}명 · 실패 ${f}명`);toast(`발송 완료${f?` · 실패 ${f}명`:''}`,!!f);render();break;}
+    case 'resendFail':Object.keys(j.notice.res).forEach(k=>{if(j.notice.res[k]==='fail')j.notice.res[k]='sms';});log(j,'발송 실패자 SMS 재발송');toast('SMS 재발송 완료');render();break;
+
+    /* 현장 운영 */
+    case 'monRoom':S.monRoom=+t.dataset.i;render();break;
+    case 'conductToggle':{const c=j.conduct[+t.dataset.i];c.done=!c.done;keepScroll(render);break;}
+    case 'remind':toast('미완료 행동 강령 재알림 · 담당 운영관리자 모바일');log(j,'행동 강령 재알림');break;
+    case 'addConduct':modal({title:'행동 강령 추가',body:`<div class="fgrid"><div class="field"><label>시각</label><input class="input" type="time" id="cd-t" value="15:00"></div><div class="field"><label>담당</label><select class="select" id="cd-w"><option>접수처</option><option>인솔</option><option>상주</option></select></div></div><div class="field" style="margin:0"><label>내용</label><input class="input" id="cd-x" placeholder="예) 3조 입실 안내"></div>`,actions:[{label:'취소',act:'closeModal'},{label:'추가',act:'doConduct',cls:'pri'}]});break;
+    case 'doConduct':{const x=$('#cd-x').value.trim();if(!x)break;j.conduct.push({t:$('#cd-t').value,txt:x,who:$('#cd-w').value,done:false});closeModal();render();break;}
+    case 'addIssue':modal({title:'이슈 등록',body:`<div class="field"><label>면접실</label><select class="select" id="is-r">${j.sched.rooms.map(r=>`<option>${r.name}</option>`).join('')}<option>공통</option></select></div><div class="field"><label>내용</label><textarea class="textarea" id="is-x" placeholder="간단한 이슈 내용"></textarea></div><label class="chk"><input type="checkbox" id="is-p">사진 첨부</label>`,actions:[{label:'취소',act:'closeModal'},{label:'등록',act:'doIssue',cls:'pri'}]});break;
+    case 'doIssue':{const x=$('#is-x').value.trim();if(!x)break;j.issues.unshift({t:HM(j.nowMin||new Date().getHours()*60+new Date().getMinutes()),txt:x,room:$('#is-r').value,by:'마스터',photo:$('#is-p').checked,done:false});closeModal();log(j,`이슈 등록 · ${x}`);render();break;}
+    case 'resolve':j.issues[+t.dataset.i].done=true;log(j,`이슈 해결 · ${j.issues[+t.dataset.i].txt}`);keepScroll(render);break;
+
+    /* 평가 */
+    case 'evRoom':S.evRoom=t.dataset.k;render();break;
+    case 'evSel':S.evSel=t.dataset.no;render();break;
+    case 'fillEval':{const W=weights(j);let n=0;validRoster(j).forEach(r=>{const a=app(j,r.no);if(a.status==='불참')return;const rm=roomOf(j,r.no);j.evaluators.filter(e=>!rm||e.room===rm.name).forEach(ev=>{if(a.evals[ev.name])return;const b=2+rnd(r.no+'base',3);a.evals[ev.name]={lv:W.map((c,ci)=>Math.max(1,Math.min(5,b+rnd(r.no+ev.name+ci,3)-1))),comment:'답변 구조 명확, 직무 이해도 양호',at:nowStamp()};n++;});});draftDecisions(j);toast(`평가자 제출 시연 · ${n}건 반영`);render();break;}
+    case 'closeEval':{const R=validRoster(j).filter(r=>app(j,r.no).status!=='불참');const inc=R.filter(r=>Object.keys(app(j,r.no).evals).length<evalNeed(j,r.no)).length;
+      modal({title:'평가 마감',body:`<div>마감 후 평가자 점수·코멘트 수정 불가 · 위원 원점수 전자서명 요청 가능</div>${inc?`<div class="callout warn mt12" style="margin-bottom:0">${ic('alert')}<span><b>평가 미완료 ${inc}명</b> · 마감 시 결과 초안에서 미완료 처리</span></div>`:''}`,actions:[{label:'취소',act:'closeModal'},{label:'마감',act:'doCloseEval',cls:'pri'}]});break;}
+    case 'doCloseEval':closeModal();j.evalClosed=true;j.evalClosedAt=nowStamp();log(j,'평가 마감');draftDecisions(j);toast('평가 마감 · 서명 요청 가능');render();break;
+    case 'reopenEval':j.evalClosed=false;j.evaluators.forEach(e=>{e.signed=false;e.requested=false;});log(j,'평가 마감 해제 · 서명 초기화');render();break;
+    case 'reqSign':{const e=j.evaluators[+t.dataset.i];e.requested=true;log(j,`${e.name} 위원 서명 요청`);toast(`${e.name} 위원 서명 요청 발송`);render();break;}
+    case 'mockSign':{const e=j.evaluators[+t.dataset.i];e.signed=true;log(j,`${e.name} 위원 원점수 서명 완료`);toast(`${e.name} 위원 서명 완료`);render();break;}
+    case 'evalCsv':{const W=weights(j);let csv='면접번호,분야,위원,'+W.map(c=>c[0]).join(',')+',합계,코멘트\n';validRoster(j).forEach(r=>Object.entries(app(j,r.no).evals).forEach(([nm,e])=>{csv+=`${app(j,r.no).ino},${r.field},${nm},${e.lv.join(',')},${evScore(j,e).toFixed(1)},"${e.comment}"\n`;}));download(`원점수_${j.name}.csv`,csv);break;}
+
+    /* 결과 */
+    case 'resField':S.resField=t.dataset.k;render();break;
+    case 'bonusRule':j.bonusRule=!j.bonusRule;if(!j.bonusRule)validRoster(j).forEach(r=>j.bonus[r.no]={type:'없음',pt:0});draftDecisions(j);render();break;
+    case 'redraft':draftDecisions(j);toast('결과 초안 재산출 · 관리자 조정 초기화');log(j,'결과 초안 재산출');render();break;
+    case 'confirmResult':{const pass=validRoster(j).filter(r=>(j.decision[r.no]||{}).final==='합격').length;const adj=validRoster(j).filter(r=>{const d=j.decision[r.no]||{};return d.final!==d.draft;}).length;
+      modal({title:'최종 합불 확정',body:`<div>합격 ${pass}명 · 확정 후 수정 불가</div>${adj?`<div class="callout warn mt12" style="margin-bottom:0">${ic('alert')}<span><b>관리자 조정 ${adj}건</b> · 활동 로그 기록</span></div>`:''}`,actions:[{label:'취소',act:'closeModal'},{label:'확정',act:'doConfirmResult',cls:'pri'}]});break;}
+    case 'doConfirmResult':{closeModal();j.resultConfirmed=true;j.resultAt=nowStamp();if(!j.expire){const d=new Date();d.setDate(d.getDate()+ +ORG.expireDays);j.expire=`${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}`;}log(j,'최종 합불 확정');toast('최종 합불 확정');render();break;}
+    case 'publish':modal({title:'결과 발표',body:`<div>지원자 WebApp 결과 공개 · 알림톡 발송 · 지원자 페이지 ${j.expire}까지 열람</div>`,actions:[{label:'취소',act:'closeModal'},{label:'발표',act:'doPublish',cls:'pri'}]});break;
+    case 'doPublish':closeModal();j.published=true;j.publishedAt=nowStamp();j.stage='settle';log(j,'결과 발표');toast('결과 발표 완료');render();break;
+    case 'resCsv':{let csv='면접번호,분야,위원평균,가점,합계,초안,최종\n';resultRows(j).forEach(r=>{const d=j.decision[r.no]||{};csv+=`${r.ino},${r.field},${r.avg==null?'':r.avg.toFixed(1)},${r.bonus},${r.total==null?'':r.total.toFixed(1)},${d.draft||''},${d.final||''}\n`;});download(`결과표_${j.name}.csv`,csv);break;}
+    case 'settleCsv':{let csv='구분,성명,출근,퇴근,단가\n';j.staff.forEach(s=>csv+=`${s.type},${s.name},${s.in},${s.out},${ORG.rates[s.type]}\n`);download(`정산_${j.name}.csv`,csv);break;}
+
+    /* 설정 */
+    case 'orgTg':ORG[t.dataset.k]=!ORG[t.dataset.k];log(null,`기관 설정 변경 · ${t.dataset.k}`);render();break;
+    case 'pwShow':S.pwShow[t.dataset.id]=!S.pwShow[t.dataset.id];keepScroll(render);break;
+    case 'accIssue':{const L=t.dataset.k==='E'?j.evaluators:j.ops;const p=L[+t.dataset.i];p.acc={id:(p.acc&&p.acc.id)||nextAccId(j,t.dataset.k),pw:genPw(),issued:true,sent:false,login:null};S.pwShow[p.acc.id]=true;log(j,`계정 발급 · ${p.name} ${p.acc.id}`);toast(`${p.name} · ${p.acc.id} 발급`);keepScroll(render);break;}
+    case 'accIssueAll':{let n=0;[['E',j.evaluators],['S',j.ops]].forEach(([k,L])=>L.forEach(p=>{if(!p.acc||!p.acc.issued){p.acc={id:(p.acc&&p.acc.id)||nextAccId(j,k),pw:genPw(),issued:true,sent:false,login:null};n++;}}));log(j,`계정 일괄 발급 · ${n}명`);toast(`${n}명 계정 발급 · 안내 발송 필요`);render();break;}
+    case 'accReset':{const L=t.dataset.k==='E'?j.evaluators:j.ops;const p=L[+t.dataset.i];modal({title:'비밀번호 재발급',body:`<div>${esc(p.name)} · ${p.acc.id}<br>기존 비밀번호 즉시 사용 불가 · 새 임시 비밀번호 발급</div>`,actions:[{label:'취소',act:'closeModal'},{label:'재발급',act:'doAccReset',cls:'pri',data:`data-k="${t.dataset.k}" data-i="${t.dataset.i}"`}]});break;}
+    case 'doAccReset':{closeModal();const L=t.dataset.k==='E'?j.evaluators:j.ops;const p=L[+t.dataset.i];p.acc.pw=genPw();p.acc.sent=false;p.acc.login=null;S.pwShow[p.acc.id]=true;log(j,`비밀번호 재발급 · ${p.name} ${p.acc.id}`);toast('새 임시 비밀번호 발급 · 안내 발송 필요');keepScroll(render);break;}
+    case 'accSend':{const k=t.dataset.k;const L=k==='E'?j.evaluators:j.ops;const p=L[+t.dataset.i];modal({title:'계정 안내 발송',body:`<div class="muted" style="margin-bottom:10px">${p.phone} · 알림톡 우선 · 실패 시 SMS</div><div class="msg">${accMsg(j,k,p)}</div>`,actions:[{label:'취소',act:'closeModal'},{label:'발송',act:'doAccSend',cls:'pri',data:`data-k="${k}" data-i="${t.dataset.i}"`}]});break;}
+    case 'doAccSend':{closeModal();const L=t.dataset.k==='E'?j.evaluators:j.ops;const p=L[+t.dataset.i];p.acc.sent=true;log(j,`계정 안내 발송 · ${p.name}`);toast(`${p.name} 계정 안내 발송`);keepScroll(render);break;}
+    case 'accDel':{const L=t.dataset.k==='E'?j.evaluators:j.ops;const p=L[+t.dataset.i];modal({title:'인력 삭제',body:`<div>${esc(p.name)} · 계정 ${p.acc&&p.acc.issued?p.acc.id+' 즉시 비활성':'미발급'}${t.dataset.k==='E'&&Object.values(j.apps).some(a=>a.evals[p.name])?'<div class="callout warn mt12" style="margin-bottom:0">'+ic('alert')+'<span>제출한 평가 기록 보존 · 로그인만 차단</span></div>':''}</div>`,actions:[{label:'취소',act:'closeModal'},{label:'삭제',act:'doAccDel',cls:'pri',data:`data-k="${t.dataset.k}" data-i="${t.dataset.i}"`}]});break;}
+    case 'doAccDel':{closeModal();const L=t.dataset.k==='E'?j.evaluators:j.ops;const p=L.splice(+t.dataset.i,1)[0];j.staff=j.staff.filter(s=>s.name!==p.name);log(j,`인력 삭제 · ${p.name}`);render();break;}
+    case 'addPerson':{const k=t.dataset.k;const rooms=j.sched?j.sched.rooms.map(r=>r.name):['1면접실','2면접실'];modal({title:k==='E'?'평가위원 추가':'운영인력 추가',body:`<div class="fgrid"><div class="field"><label>이름</label><input class="input" id="np-n"></div><div class="field"><label>연락처</label><input class="input" id="np-p" placeholder="010-0000-0000"></div></div><div class="field"><label>${k==='E'?'배정 면접실':'역할'}</label><select class="select" id="np-r">${(k==='E'?rooms:OP_ROLES).map(r=>`<option>${r}</option>`).join('')}</select></div><label class="chk"><input type="checkbox" id="np-i" checked>추가와 동시에 계정 발급</label>`,actions:[{label:'취소',act:'closeModal'},{label:'추가',act:'doAddPerson',cls:'pri',data:`data-k="${k}"`}]});break;}
+    case 'doAddPerson':{const k=t.dataset.k;const n=$('#np-n').value.trim(),ph=$('#np-p').value.trim();if(!n||!/^01\d-?\d{3,4}-?\d{4}$/.test(ph)){toast('이름·연락처 형식 확인',true);break;}
+      const p=k==='E'?{name:n,phone:ph,room:$('#np-r').value,signed:false}:{name:n,phone:ph,role:$('#np-r').value,room:'공통'};
+      const id=nextAccId(j,k);p.acc={id,pw:genPw(),issued:$('#np-i').checked,sent:false,login:null};if(p.acc.issued)S.pwShow[id]=true;
+      (k==='E'?j.evaluators:j.ops).push(p);j.staff.push({type:k==='E'?'평가위원':'운영자',name:n,in:'',out:'',doc:false});
+      closeModal();log(j,`${k==='E'?'평가위원':'운영인력'} 추가 · ${n}${p.acc.issued?' · '+id+' 발급':''}`);toast(`${n} 추가${p.acc.issued?' · '+id+' 발급':''}`);render();break;}
+    case 'accCsv':{let csv='구분,이름,연락처,면접실/역할,아이디,상태\n';j.evaluators.forEach(p=>csv+=`평가위원,${p.name},${p.phone},${p.room},${p.acc&&p.acc.issued?p.acc.id:''},${accState(p)[0]}\n`);j.ops.forEach(p=>csv+=`운영인력,${p.name},${p.phone},${p.role},${p.acc&&p.acc.issued?p.acc.id:''},${accState(p)[0]}\n`);download(`계정목록_${j.name}.csv`,csv);toast('계정 목록 다운로드 · 비밀번호 제외');break;}
+    case 'invite':modal({title:'마스터 관리자 초대',body:`<div class="field" style="margin:0"><label>이메일</label><input class="input" id="iv" placeholder="name@org.kr"></div>`,actions:[{label:'취소',act:'closeModal'},{label:'초대',act:'doInvite',cls:'pri'}]});break;
+    case 'doInvite':{const v=$('#iv').value.trim();if(!/@/.test(v)){toast('이메일 형식 확인',true);break;}MEMBERS.push({n:v.split('@')[0],e:v,d:'',a:false});closeModal();log(null,`멤버 초대 · ${v}`);render();break;}
+  }
+});
+
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.inp){S[t.dataset.inp]=t.value;const pos=t.selectionStart;render();const el=document.querySelector(`[data-inp="${t.dataset.inp}"]`);if(el){el.focus();el.setSelectionRange(pos,pos);}return;}
+  const j=cur();if(!j)return;
+  if(t.dataset.aiq!==undefined){j.ai.qs[+t.dataset.aiq]=t.value;j.ai.saved=false;return;}
+});
+document.addEventListener('change',e=>{
+  const t=e.target;const j=cur();
+  if(t.id==='fileIn'){handleFile(t.files[0]);return;}
+  if(t.dataset.org!==undefined){ORG[t.dataset.org]=t.type==='number'?+t.value:t.value;log(null,`기관 설정 변경 · ${t.dataset.org}`);return;}
+  if(t.dataset.rate){ORG.rates[t.dataset.rate]=+t.value;keepScroll(render);return;}
+  if(!j)return;
+  if(t.dataset.cfg){j.cfg[t.dataset.cfg]=t.type==='number'?+t.value:t.value;keepScroll(render);return;}
+  if(t.dataset.cfgchk){j.cfg[t.dataset.cfgchk]=t.checked;keepScroll(render);return;}
+  if(t.dataset.chg==='setField'){j.roster[+t.dataset.i].field=t.value;validateRoster(j);log(j,`지원분야 보정 · ${j.roster[+t.dataset.i].no}`);render();return;}
+  if(t.dataset.chg==='moveRoom'&&t.value!==''){const from=j.sched.rooms[+t.dataset.r];const it=from.items.splice(+t.dataset.i,1)[0];const to=j.sched.rooms[+t.value];to.items.push(it);numberSchedule(j);histLog(j,`${it.label} ${from.name} → ${to.name} 이동`);keepScroll(render);return;}
+  if(t.dataset.roomstart!==undefined){const r=j.sched.rooms[+t.dataset.roomstart];const old=r.start;r.start=t.value;histLog(j,`${r.name} 시작시간 ${old} → ${t.value}`);keepScroll(render);return;}
+  if(t.dataset.blk){const[ri,idx,k]=t.dataset.blk.split(':');const it=j.sched.rooms[+ri].items[+idx];const old=it[k];it[k]=k==='len'?+t.value:t.value;histLog(j,`${j.sched.rooms[+ri].name} ${it.kind==='lunch'?'점심':'휴식'} 블록 ${k==='len'?'길이':'시각'} ${old} → ${it[k]}`);keepScroll(render);return;}
+  if(t.dataset.aic){const[i,k]=t.dataset.aic.split(':').map(Number);j.ai.crit[i][k]=k===1?+t.value:t.value;j.ai.saved=false;keepScroll(render);return;}
+  if(t.dataset.app){const[no,k]=t.dataset.app.split(':');const a=app(j,no);const old=a[k];a[k]=k==='delay'?(+t.value||0):t.value;
+    if(k==='status'){log(j,`${a.ino} 접수 상태 ${old||'공란'} → ${a.status||'공란'}`);if(a.status==='불참'&&j.cfg.type==='group')toast('조별 불참 반영 · 세션 시간 즉시 재산정 · 순번 유지');}
+    if(k==='delay'&&a.delay!==+old)toast(`${a.ino} DELAY ${a.delay}분 · 이후 일정 연쇄 반영 · 도착시간 불변`);
+    keepScroll(render);return;}
+  if(t.dataset.appchk){const[no,k]=t.dataset.appchk.split(':');app(j,no)[k]=t.checked;return;}
+  if(t.dataset.quota){j.quota[t.dataset.quota]=+t.value;draftDecisions(j);keepScroll(render);return;}
+  if(t.dataset.bonus){const[ty,pt]=t.value.split('|');j.bonus[t.dataset.bonus]={type:ty,pt:+pt};const d=j.decision[t.dataset.bonus];draftDecisions(j);log(j,`가점 입력 · ${app(j,t.dataset.bonus).ino} ${ty} ${pt}`);keepScroll(render);return;}
+  if(t.dataset.final){const d=j.decision[t.dataset.final];d.final=t.value;log(j,`합불 조정 · ${app(j,t.dataset.final).ino} ${d.draft} → ${d.final}`);keepScroll(render);return;}
+  if(t.dataset.pp){const[k,i,f]=t.dataset.pp.split(':');const p=(k==='E'?j.evaluators:j.ops)[+i];const old=p[f];p[f]=t.value;log(j,`${p.name} ${f==='room'?'면접실':'역할'} ${old} → ${t.value}`);toast(`${p.name} · ${t.value}`);return;}
+  if(t.dataset.expire!==undefined){j.expire=t.value.replace(/-/g,'.');return;}
+});
+
+/* 캡처 방지 */
+window.addEventListener('blur',()=>{if(document.querySelector('.secure'))document.body.classList.add('shield');});
+window.addEventListener('focus',()=>document.body.classList.remove('shield'));
+document.addEventListener('contextmenu',e=>{if(e.target.closest('.secure')){e.preventDefault();toast('개인정보 보호 영역 · 우클릭 제한',true);}});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&['p','s'].includes(e.key.toLowerCase())){e.preventDefault();toast('인쇄·저장 제한 · 개인정보 보호',true);}});
+
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!S.auth&&['lg-id','lg-pw'].includes(e.target.id)){e.preventDefault();document.querySelector('[data-act=login]').click();}});
+seed();
+render();
+</script>
+</body>
+</html>

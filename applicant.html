@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONSITE — 지원자 (모바일)</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22512%22%20height%3D%22512%22%20viewBox%3D%220%200%20512.00%20512.00%22%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22139%22%20fill%3D%22%232466E0%22%2F%3E%3Cg%20transform%3D%22translate%28256%20256%29%20scale%281.75%29%20translate%28-88.3%20-80%29%22%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2280%22%20r%3D%2240%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%2234%22%2F%3E%3Cpath%20d%3D%22M88.3%2051.7%20L143.9%20107.3%20Q156.6%20120%20156.6%20102%20L156.6%2040%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%2234%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<style>
+  /* ONSITE 공통 토큰 v2 */
+  :root{
+    --pri:#2466E0;--pri-h:#1D56C4;--pri-weak:#EEF3FE;--pri-line:#C9D8F7;--navy:#0F1E45;--sky:#7FA6F0;
+    --tx:#0F1E45;--tx2:#5A6684;--tx3:#98A2B8;
+    --line:#ECEEF3;--line2:#DFE3EB;
+    --bg:#FFFFFF;--bg-sub:#F5F7FB;--hover:#EEF1F7;
+    --ok:#1F9254;--warn:#B8740F;--err:#E5383B;--err-weak:#FDF1F1;--warn-weak:#FDF6EA;
+    --r:14px;--r-sm:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Wanted Sans Variable','Wanted Sans','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    letter-spacing:-0.01em;color:var(--tx);line-height:1.5;background:#EDEEF1;
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 0 34px;-webkit-font-smoothing:antialiased;}
+  button,input{font:inherit;color:inherit;letter-spacing:inherit;border:0;background:none;}
+  button{cursor:pointer;}
+  .ico{stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+  /* 데모 컨트롤 (프레임 밖) */
+  .doc-tag{font-size:12px;color:#8A8F99;margin-bottom:10px;text-align:center;}
+  .doc-tag b{color:var(--tx);font-weight:700;}
+  .demo{display:flex;align-items:center;gap:8px;margin-bottom:18px;flex-wrap:wrap;justify-content:center;max-width:560px;}
+  .demo .dl{font-size:11px;color:#8A8F99;font-weight:600;}
+  .demo .seg{display:inline-flex;background:#DFE1E6;border-radius:8px;padding:2px;gap:2px;}
+  .demo .seg button{height:28px;padding:0 11px;border-radius:6px;font-size:11.5px;font-weight:600;color:#6A6E79;}
+  .demo .seg button.on{background:#fff;color:var(--tx);}
+  .dbtn{height:32px;padding:0 12px;border-radius:8px;background:#fff;border:1px solid #DFE1E6;font-size:11.5px;font-weight:600;color:var(--tx);display:inline-flex;align-items:center;gap:5px;}
+  .dbtn:disabled{opacity:.45;cursor:default;}
+
+  /* 프레임 */
+  .frame{width:392px;height:866px;background:var(--bg);border:1px solid #E1E3E8;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;position:relative;
+    box-shadow:0 14px 30px rgba(22,22,29,.06),0 44px 88px rgba(22,22,29,.08);}
+  .statusbar{height:50px;flex-shrink:0;background:var(--bg);position:relative;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 9px;z-index:3;}
+  .statusbar .sb-time{font-size:14px;font-weight:600;}
+  .statusbar .sb-sys{display:flex;align-items:center;gap:6px;}
+  .island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#0b0b0e;border-radius:16px;}
+  .main{flex:1;overflow-y:auto;position:relative;}
+  .main::-webkit-scrollbar{width:0;}
+  .page{padding:8px 20px 28px;animation:fin .18s ease;}
+  @keyframes fin{from{opacity:0;transform:translateY(4px);}}
+
+  /* 헤더 */
+  .phead{display:flex;align-items:center;gap:6px;margin:0 -8px 20px;}
+  .pback{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px;color:var(--tx);}
+  .pback:hover{background:var(--hover);}
+  .ptitle{font-size:18px;font-weight:700;letter-spacing:-0.02em;}
+  .hint{font-size:13px;color:var(--tx2);line-height:1.55;margin:-10px 0 24px;}
+
+  /* 섹션 · 리스트 (카드 대신) */
+  .sec{margin-top:32px;}
+  .sec-h{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;margin-bottom:6px;}
+  .sec-h .meta{font-size:12.5px;font-weight:500;color:var(--tx3);}
+  .sec-h .r{margin-left:auto;}
+  .row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);}
+  .row:last-child{border-bottom:0;}
+  .row .k{width:68px;flex-shrink:0;font-size:13px;color:var(--tx3);}
+  .row .v{flex:1;font-size:14px;font-weight:500;line-height:1.5;}
+  .row .v small{display:block;font-size:12.5px;color:var(--tx3);font-weight:400;margin-top:2px;}
+  .note{font-size:12.5px;color:var(--tx3);line-height:1.55;margin-top:10px;display:flex;gap:6px;}
+  .note .ico{width:14px;height:14px;margin-top:2px;}
+  .divider{height:8px;background:var(--bg-sub);margin:28px -20px 0;}
+
+  /* 상태 (점 + 텍스트) */
+  .st{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--tx3);white-space:nowrap;}
+  .st::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .st.pri{color:var(--pri);} .st.ok{color:var(--ok);} .st.warn{color:var(--warn);} .st.err{color:var(--err);} .st.mute{color:var(--tx2);}
+
+  .btn{width:100%;height:52px;border-radius:12px;font-size:15.5px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--pri);color:#fff;transition:.12s;}
+  .btn:hover{background:var(--pri-h);}
+  .btn:disabled{background:#C7D5F2;cursor:default;}
+  .btn.ghost{background:var(--bg-sub);color:var(--tx);}
+  .btn.ghost:hover{background:var(--hover);}
+  .btn.danger{background:var(--err);}
+  .btn.sm{height:46px;font-size:14.5px;}
+  .btns{display:flex;gap:8px;}
+  .txtbtn{font-size:13px;font-weight:600;color:var(--tx2);display:inline-flex;align-items:center;gap:4px;}
+
+  /* 로그인 */
+  .login{padding:24px 24px 26px;min-height:100%;display:flex;flex-direction:column;}
+  .brand{margin-bottom:44px;}
+  .brand .logo-svg{height:24px;width:auto;display:block;}
+  .appbar{display:flex;align-items:center;height:44px;margin:0 0 14px;}
+  .appbar .logo-sym{height:22px;width:auto;display:block;}
+  .doc-tag .logo-sym{height:12px;width:auto;display:inline-block;vertical-align:-1px;margin-right:5px;}
+
+  .lg-h{font-size:24px;font-weight:700;letter-spacing:-0.025em;line-height:1.4;margin-bottom:10px;}
+  .lg-s{font-size:14px;color:var(--tx2);margin-bottom:32px;line-height:1.55;}
+  .steps{font-size:12.5px;font-weight:600;color:var(--pri);margin-bottom:10px;}
+  .steps span{color:var(--tx3);font-weight:500;}
+  .fl{font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:8px;display:block;}
+  .inp{width:100%;height:52px;background:var(--bg-sub);border:1.5px solid transparent;border-radius:12px;padding:0 16px;font-size:16px;font-weight:600;outline:none;transition:.12s;margin-bottom:6px;}
+  .inp::placeholder{color:var(--tx3);font-weight:500;}
+  .inp:focus{border-color:var(--pri);background:#fff;}
+  .inp.err{border-color:var(--err);background:#fff;}
+  .ferr{font-size:12.5px;color:var(--err);min-height:18px;margin-bottom:12px;}
+  .pin{display:flex;gap:10px;margin-bottom:6px;}
+  .pin input{flex:1;min-width:0;height:62px;text-align:center;font-size:24px;font-weight:700;background:var(--bg-sub);border:1.5px solid transparent;border-radius:12px;outline:none;}
+  .pin input:focus{border-color:var(--pri);background:#fff;}
+  .phone-mask{font-size:14px;color:var(--tx2);margin-bottom:22px;}
+  .phone-mask b{color:var(--tx);letter-spacing:.03em;font-weight:600;}
+  .lg-foot{margin-top:auto;padding-top:22px;}
+  .lg-help{font-size:12.5px;color:var(--tx3);text-align:center;margin-top:16px;line-height:1.6;}
+  .lg-help a{color:var(--tx2);font-weight:600;text-decoration:underline;cursor:pointer;}
+
+  /* 홈 */
+  .top{margin-bottom:28px;}
+  .top .org{font-size:13px;color:var(--tx3);font-weight:500;margin-bottom:4px;}
+  .top .job{font-size:15px;font-weight:600;letter-spacing:-0.02em;line-height:1.45;color:var(--tx2);}
+  .palarm{margin-left:auto;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;color:var(--tx2);margin-right:-8px;}
+  .palarm:hover{background:var(--hover);}
+  .palarm .nd{position:absolute;top:9px;right:10px;width:6px;height:6px;border-radius:50%;background:var(--pri);}
+  .hero .hi{font-size:14px;color:var(--tx2);margin-bottom:6px;}
+  .hero .big{font-size:26px;font-weight:700;letter-spacing:-0.03em;line-height:1.35;}
+  .hero .big em{font-style:normal;color:var(--pri);}
+  .facts{display:flex;margin-top:22px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .fact{flex:1;}
+  .fact+.fact{padding-left:16px;border-left:1px solid var(--line);margin-left:16px;}
+  .fact span{display:block;font-size:12px;color:var(--tx3);margin-bottom:3px;}
+  .fact b{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;}
+
+  .att{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  .att button{height:60px;border-radius:12px;background:var(--bg-sub);border:1.5px solid transparent;font-size:14.5px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:.12s;}
+  .att button small{font-size:11.5px;font-weight:500;color:var(--tx3);}
+  .att button.on{border-color:var(--pri);background:var(--pri-weak);color:var(--pri);}
+  .att button.on small{color:var(--pri);}
+  .att button:disabled{opacity:.45;cursor:default;}
+  .att-state{margin-top:10px;font-size:12.5px;color:var(--tx3);}
+  .absent{margin-top:10px;padding:14px 16px;border-radius:12px;background:var(--err-weak);}
+  .absent b{font-size:14px;color:var(--err);display:block;margin-bottom:3px;}
+  .absent p{font-size:12.5px;color:var(--tx2);line-height:1.55;}
+
+  .li{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-bottom:1px solid var(--line);}
+  .li:last-child{border-bottom:0;}
+  .li .lb{flex:1;min-width:0;}
+  .li .lt{font-size:15px;font-weight:600;margin-bottom:2px;}
+  .li .ls{font-size:12.5px;color:var(--tx3);}
+  .li .chev{color:var(--tx3);}
+  .li.off .lt{color:var(--tx3);}
+  .li.off{cursor:default;}
+  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:32px;font-size:12px;color:var(--tx3);}
+  .foot button{color:var(--tx2);font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px;}
+
+  /* 안내 */
+  .map{height:150px;border-radius:12px;overflow:hidden;margin:10px 0 4px;position:relative;background:#EEF1F5;}
+  .map svg{width:100%;height:100%;display:block;}
+  .map .mbtn{position:absolute;right:10px;bottom:10px;height:30px;padding:0 10px;border-radius:8px;background:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px;box-shadow:0 1px 3px rgba(22,22,29,.12);}
+  .copy{font-size:12px;font-weight:600;color:var(--pri);margin-left:8px;}
+  .chk{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer;width:100%;text-align:left;}
+  .chk:last-of-type{border-bottom:0;}
+  .cbox{width:22px;height:22px;border:1.6px solid var(--line2);border-radius:6px;flex-shrink:0;position:relative;transition:.12s;}
+  .chk.on .cbox{background:var(--pri);border-color:var(--pri);}
+  .chk.on .cbox::after{content:"";position:absolute;width:10px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg);top:5px;left:4.5px;}
+  .chk .ct{flex:1;font-weight:500;} .chk .ct small{display:block;font-size:12.5px;color:var(--tx3);font-weight:400;}
+  .chk.on .ct{color:var(--tx3);}
+  .req{font-size:11.5px;font-weight:600;color:var(--err);margin-left:5px;}
+  .prog{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin:6px 0 4px;}
+  .prog i{display:block;height:100%;background:var(--pri);border-radius:2px;transition:.25s;}
+  .tl{position:relative;padding:8px 0 0 22px;}
+  .tl::before{content:'';position:absolute;left:5px;top:16px;bottom:8px;width:1.5px;background:var(--line2);}
+  .tli{position:relative;padding-bottom:16px;}
+  .tli:last-child{padding-bottom:0;}
+  .tli::before{content:'';position:absolute;left:-21px;top:5px;width:9px;height:9px;border-radius:50%;background:#fff;border:1.5px solid var(--tx3);}
+  .tli.on::before{border-color:var(--pri);background:var(--pri);}
+  .tli b{font-size:14px;font-weight:600;display:block;} .tli span{font-size:12.5px;color:var(--tx3);}
+  .rule{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.55;}
+  .rule:last-child{border-bottom:0;}
+  .rule .n{width:16px;flex-shrink:0;font-size:13px;font-weight:700;color:var(--tx3);}
+
+  /* QR */
+  .qr-wrap{text-align:center;padding:8px 0 4px;}
+  .qr-top{font-size:13px;color:var(--tx3);margin-bottom:14px;display:flex;justify-content:center;gap:10px;align-items:center;}
+  .qr-box{width:212px;height:212px;margin:0 auto 18px;padding:12px;border-radius:16px;border:1px solid var(--line2);background:#fff;position:relative;}
+  .qr-box svg{width:100%;height:100%;display:block;}
+  .qr-box.done>svg{opacity:.08;}
+  .qr-done{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+  .qr-done .ok{width:52px;height:52px;border-radius:50%;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;}
+  .qr-done .ok .ico{width:26px;height:26px;stroke-width:2.6;}
+  .qr-done b{font-size:14px;color:var(--pri);}
+  .qr-num{font-size:26px;font-weight:700;letter-spacing:.01em;font-variant-numeric:tabular-nums;}
+  .qr-sub{font-size:13px;color:var(--tx2);margin-top:2px;}
+  .qr-timer{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:12px;color:var(--tx3);}
+  .qr-timer .ring{width:14px;height:14px;}
+  .locker{display:flex;align-items:center;gap:16px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:24px;}
+  .locker .ln{font-size:32px;font-weight:700;color:var(--pri);letter-spacing:-0.03em;min-width:44px;}
+  .locker b{font-size:14px;display:block;} .locker span{font-size:12.5px;color:var(--tx3);}
+  .wait{text-align:center;padding:56px 12px 40px;}
+  .wait .wi{color:var(--tx3);display:flex;justify-content:center;margin-bottom:14px;}
+  .wait .wi .ico{width:28px;height:28px;}
+  .wait b{font-size:17px;display:block;margin-bottom:6px;letter-spacing:-0.02em;}
+  .wait p{font-size:13.5px;color:var(--tx2);line-height:1.6;}
+  .wait .when{display:inline-block;margin-top:14px;font-size:13px;font-weight:600;color:var(--pri);}
+
+  /* 결과 */
+  .res{padding:28px 0 8px;}
+  .res .rl{font-size:13.5px;color:var(--tx3);margin-bottom:6px;}
+  .res .rs{font-size:28px;font-weight:700;letter-spacing:-0.03em;line-height:1.3;}
+  .res .rs em{font-style:normal;color:var(--pri);}
+  .res .rsub{font-size:14px;color:var(--tx2);margin-top:10px;line-height:1.6;}
+
+  /* 만료 */
+  .expired{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 30px;text-align:center;}
+  .expired .wi{color:var(--tx3);margin-bottom:16px;}
+  .expired b{font-size:19px;margin-bottom:8px;letter-spacing:-0.02em;}
+  .expired p{font-size:13.5px;color:var(--tx2);line-height:1.6;margin-bottom:22px;}
+
+  /* 시트 / 얼럿 */
+  .dim{position:absolute;inset:0;background:rgba(22,24,32,.4);z-index:20;display:flex;align-items:flex-end;animation:fade .15s;}
+  .dim.center{align-items:center;justify-content:center;padding:0 26px;}
+  @keyframes fade{from{opacity:0}}
+  .sheet{width:100%;background:#fff;border-radius:22px 22px 0 0;padding:10px 22px 26px;animation:up .22s ease;max-height:80%;overflow-y:auto;}
+  @keyframes up{from{transform:translateY(40px);opacity:.5}}
+  .sheet .grab{width:36px;height:4px;border-radius:2px;background:var(--line2);margin:0 auto 18px;}
+  .sheet h3{font-size:18px;font-weight:700;margin-bottom:6px;letter-spacing:-0.02em;}
+  .sheet .sp{font-size:13.5px;color:var(--tx2);margin-bottom:18px;line-height:1.55;}
+  .alert{width:100%;background:#fff;border-radius:18px;padding:26px 22px 18px;text-align:center;animation:pop .18s ease;}
+  @keyframes pop{from{transform:scale(.95);opacity:0}}
+  .alert b{font-size:17px;display:block;margin-bottom:8px;letter-spacing:-0.02em;}
+  .alert p{font-size:13.5px;color:var(--tx2);line-height:1.6;margin-bottom:22px;}
+  .reasons{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
+  .reasons button{height:36px;padding:0 14px;border-radius:18px;background:var(--bg-sub);font-size:13px;font-weight:600;color:var(--tx2);border:1.5px solid transparent;}
+  .reasons button.on{border-color:var(--pri);background:var(--pri-weak);color:var(--pri);}
+  .noti{padding:14px 0;border-bottom:1px solid var(--line);}
+  .noti:last-of-type{border-bottom:0;}
+  .noti .nh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;}
+  .noti b{font-size:14px;font-weight:600;} .noti p{font-size:13px;color:var(--tx2);line-height:1.5;} .noti .nm{font-size:11.5px;color:var(--tx3);white-space:nowrap;margin-left:8px;}
+  .noti .fail{color:var(--err);}
+
+  .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);background:rgba(31,33,40,.94);color:#fff;font-size:13px;font-weight:500;padding:11px 16px;border-radius:12px;z-index:40;white-space:nowrap;display:flex;align-items:center;gap:7px;animation:up .2s;}
+  .toast .ico{width:15px;height:15px;}
+
+/* ===== v8 테마 · 박스 없이 타이포·여백·구분선으로 위계 · 클린 화이트 + 비비드 블루 1색 + 레드(문제만) ===== */
+:root{
+  --pri:#1F6BFF;--pri-h:#1557E6;--pri-weak:#EBF2FF;--pri-line:#C7DAFF;--sky:#8DB4FF;--navy:#191F28;
+  --tx:#191F28;--tx2:#4E5968;--tx3:#8B95A1;--line:#EEF0F3;--line2:#E2E5EA;
+  --bg:#FFFFFF;--canvas:#F4F5F7;--bg-sub:#F7F8FA;--hover:#F2F4F6;
+  --ok:#1F6BFF;--ok-weak:#EBF2FF;--warn:#4E5968;--warn-weak:#F2F4F6;--err:#F04452;--err-weak:#FFEEEF;
+  --card-sh:0 1px 2px rgba(25,31,40,.04),0 4px 16px rgba(25,31,40,.05);
+}
+body{color:var(--tx);}
+.st{padding:3px 10px 3px 8px;border-radius:999px;background:#F2F4F6;color:var(--tx2);font-weight:600;line-height:1.45;}
+.st::before{background:currentColor;}
+.st.pri,.st.ok{background:var(--pri-weak);color:var(--pri);}
+.st.warn{background:#F2F4F6;color:var(--tx);}
+.st.err{background:var(--err-weak);color:var(--err);}
+.st.off,.st.mute{background:#F2F4F6;color:var(--tx3);}
+.callout{background:var(--bg-sub);color:var(--tx2);}
+.callout.ok,.callout.ok b,.callout.pri,.callout.pri b{background:var(--pri-weak);color:var(--pri);}
+.callout.warn,.callout.warn b{background:#F2F4F6;color:var(--tx);}
+.callout.err,.callout.err b{background:var(--err-weak);color:var(--err);}
+.btn.pri,.btn:not(.ghost):not(.soft):not(.sm):not(.xs){}
+
+/* 모바일: 흰 화면 · 박스 없음 · 섹션 사이 회색 띠(앱 표준 구분) */
+.frame,.statusbar,.main,.page{background:#fff;}
+.tabbar{background:#fff;border-top:1px solid var(--line);}
+.top .job,.job .nm{color:var(--tx);font-weight:700;}
+.hero{margin-top:18px;}
+.hero .hi{color:var(--tx2);font-weight:500;}
+.hero .big{font-size:30px;font-weight:800;letter-spacing:-0.035em;color:var(--tx);}
+.hero .big em{color:var(--pri);}
+.hero .big small{color:var(--tx3);}
+.pbar{height:8px;background:#EEF0F3;border-radius:4px;}
+.pbar i{background:var(--pri);border-radius:4px;}
+.facts{border-top:0;border-bottom:0;padding:18px 0 4px;}
+.fact span{color:var(--tx2);font-weight:500;}
+.fact b{font-size:18px;font-weight:800;color:var(--tx);white-space:nowrap;}
+.fact+.fact{border-left-color:var(--line2);}
+.fact.err b,.fact.alert b{color:var(--err);}
+.fact.warn b{color:var(--tx);}
+.sec,.card{background:transparent;border-radius:0;margin:26px -20px 0;padding:24px 20px 4px;border-top:10px solid #F2F4F6;box-shadow:none;}
+.sec-h{font-size:18px;font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;}
+.sess,.iss,.res,.idchk,.profile{box-shadow:none;}
+.sess{background:transparent;padding:0;border-radius:0;margin-top:14px;}
+.sess-h .tm{font-size:17px;}
+.iss{background:transparent;border-radius:0;margin:0;padding:14px 0;border-bottom:1px solid var(--line);}
+.iss.open{box-shadow:none;padding-left:12px;border-left:3px solid var(--err);}
+.res{background:transparent;padding:18px 0 10px;}
+.idchk{background:var(--bg-sub);border:0;}
+.idchk.on{background:var(--pri-weak);}
+.profile{background:transparent;padding:4px 0 18px;border-bottom:1px solid var(--line);border-radius:0;}
+.nowstrip{padding:0 20px;}
+.search{background:var(--bg-sub);}
+.seg{background:#EEF0F3;}
+.tools .search{min-width:0;}
+.qrbtn{background:var(--pri);}
+.block{background:var(--bg-sub);}
+.callout{border-radius:12px;}
+.titem.late .tm{color:var(--err);}
+.prow:hover{background:var(--bg-sub);}
+
+
+.demo-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;}
+.demo-chip{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 12px;border:1px dashed #B9C3D3;border-radius:15px;background:#fff;color:#4E5968;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;}
+.demo-chip:hover{border-color:var(--pri);color:var(--pri);}
+.demo-chip svg{width:14px;height:14px;}
+
+.ico.ph{fill:currentColor;stroke:none;}
+</style>
+</head>
+<body>
+<div class="doc-tag"><svg class="logo-sym" role="img" aria-label="ONSITE" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 177.00 120.00"><g transform="translate(0 -20)"><circle cx="60" cy="80" r="40" fill="none" stroke="#2466E0" stroke-width="34"/><path d="M88.3 51.7 L143.9 107.3 Q156.6 120 156.6 102 L156.6 40" fill="none" stroke="#2466E0" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></g></svg> · 지원자 WebApp (모바일)</div>
+<div class="demo">
+  <span class="dl">시연 시점</span>
+  <div class="seg" id="stageSeg">
+    <button data-st="before">면접 3일 전</button>
+    <button data-st="day">면접 당일</button>
+    <button data-st="result">결과 발표</button>
+    <button data-st="expired">열람 만료</button>
+  </div>
+  <button class="dbtn" id="scanBtn">운영자 QR 스캔</button>
+  <button class="dbtn" id="resetBtn">초기화</button>
+</div>
+
+<div class="frame" id="frame">
+  <div class="statusbar">
+    <span class="sb-time" id="sbTime">9:41</span>
+    <div class="island"></div>
+    <span class="sb-sys">
+      <svg width="18" height="12" viewBox="0 0 24 24"><rect x="1" y="16" width="3.5" height="6" rx="1" fill="#0F1E45"/><rect x="7" y="12" width="3.5" height="10" rx="1" fill="#0F1E45"/><rect x="13" y="8" width="3.5" height="14" rx="1" fill="#0F1E45"/><rect x="19" y="4" width="3.5" height="18" rx="1" fill="#0F1E45"/></svg>
+      <svg class="ico" width="17" height="12" viewBox="0 0 24 24" style="stroke-width:2"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 15.8a6 6 0 0 1 7 0M12 18.8h.01"/></svg>
+      <svg width="26" height="13" viewBox="0 0 28 14" fill="none"><rect x="1" y="1.5" width="22" height="11" rx="3" stroke="#0F1E45" stroke-width="1.4" opacity=".5"/><rect x="3" y="3.5" width="16" height="7" rx="1.5" fill="#0F1E45"/><path d="M25 5v4" stroke="#0F1E45" stroke-width="2.2" stroke-linecap="round" opacity=".5"/></svg>
+    </span>
+  </div>
+  <div class="main" id="main"></div>
+</div>
+
+<script>
+/* 아이콘 (1.7px 선 · 기능 위치에만) */
+const P={"spark": "<path d=\"M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z\"/>", "check": "<path d=\"M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z\"/>", "lock": "<path d=\"M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z\"/>", "sun": "<path d=\"M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z\"/>", "phone": "<path d=\"M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z\"/>", "nav": "<path d=\"M237.33,106.21,61.41,41l-.16-.05A16,16,0,0,0,40.9,61.25a1,1,0,0,0,.05.16l65.26,175.92A15.77,15.77,0,0,0,121.28,248h.3a15.77,15.77,0,0,0,15-11.29l.06-.2,21.84-78,78-21.84.2-.06a16,16,0,0,0,.62-30.38ZM149.84,144.3a8,8,0,0,0-5.54,5.54L121.3,232l-.06-.17L56,56l175.82,65.22.16.06Z\"/>", "clock": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z\"/>", "chev": "<path d=\"M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z\"/>", "alert": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z\"/>", "info": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z\"/>", "bell": "<path d=\"M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z\"/>", "logout": "<path d=\"M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z\"/>", "back": "<path d=\"M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z\"/>"};
+const ICF={"spark": "<path d=\"M208,144a15.78,15.78,0,0,1-10.42,14.94L146,178l-19,51.62a15.92,15.92,0,0,1-29.88,0L78,178l-51.62-19a15.92,15.92,0,0,1,0-29.88L78,110l19-51.62a15.92,15.92,0,0,1,29.88,0L146,110l51.62,19A15.78,15.78,0,0,1,208,144ZM152,48h16V64a8,8,0,0,0,16,0V48h16a8,8,0,0,0,0-16H184V16a8,8,0,0,0-16,0V32H152a8,8,0,0,0,0,16Zm88,32h-8V72a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0V96h8a8,8,0,0,0,0-16Z\"/>", "check": "<path d=\"M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM205.66,85.66l-96,96a8,8,0,0,1-11.32,0l-40-40a8,8,0,0,1,11.32-11.32L104,164.69l90.34-90.35a8,8,0,0,1,11.32,11.32Z\"/>", "lock": "<path d=\"M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96Z\"/>", "sun": "<path d=\"M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm8,24a64,64,0,1,0,64,64A64.07,64.07,0,0,0,128,64ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z\"/>", "phone": "<path d=\"M231.88,175.08A56.26,56.26,0,0,1,176,224C96.6,224,32,159.4,32,80A56.26,56.26,0,0,1,80.92,24.12a16,16,0,0,1,16.62,9.52l21.12,47.15,0,.12A16,16,0,0,1,117.39,96c-.18.27-.37.52-.57.77L96,121.45c7.49,15.22,23.41,31,38.83,38.51l24.34-20.71a8.12,8.12,0,0,1,.75-.56,16,16,0,0,1,15.17-1.4l.13.06,47.11,21.11A16,16,0,0,1,231.88,175.08Z\"/>", "nav": "<path d=\"M248,121.58a15.76,15.76,0,0,1-11.29,15l-.2.06-78,21.84-21.84,78-.06.2a15.77,15.77,0,0,1-15,11.29h-.3a15.77,15.77,0,0,1-15.07-10.67L41,61.41a1,1,0,0,1-.05-.16A16,16,0,0,1,61.25,40.9l.16.05,175.92,65.26A15.78,15.78,0,0,1,248,121.58Z\"/>", "clock": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm56,112H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48a8,8,0,0,1,0,16Z\"/>", "chev": "<path d=\"M181.66,133.66l-80,80A8,8,0,0,1,88,208V48a8,8,0,0,1,13.66-5.66l80,80A8,8,0,0,1,181.66,133.66Z\"/>", "alert": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z\"/>", "info": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z\"/>", "bell": "<path d=\"M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216Z\"/>", "logout": "<path d=\"M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40A8,8,0,0,0,176,88v32H112a8,8,0,0,0,0,16h64v32a8,8,0,0,0,13.66,5.66l40-40A8,8,0,0,0,229.66,122.34Z\"/>", "back": "<path d=\"M168,48V208a8,8,0,0,1-13.66,5.66l-80-80a8,8,0,0,1,0-11.32l80-80A8,8,0,0,1,168,48Z\"/>"};
+const SYM=`<svg class="logo-sym" role="img" aria-label="ONSITE" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 177.00 120.00"><g transform="translate(0 -20)"><circle cx="60" cy="80" r="40" fill="none" stroke="#2466E0" stroke-width="34"/><path d="M88.3 51.7 L143.9 107.3 Q156.6 120 156.6 102 L156.6 40" fill="none" stroke="#2466E0" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
+const LOGO=`<svg class="logo-svg" role="img" aria-label="ONSITE" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 501.40 100.00"><g transform="translate(0 0)"><g transform="translate(0 10.00) scale(0.6667) translate(0 -20)"><circle cx="60" cy="80" r="40" fill="none" stroke="#2466E0" stroke-width="34"/><path d="M88.3 51.7 L143.9 107.3 Q156.6 120 156.6 102 L156.6 40" fill="none" stroke="#2466E0" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></g><g fill="#0F1E45" transform="translate(138.00 85.30)"><path transform="translate(0.00 0) scale(0.10000 -0.10000)" d="M424 -12C640 -12 797 151 797 350V352C797 551 642 712 426 712C210 712 53 549 53 350V348C53 149 208 -12 424 -12ZM426 130C302 130 214 230 214 350V352C214 472 300 570 424 570C548 570 636 470 636 350V348C636 228 550 130 426 130Z"/><path transform="translate(79.00 0) scale(0.10000 -0.10000)" d="M84 70C84 27 117 -6 160 -6C203 -6 236 27 236 70V445L544 41C565 14 587 -4 624 -4H629C672 -4 706 30 706 73V630C706 673 673 706 630 706C587 706 554 673 554 630V269L257 659C236 686 214 704 177 704H161C118 704 84 670 84 627Z"/><path transform="translate(152.00 0) scale(0.10000 -0.10000)" d="M333 -10C484 -10 590 68 590 207V209C590 331 510 381 368 419C247 451 217 464 217 511V513C217 548 247 574 307 574C355 574 403 558 454 527C467 520 480 516 493 516C533 516 565 547 565 587C565 618 548 637 531 648C467 688 394 710 309 710C165 710 64 626 64 499V497C64 359 154 318 296 283C413 254 437 233 437 194V192C437 151 400 126 336 126C268 126 210 150 157 189C146 196 133 203 113 203C73 203 41 172 41 132C41 108 53 86 70 74C149 18 241 -10 333 -10Z"/><path transform="translate(210.00 0) scale(0.10000 -0.10000)" d="M91 71C91 28 125 -6 168 -6C211 -6 245 28 245 71V629C245 672 211 706 168 706C125 706 91 672 91 629Z"/><path transform="translate(237.60 0) scale(0.10000 -0.10000)" d="M247 71C247 28 281 -6 324 -6C367 -6 401 28 401 71V558H549C588 558 620 590 620 629C620 668 588 700 549 700H99C60 700 28 668 28 629C28 590 60 558 99 558H247Z"/><path transform="translate(296.40 0) scale(0.10000 -0.10000)" d="M554 0C593 0 623 29 623 68C623 107 593 137 554 137H237V284H504C543 284 573 313 573 352C573 391 543 421 504 421H237V563H549C588 563 618 592 618 631C618 670 588 700 549 700H161C118 700 84 666 84 623V77C84 34 118 0 161 0Z"/></g></g></svg>`;
+const ic=(n,w=18,f)=>`<svg class="ico ph" width="${w}" height="${w}" viewBox="0 0 256 256">${(f&&ICF[n])||P[n]||''}</svg>`;
+
+/* 데이터 */
+const TODAY=(()=>{const d=new Date();d.setHours(0,0,0,0);return d;})();
+const dAt=o=>{const d=new Date(TODAY);d.setDate(d.getDate()+o);return d;};
+const YMD=o=>{const d=dAt(o);return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');};
+const MD=o=>{const d=dAt(o);return String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');};
+const DOW=o=>'일월화수목금토'[dAt(o).getDay()];
+const ME={name:'오우진',no:'A-041',birth:'20000623',phone:'010-****-9829',last4:'9829',field:'전산',grade:''};
+const JOB={org:'한국공공기관',title:TODAY.getFullYear()+'년 하반기 신규채용 공개경쟁 임용시험',round:'면접',date:YMD(0),dow:DOW(0),arrive:'14:00',
+  place:'한국공공기관 본관 3층 대기실',addr:'서울특별시 중구 세종대로 135, 본관',way:'시청역 4번 출구 → 도보 5분 · 정문 안내데스크',
+  deadline:`${MD(-1)} (${DOW(-1)}) 18:00`,resultAt:`${YMD(7)} (${DOW(7)}) 18:00`,expireAt:YMD(25),contact:'02-6000-1234'};
+const STAGES={before:{d:YMD(-3),time:'9:41',dday:3},day:{d:YMD(0),time:'13:15',dday:0},result:{d:YMD(7),time:'18:05',dday:-7},expired:{d:YMD(26),time:'10:12',dday:-26}};
+
+const S={auth:0,stage:'before',page:'home',att:null,absentReason:null,checked:false,checkAt:null,locker:null,
+  items:{id:false,no:false,dev:false,pen:false},step:1,err:{}};
+let qrTick=0,qrLeft=30,qrTimer=null;
+
+/* 공통 */
+const $=s=>document.querySelector(s);
+const main=$('#main');
+function toast(m,icon='check'){const f=$('#frame');const o=f.querySelector('.toast');o&&o.remove();const t=document.createElement('div');t.className='toast';t.innerHTML=ic(icon,15)+m;f.appendChild(t);setTimeout(()=>t.remove(),2200);}
+function overlay(html,center){closeOv();const d=document.createElement('div');d.className='dim'+(center?' center':'');d.id='ov';d.innerHTML=html;d.addEventListener('click',e=>{if(e.target===d&&!center)closeOv();});$('#frame').appendChild(d);}
+function closeOv(){const o=$('#ov');o&&o.remove();}
+const head=t=>`<div class="phead"><button class="pback" data-act="home" aria-label="뒤로">${ic('back',22)}</button><span class="ptitle">${t}</span></div>`;
+const isDay=()=>S.stage==='day';
+const released=()=>S.stage==='result';
+const absent=()=>S.att==='no';
+
+/* 로그인 */
+function pgLogin(){
+  if(S.step===1)return `<div class="login">
+    <div class="brand">${LOGO}</div>
+    <div class="steps">1 <span>/ 2</span></div>
+    <div class="lg-h">면접 안내를 확인하려면<br>로그인해 주세요</div>
+    <div class="lg-s">${JOB.org} ${JOB.title}<br>안내 문자로 받은 수험번호를 입력해 주세요</div>
+    <label class="fl">수험번호</label>
+    <input class="inp ${S.err.no?'err':''}" id="inNo" placeholder="예) A-041" autocomplete="off">
+    <div class="ferr">${S.err.no||''}</div>
+    <label class="fl">생년월일 8자리</label>
+    <input class="inp ${S.err.birth?'err':''}" id="inBirth" placeholder="예) 20010118" inputmode="numeric" maxlength="8" autocomplete="off">
+    <div class="ferr">${S.err.birth||''}</div>
+    <div class="lg-foot">
+      <button class="btn" data-act="login1">다음</button>
+      <div class="demo-chips"><button class="demo-chip" data-act="fill">${ic('spark',14)}시연용 계정 입력</button></div>
+      <div class="lg-help">수험번호를 모르면 채용 담당자에게 문의해 주세요 · ${JOB.contact}</div>
+    </div></div>`;
+  return `<div class="login">
+    <div class="brand">${LOGO}</div>
+    <div class="steps">2 <span>/ 2</span></div>
+    <div class="lg-h">본인 확인을 위해<br>휴대폰 뒤 4자리를 입력해 주세요</div>
+    <div class="lg-s" style="margin-bottom:10px">지원서에 등록한 휴대폰 번호 기준이에요</div>
+    <div class="phone-mask">등록 번호 <b>${ME.phone}</b></div>
+    <div class="pin" id="pin">${[0,1,2,3].map(i=>`<input maxlength="1" inputmode="numeric" data-i="${i}" autocomplete="off">`).join('')}</div>
+    <div class="ferr" style="text-align:center">${S.err.pin||''}</div>
+    <div class="lg-foot">
+      <button class="btn" data-act="login2">확인</button>
+      <button class="btn ghost sm" style="margin-top:8px" data-act="loginBack">수험번호 다시 입력</button>
+      <div class="demo-chips"><button class="demo-chip" data-act="fill">${ic('spark',14)}시연용 계정 입력</button></div>
+    </div></div>`;
+}
+
+/* 만료 */
+function pgExpired(){return `<div class="expired"><div class="wi">${ic('lock',30)}</div><b>지원자 페이지 이용 기간이 끝났어요</b>
+  <p>${JOB.org} ${JOB.title}<br>지원자 페이지는 ${JOB.expireAt}까지 열람할 수 있었어요.<br>문의는 채용 담당자에게 연락해 주세요.</p>
+  <button class="btn ghost sm" style="width:auto;padding:0 20px" data-act="call">${ic('phone',16)}${JOB.contact}</button></div>`;}
+
+/* 홈 */
+function pgHome(){
+  const st=STAGES[S.stage];
+  const ddayTx=st.dday>0?`D-${st.dday}`:st.dday===0?'오늘':'완료';
+  let big;
+  if(absent())big='불참이 확정됐어요';
+  else if(st.dday>0)big=`면접까지 <em>${st.dday}일</em> 남았어요`;
+  else if(st.dday===0)big=S.checked?`접수 완료<br>대기실로 이동해 주세요`:`오늘 <em>${JOB.arrive}</em>까지<br>도착해 주세요`;
+  else big='면접이 끝났어요<br>수고 많으셨어요';
+  const locked=S.stage!=='before';
+  return `<div class="page">
+    <div class="appbar">${SYM}<button class="palarm" data-act="noti" aria-label="알림">${ic('bell',20)}<span class="nd"></span></button></div>
+    <div class="top"><div class="org">${JOB.org}</div><div class="job">${JOB.title} · ${JOB.round}</div></div>
+
+    <div class="hero">
+      <div class="hi">${ME.name.slice(1)}님, 반가워요</div>
+      <div class="big">${big}</div>
+      <div class="facts">
+        <div class="fact"><span>면접일</span><b>${MD(0)} (${JOB.dow})</b></div>
+        <div class="fact"><span>도착</span><b>${JOB.arrive}</b></div>
+        <div class="fact"><span>수험번호</span><b>${ME.no}</b></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h">참석 여부${S.att&&!absent()?'<span class="st pri r">응답 완료</span>':''}</div>
+      ${absent()?`<div class="absent"><b>불참으로 확정됐어요</b><p>${S.absentReason?`사유 · ${S.absentReason}<br>`:''}번복이 필요하면 채용 담당자에게 문의해 주세요 · <span style="white-space:nowrap">${JOB.contact}</span></p></div>`
+      :`<div class="att">
+        <button class="${S.att==='yes'?'on':''}" data-act="attYes" ${locked?'disabled':''}>참석할게요<small>${S.att==='yes'?'선택됨':'도착 시간에 맞춰 방문'}</small></button>
+        <button data-act="attNo" ${locked?'disabled':''}>참석이 어려워요<small>선택 즉시 불참 확정</small></button></div>
+        <div class="att-state">${locked?'응답 기간이 끝났어요':`${JOB.deadline}까지 응답할 수 있어요`}</div>`}
+    </div>
+
+    <div class="sec">
+      <div class="sec-h">내 면접</div>
+      <button class="li" data-act="go" data-p="info"><span class="lb"><div class="lt">면접 안내</div><div class="ls">오시는 길 · 챙길 것 ${Object.values(S.items).filter(Boolean).length}/4 확인</div></span><span class="chev">${ic('chev',18)}</span></button>
+      ${qrRow()}
+      ${resultRow()}
+    </div>
+
+    <div class="foot"><span>${ME.name} · ${ME.no}</span><button data-act="logout">${ic('logout',13)}로그아웃</button></div>
+  </div>`;
+}
+function qrRow(){
+  if(absent())return `<div class="li off"><span class="lb"><div class="lt">출석 QR</div><div class="ls">불참 처리된 지원자예요</div></span><span class="st">이용 불가</span></div>`;
+  if(!isDay())return `<button class="li off" data-act="qrLocked"><span class="lb"><div class="lt">출석 QR</div><div class="ls">${S.stage==='before'?'면접 당일에만 열려요':'면접이 끝나 QR이 만료됐어요'}</div></span><span class="st">${S.stage==='before'?MD(0)+' 공개':'만료'}</span></button>`;
+  return `<button class="li" data-act="go" data-p="qr"><span class="lb"><div class="lt">출석 QR</div><div class="ls">${S.checked?`접수 완료 · 보관번호 ${S.locker}번`:'도착하면 접수처에 보여주세요'}</div></span>${S.checked?'<span class="st ok">접수 완료</span>':'<span class="st pri">지금 사용</span>'}<span class="chev">${ic('chev',18)}</span></button>`;
+}
+function resultRow(){
+  if(released()&&!absent())return `<button class="li" data-act="go" data-p="result"><span class="lb"><div class="lt">면접 결과</div><div class="ls">결과가 발표됐어요</div></span><span class="st pri">새 소식</span><span class="chev">${ic('chev',18)}</span></button>`;
+  return `<button class="li off" data-act="go" data-p="result"><span class="lb"><div class="lt">면접 결과</div><div class="ls">결과가 나오면 알려드릴게요</div></span><span class="st">06.12 공개</span></button>`;
+}
+
+/* 안내 */
+function pgInfo(){
+  const n=Object.values(S.items).filter(Boolean).length;
+  const IT=[['id','신분증','주민등록증·운전면허증·여권 원본',1],['no','수험번호 확인',ME.no+' · 접수처에서 QR과 함께 확인',0],['dev','휴대폰·전자기기 보관','접수 후 보관함에 맡기고 번호표 수령',1],['pen','필기구','메모가 필요한 경우',0]];
+  return `<div class="page">${head('면접 안내')}
+    <div class="hint">면접 가기 전에 한 번 더 확인해 주세요</div>
+    <div class="sec" style="margin-top:0">
+      <div class="sec-h">일정</div>
+      <div class="row"><span class="k">일자</span><span class="v">${JOB.date} (${JOB.dow})</span></div>
+      <div class="row"><span class="k">도착 시간</span><span class="v">${JOB.arrive}까지 도착<small>진행 상황에 따라 대기할 수 있어요 · 도착 시간은 바뀌지 않아요</small></span></div>
+      <div class="row"><span class="k">전형</span><span class="v">${JOB.round} · ${ME.field}</span></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h">오시는 길</div>
+      <div class="map">${mapSvg()}<button class="mbtn" data-act="map">${ic('nav',13)}길찾기</button></div>
+      <div class="row"><span class="k">장소</span><span class="v">${JOB.place}</span></div>
+      <div class="row"><span class="k">주소</span><span class="v">${JOB.addr}<button class="copy" data-act="copy">복사</button></span></div>
+      <div class="row"><span class="k">가는 법</span><span class="v">${JOB.way}</span></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h">챙겨 올 것<span class="meta r">${n} / 4</span></div>
+      <div class="prog"><i style="width:${n/4*100}%"></i></div>
+      ${IT.map(([k,t,s,r])=>`<button class="chk ${S.items[k]?'on':''}" data-act="item" data-k="${k}"><span class="cbox"></span><span class="ct">${t}${r?'<span class="req">필수</span>':''}<small>${s}</small></span></button>`).join('')}
+      <div class="note">신분증이 없으면 면접을 볼 수 없어요</div>
+    </div>
+    <div class="sec">
+      <div class="sec-h">블라인드 면접 유의사항</div>
+      <div class="rule"><span class="n">1</span><span>면접 중 이름·출신 학교·출신 지역·가족 관계 등 개인 정보를 말하지 않아요</span></div>
+      <div class="rule"><span class="n">2</span><span>면접장에서는 수험번호가 아닌 <b>면접번호</b>로 불려요 · 접수 시 안내</span></div>
+      <div class="rule"><span class="n">3</span><span>학교명·로고가 보이는 옷이나 소지품은 피해 주세요</span></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h">당일 진행 순서</div>
+      <div class="tl">
+        <div class="tli ${S.checked?'on':''}"><b>접수</b><span>신분증 확인 → QR 스캔 → 면접번호 안내</span></div>
+        <div class="tli ${S.checked?'on':''}"><b>전자기기 보관</b><span>휴대폰 전원 끄고 보관함에 맡기기</span></div>
+        <div class="tli"><b>대기실 대기</b><span>순서가 되면 진행요원이 안내</span></div>
+        <div class="tli"><b>면접 · 퇴실</b><span>퇴실 시 보관번호로 전자기기 반환</span></div>
+      </div>
+    </div>
+  </div>`;
+}
+function mapSvg(){return `<svg viewBox="0 0 360 150" preserveAspectRatio="xMidYMid slice"><rect width="360" height="150" fill="#EEF1F5"/>
+  <path d="M-10 108 C80 92 150 120 230 100 S330 70 380 80" stroke="#DDE6F5" stroke-width="16" fill="none"/>
+  <path d="M0 40 H360 M120 0 V150 M260 0 V150 M0 128 H360" stroke="#fff" stroke-width="9"/>
+  <path d="M60 0 V150 M190 0 V150" stroke="#fff" stroke-width="4"/>
+  <rect x="140" y="52" width="100" height="56" rx="6" fill="#E1E5EC"/><rect x="200" y="12" width="46" height="20" rx="4" fill="#E5E8EE"/><rect x="18" y="56" width="30" height="44" rx="4" fill="#E5E8EE"/>
+  <g transform="translate(190 58)"><path d="M0 8 C0 8 -9 -1 -9 -7 a9 9 0 0 1 18 0 C9 -1 0 8 0 8Z" fill="#2466E0"/><circle cy="-7" r="3.2" fill="#fff"/></g>
+  <text x="190" y="96" font-size="10" font-weight="700" fill="#0F1E45" text-anchor="middle" font-family="sans-serif">본관동</text></svg>`;}
+
+/* QR */
+function qrSvg(seed){
+  const N=25;let s=0;for(const c of seed)s=(s*31+c.charCodeAt(0))>>>0;
+  const rnd=()=>{s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296;};
+  const inF=(x,y)=>(x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9);
+  let r='';for(let y=0;y<N;y++)for(let x=0;x<N;x++){if(inF(x,y))continue;if(rnd()<.48)r+=`<rect x="${x}" y="${y}" width="1.02" height="1.02"/>`;}
+  const f=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7" rx="1.2"/><rect x="${x+1}" y="${y+1}" width="5" height="5" rx=".8" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" rx=".5"/>`;
+  return `<svg viewBox="0 0 ${N} ${N}" shape-rendering="crispEdges"><g fill="#0F1E45">${r}${f(0,0)}${f(N-7,0)}${f(0,N-7)}</g></svg>`;
+}
+function pgQR(){
+  if(absent())return `<div class="page">${head('출석 QR')}<div class="wait"><div class="wi">${ic('lock',28)}</div><b>불참 처리된 지원자예요</b><p>QR을 사용할 수 없어요</p></div></div>`;
+  if(!isDay())return `<div class="page">${head('출석 QR')}<div class="wait"><div class="wi">${ic('lock',28)}</div><b>${S.stage==='before'?'QR은 면접 당일에만 열려요':'QR 사용 기간이 끝났어요'}</b><p>${S.stage==='before'?'개인정보 보호를 위해 면접 당일<br>00시부터 QR을 보여드려요':'면접일이 지나 QR이 만료됐어요'}</p>${S.stage==='before'?`<span class="when">${JOB.date} (${JOB.dow}) 공개</span>`:''}</div></div>`;
+  return `<div class="page">${head('출석 QR')}
+    <div class="hint">${S.checked?'접수가 끝났어요. 보관번호를 확인해 주세요':'접수처에서 신분증과 함께 아래 QR을 보여주세요'}</div>
+    <div class="qr-wrap">
+      <div class="qr-top"><span>${JOB.org}</span>${S.checked?'<span class="st ok">접수 완료</span>':'<span class="st pri">사용 가능</span>'}</div>
+      <div class="qr-box ${S.checked?'done':''}" id="qrBox">${qrSvg(ME.no+'|'+qrTick)}${S.checked?`<div class="qr-done"><span class="ok">${ic('check',26)}</span><b>${S.checkAt} 접수</b></div>`:''}</div>
+      <div class="qr-num">${ME.no}</div>
+      <div class="qr-sub">수험번호 · ${ME.field} · ${ME.name}</div>
+      ${S.checked?'':`<div class="qr-timer"><svg class="ring" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="#E1E3E8" stroke-width="3"/><circle id="ringFg" cx="10" cy="10" r="8" fill="none" stroke="#2466E0" stroke-width="3" stroke-dasharray="50.3" stroke-dashoffset="${50.3*(1-qrLeft/30)}" transform="rotate(-90 10 10)" stroke-linecap="round"/></svg><span id="qrLeft">${qrLeft}</span>초 후 자동 갱신 · 캡처한 QR은 사용 불가</div>`}
+    </div>
+    ${S.checked?`<div class="locker"><span class="ln">${S.locker}</span><div><b>전자기기 보관번호</b><span>퇴실할 때 이 번호로 휴대폰을 돌려받아요</span></div></div>`:''}
+    <div class="sec">
+      <div class="row"><span class="k">상태</span><span class="v">${S.checked?'<span class="st ok">접수</span>':'<span class="st">접수 예정</span>'}</span></div>
+      <div class="row"><span class="k">도착 시간</span><span class="v">${JOB.arrive}</span></div>
+      <div class="row"><span class="k">장소</span><span class="v">${S.checked?'본관 3층 대기실로 이동해 주세요':JOB.place}</span></div>
+      <div class="row"><span class="k">사용일</span><span class="v">${JOB.date} 면접 당일에만 사용</span></div>
+    </div>
+    ${S.checked?'':`<div class="note">${ic('sun',14)}화면 밝기를 높이면 더 빨리 인식돼요</div>`}
+  </div>`;
+}
+
+/* 결과 */
+function pgResult(){
+  const pass=released()&&!absent();
+  return `<div class="page">${head('면접 결과')}
+    <div class="hint">${JOB.org} · ${JOB.title} ${JOB.round}</div>
+    ${absent()?`<div class="wait"><b>불참 처리로 결과가 없어요</b><p>다음 전형 안내는 채용 공고를 확인해 주세요</p></div>`
+    :pass?`<div class="res"><div class="rl">${JOB.round} 결과</div><div class="rs"><em>합격</em>을 축하해요</div><div class="rsub">최종 전형 일정은 별도 안내 문자로<br>보내드릴 예정이에요</div></div>`
+    :`<div class="wait"><div class="wi">${ic('clock',28)}</div><b>아직 발표 전이에요</b><p>결과는 이 페이지와 알림톡으로 알려드려요</p><span class="when">${JOB.resultAt} 공개</span></div>`}
+    <div class="sec">
+      <div class="sec-h">전형 진행</div>
+      <div class="row"><span class="k">서류</span><span class="v"><span class="st ok">합격</span></span></div>
+      <div class="row"><span class="k">${JOB.round}</span><span class="v">${absent()?'<span class="st">불참</span>':pass?'<span class="st ok">합격</span>':S.stage==='before'?'<span class="st">예정</span>':'<span class="st warn">결과 대기</span>'}</span></div>
+      <div class="row"><span class="k">최종</span><span class="v"><span class="st">${pass?'안내 예정':'예정'}</span></span></div>
+    </div>
+    <div class="note">지원자 페이지는 ${JOB.expireAt}까지 열람할 수 있어요</div>
+  </div>`;
+}
+
+/* 렌더 */
+function render(){
+  const st=STAGES[S.stage];$('#sbTime').textContent=st.time;
+  document.querySelectorAll('#stageSeg button').forEach(b=>b.classList.toggle('on',b.dataset.st===S.stage));
+  $('#scanBtn').disabled=!(S.auth&&isDay()&&!S.checked&&!absent());
+  closeOv();
+  let h;
+  if(S.stage==='expired')h=pgExpired();
+  else if(!S.auth)h=pgLogin();
+  else h={home:pgHome,info:pgInfo,qr:pgQR,result:pgResult}[S.page]();
+  main.innerHTML=h;
+  bindPin();
+  clearInterval(qrTimer);
+  if(S.auth&&S.page==='qr'&&isDay()&&!S.checked&&!absent()){
+    qrTimer=setInterval(()=>{qrLeft--;if(qrLeft<=0){qrLeft=30;qrTick++;const b=$('#qrBox');if(b)b.innerHTML=qrSvg(ME.no+'|'+qrTick);}
+      const l=$('#qrLeft');if(l)l.textContent=qrLeft;const r=$('#ringFg');if(r)r.setAttribute('stroke-dashoffset',(50.3*(1-qrLeft/30)).toFixed(1));},1000);
+  }
+}
+function go(p){S.page=p;render();main.scrollTop=0;}
+function bindPin(){
+  const ins=[...document.querySelectorAll('#pin input')];
+  ins.forEach((el,i)=>{
+    el.addEventListener('input',()=>{el.value=el.value.replace(/\D/g,'').slice(-1);if(el.value&&ins[i+1])ins[i+1].focus();if(ins.every(x=>x.value))doLogin2();});
+    el.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!el.value&&ins[i-1])ins[i-1].focus();});
+  });
+  if(ins[0])setTimeout(()=>ins[0].focus(),50);
+}
+function doLogin2(){
+  const v=[...document.querySelectorAll('#pin input')].map(x=>x.value).join('');
+  if(v.length<4){S.err={pin:'4자리를 모두 입력해 주세요'};render();return;}
+  if(v!==ME.last4){S.err={pin:'등록된 번호와 일치하지 않아요'};render();return;}
+  S.err={};S.auth=1;S.page='home';render();toast(`${ME.name}님, 반가워요`);
+}
+
+/* 이벤트 */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-act]');if(!t)return;
+  const a=t.dataset.act;
+  switch(a){
+    case 'fill':
+      if(S.step===1){$('#inNo').value=ME.no;$('#inBirth').value=ME.birth;}
+      else{document.querySelectorAll('#pin input').forEach((x,i)=>x.value=ME.last4[i]);doLogin2();}
+      break;
+    case 'login1':{
+      const no=$('#inNo').value.trim(),b=$('#inBirth').value.trim();S.err={};
+      if(!/^[A-Za-z]-\d{3}$/.test(no))S.err.no='수험번호 형식을 확인해 주세요 (예: A-041)';
+      else if(no!==ME.no)S.err.no='일치하는 수험번호가 없어요';
+      if(!/^\d{8}$/.test(b))S.err.birth='생년월일 8자리를 입력해 주세요';
+      else if(!S.err.no&&b!==ME.birth)S.err.birth='생년월일이 일치하지 않아요';
+      if(Object.keys(S.err).length){render();$('#inNo').value=no;$('#inBirth').value=b;return;}
+      S.step=2;render();break;}
+    case 'login2':doLogin2();break;
+    case 'loginBack':S.step=1;S.err={};render();break;
+    case 'logout':S.auth=0;S.step=1;S.page='home';render();toast('로그아웃했어요');break;
+    case 'home':go('home');break;
+    case 'go':go(t.dataset.p);break;
+    case 'qrLocked':toast(S.stage==='before'?'QR은 면접 당일에만 열려요':'면접일이 지나 QR이 만료됐어요','lock');break;
+    case 'attYes':S.att='yes';render();toast('참석으로 응답했어요');break;
+    case 'attNo':
+      overlay(`<div class="sheet"><div class="grab"></div><h3>참석이 어려우신가요?</h3><div class="sp">사유를 선택해 주세요. 채용 담당자에게만 전달돼요 (선택)</div>
+        <div class="reasons">${['개인 일정','타 기업 입사','건강 문제','기타'].map(r=>`<button data-act="reason" data-r="${r}" class="${S.absentReason===r?'on':''}">${r}</button>`).join('')}</div>
+        <div class="btns"><button class="btn ghost sm" data-act="closeOv">취소</button><button class="btn danger sm" data-act="absentAsk">불참하기</button></div></div>`);break;
+    case 'reason':S.absentReason=S.absentReason===t.dataset.r?null:t.dataset.r;document.querySelectorAll('.reasons button').forEach(b=>b.classList.toggle('on',b.dataset.r===S.absentReason));break;
+    case 'absentAsk':
+      overlay(`<div class="alert"><b>정말 불참하시겠어요?</b><p>이후에는 번복이 어려울 수 있어요.<br>불참 확정 시 출석 QR도 사용할 수 없어요.</p>
+        <div class="btns"><button class="btn ghost sm" data-act="closeOv">돌아가기</button><button class="btn danger sm" data-act="absentOk">불참 확정</button></div></div>`,true);break;
+    case 'absentOk':S.att='no';render();toast('불참이 확정됐어요','info');break;
+    case 'closeOv':closeOv();break;
+    case 'noti':
+      overlay(`<div class="sheet"><div class="grab"></div><h3>받은 안내</h3><div class="sp">알림톡 우선 발송 · 실패 시 문자로 보내드려요</div>
+        ${released()?`<div class="noti"><div class="nh"><b>${JOB.round} 결과 발표</b><span class="nm">06.12 18:00 · 알림톡</span></div><p>결과가 발표됐어요. 지원자 페이지에서 확인해 주세요.</p></div>`:''}
+        ${S.stage!=='before'?`<div class="noti"><div class="nh"><b>오늘 면접 안내</b><span class="nm">${MD(0)} 07:00 · 알림톡</span></div><p>${JOB.arrive}까지 ${JOB.place}로 와 주세요. 신분증 필수.</p></div>`:''}
+        <div class="noti"><div class="nh"><b>면접 안내 (재발송)</b><span class="nm">${MD(-7)} 10:02 · 문자</span></div><p>알림톡 수신이 안 돼 문자로 다시 보내드려요.</p></div>
+        <div class="noti"><div class="nh"><b>${JOB.round} 안내</b><span class="nm fail">05.27 10:00 · 알림톡 실패</span></div><p>도착 시간 ${MD(0)} (${JOB.dow}) ${JOB.arrive} · 장소·준비물은 지원자 페이지에서 확인</p></div>
+        <button class="btn ghost sm" style="margin-top:16px" data-act="closeOv">닫기</button></div>`);break;
+    case 'item':S.items[t.dataset.k]=!S.items[t.dataset.k];{const y=main.scrollTop;render();main.scrollTop=y;}break;
+    case 'copy':try{navigator.clipboard.writeText(JOB.addr);}catch(_){}toast('주소를 복사했어요');break;
+    case 'map':toast('지도 앱으로 연결해요','nav');break;
+    case 'call':toast(`${JOB.contact}로 연결해요`,'phone');break;
+  }
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!S.auth){S.step===1?document.querySelector('[data-act="login1"]').click():doLogin2();}});
+
+/* 데모 컨트롤 */
+document.querySelectorAll('#stageSeg button').forEach(b=>b.addEventListener('click',()=>{
+  S.stage=b.dataset.st;
+  if(S.page==='qr'&&!isDay())S.page='home';render();
+}));
+$('#scanBtn').addEventListener('click',()=>{
+  if(!isDay()||S.checked||absent())return;
+  S.checked=true;S.checkAt='08:3'+(5+Math.floor(Math.random()*4));S.locker=17;render();toast('접수 완료 · 보관번호 17번');
+});
+$('#resetBtn').addEventListener('click',()=>{Object.assign(S,{auth:0,stage:'before',page:'home',att:null,absentReason:null,checked:false,checkAt:null,locker:null,items:{id:false,no:false,dev:false,pen:false},step:1,err:{}});qrLeft=30;render();});
+
+render();
+</script>
+</body>
+</html>
