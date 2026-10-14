@@ -403,6 +403,7 @@ body{color:var(--tx);}
 .bv h1{font-size:23px;}
 .btn.bx-try{margin-top:10px;background:var(--pri-weak);color:var(--pri);border:1.5px solid var(--pri-line);}
 .btn.bx-try:hover{background:#E1ECFF;}
+.sv-ov.in-frame{position:absolute;z-index:30;}
 /* 로그인 버튼을 입력칸 바로 아래로 (화면 맨 아래로 밀지 않음) */
 .lg-foot{margin-top:0;padding-top:28px;}
 /* ===== 실제 휴대폰에서는 화면 꽉 차게 ===== */
@@ -808,6 +809,7 @@ function pgQR(){
       <div class="qr-sub">수험번호 · ${ME.field} · ${ME.name}</div>
       ${S.checked?'':`<div class="qr-timer"><svg class="ring" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="#E1E3E8" stroke-width="3"/><circle id="ringFg" cx="10" cy="10" r="8" fill="none" stroke="#2466E0" stroke-width="3" stroke-dasharray="50.3" stroke-dashoffset="${50.3*(1-qrLeft/30)}" transform="rotate(-90 10 10)" stroke-linecap="round"/></svg><span id="qrLeft">${qrLeft}</span>초 후 자동 갱신 · 캡처한 QR은 사용 불가</div>`}
     </div>
+    ${B.on&&!S.checked?'<div class="bx-wait"><i></i>운영자 폰의 체크인을 기다리고 있어요</div><button class="btn ghost" data-act="bPreview" style="margin-top:14px">내 명찰 미리보기</button>':''}
     ${S.checked?`<div class="locker"><span class="ln">${S.locker}</span><div><b>전자기기 보관번호</b><span>퇴실할 때 이 번호로 휴대폰을 돌려받아요</span></div></div>`:''}
     <div class="sec">
       <div class="row"><span class="k">상태</span><span class="v">${S.checked?'<span class="st ok">접수</span>':'<span class="st">접수 예정</span>'}</span></div>
@@ -816,7 +818,7 @@ function pgQR(){
       <div class="row"><span class="k">사용일</span><span class="v">${JOB.date} 면접 당일에만 사용</span></div>
     </div>
     ${S.checked?'':`<div class="note">${ic('sun',14)}화면 밝기를 높이면 더 빨리 인식돼요</div>`}
-    ${B.on&&!S.checked?'<div class="bx-wait"><i></i>운영자 폰의 체크인을 기다리고 있어요</div>':''}
+
   </div>`;
 }
 
@@ -947,6 +949,10 @@ function bAct(a,t){
     case 'bIssue':if(!bReady())return true;B.p=OB.newVisitor(B.name,B.field);B.since=Math.floor(Date.now()/1000)-5;B.step='issued';bSave();render();main.scrollTop=0;return true;
     case 'bEnter':bEnter();render();main.scrollTop=0;return true;
     case 'bSaveImg':OB.saveBadge(B.p,t);return true;
+    case 'bPreview':{OB.prepare(B.p);document.querySelector('.sv-ov')?.remove();const d=document.createElement('div');d.className='sv-ov in-frame';
+      d.innerHTML=`${OB.badgeHtml(B.p)}<div class="sv-act"><button class="ob-btn" data-act="bSaveImg">${ic('down',17)}이미지로 저장</button><button class="ob-btn ghost" data-act="bPvClose">닫기</button></div>`;
+      d.addEventListener('click',e=>{if(e.target===d)d.remove();});$('#frame').appendChild(d);return true;}
+    case 'bPvClose':t.closest('.sv-ov').remove();return true;
     case 'bRestart':bRestart();return true;
     case 'bvSave':OB.saveBadge(BADGEV,t);return true;
     case 'bvStart':location.href=location.pathname+'?booth=1';return true;

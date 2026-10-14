@@ -811,7 +811,8 @@ function pgTraining(){
     <span class="cr-n ${state==='done'?'done':''}">${state==='done'?ic('check','s14'):locked?ic('lock','s14'):n}</span><span class="cr-t">${t}</span><span class="cr-d">${d}</span></button>`;
   return `
   <div class="course-h">
-    <div><div class="course-k">필수 교육</div><h2 class="course-t">공정한 평가를 위한 면접관 교육</h2><div class="muted">강의 4개 · 약 15분 · 확인 퀴즈 ${QUIZ.length}문항 · 이수 후 평가 시작</div></div>
+    <div><div class="course-k">필수 교육</div><h2 class="course-t">공정한 평가를 위한 면접관 교육</h2><div class="muted">강의 4개 · 약 15분 · 확인 퀴즈 ${QUIZ.length}문항 · 이수 후 평가 시작</div>
+    ${T.done?'':`<div class="demo-chips" style="justify-content:flex-start;margin-top:12px"><button class="demo-chip" data-act="demoTrain">${ic('spark','s14')}시연용 교육 이수 처리</button></div>`}</div>
     <div class="course-p"><div class="cp-n">${pct}<small>%</small></div><div class="prog" style="width:180px"><i style="width:${pct}%"></i></div><div class="muted" style="font-size:12.5px">${doneN} / ${total} 완료</div></div>
   </div>
   <div class="cols tr-cols" style="grid-template-columns:minmax(0,1fr) 320px">
@@ -836,7 +837,7 @@ function playLesson(id){
 }
 
 /* ================= 3. 평가 진행 ================= */
-function lockedView(){return `<div class="locked"><div class="li">${ic('lock')}</div><h2>면접관 교육 이수 필요</h2><p>표준 교육 · 블라인드 교육 이수 서명 완료 후 이용 가능</p><button class="btn pri" data-act="go" data-p="training">면접관 교육으로 이동</button></div>`;}
+function lockedView(){return `<div class="locked"><div class="li">${ic('lock')}</div><h2>면접관 교육 이수 필요</h2><p>표준 교육 · 블라인드 교육 이수 서명 완료 후 이용 가능</p><button class="btn pri" data-act="go" data-p="training">면접관 교육으로 이동</button><div class="demo-chips"><button class="demo-chip" data-act="demoTrain">${ic('spark','s14')}시연용 교육 이수 처리</button></div></div>`;}
 function pgEval(){
   if(!S.training.done)return lockedView();
   const c=cnt();
@@ -1135,6 +1136,7 @@ document.addEventListener('click',e=>{
     case 'qNext':{const T=S.training;let n=T.qi+1;while(n<QUIZ.length&&T.ans[n]!==undefined)n++;T.qi=n;render();break;}
     case 'qRetry':{const T=S.training;QUIZ.forEach((q,k)=>{if(T.ans[k]!==q.a)delete T.ans[k];});T.qi=QUIZ.findIndex((q,k)=>T.ans[k]===undefined);render();break;}
     case 'clearSig':{const st=t.dataset.s==='T'?S.training:S.fin;st.ink=false;st._img=null;render();break;}
+    case 'demoTrain':{const T=S.training;LESSONS.forEach(l=>T.prog[l.id]=100);QUIZ.forEach((q,k)=>T.ans[k]=q.a);T.qi=QUIZ.length;T.ink=true;T.done=true;T.at=now();T.view='sign';clearInterval(plTimer);T.playing=null;toast('시연용으로 교육 이수를 처리했어요');render();window.scrollTo(0,0);break;}
     case 'trainDone':S.training.done=true;S.training.at=now();toast('교육 이수 완료 · 이제 평가를 시작할 수 있어요');render();break;
     case 'evTab':S.evTab=t.dataset.t;render();break;
     case 'selGrp':S.grp=t.dataset.g;S.search='';{const g=grpOf(S.grp);const first=g.ids.map(i=>APPS['경영'+pad(i)]).find(x=>!x.absent&&x.status!=='submitted')||APPS['경영'+pad(g.ids[0])];S.sel=first.id;}render();break;
