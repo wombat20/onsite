@@ -2,10 +2,10 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ONSITE — 지원자 (모바일)</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22512%22%20height%3D%22512%22%20viewBox%3D%220%200%20512.00%20512.00%22%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22139%22%20fill%3D%22%232466E0%22%2F%3E%3Cg%20transform%3D%22translate%28256%20256%29%20scale%281.75%29%20translate%28-88.3%20-80%29%22%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2280%22%20r%3D%2240%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%2234%22%2F%3E%3Cpath%20d%3D%22M88.3%2051.7%20L143.9%20107.3%20Q156.6%20120%20156.6%20102%20L156.6%2040%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%2234%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<link rel="stylesheet" href="fonts/wanted-sans/WantedSansVariable.css">
 <style>
   /* ONSITE 공통 토큰 v2 */
   :root{
@@ -302,6 +302,118 @@ body{color:var(--tx);}
 .demo-chip svg{width:14px;height:14px;}
 
 .ico.ph{fill:currentColor;stroke:none;}
+/* ===== ONSITE 부스 공통 ===== */
+.badge{width:62mm;height:100mm;background:#fff;border-radius:3mm;box-shadow:0 2px 6px rgba(25,31,40,.08),0 12px 32px rgba(25,31,40,.10);padding:6mm 5mm 5mm;display:flex;flex-direction:column;align-items:center;text-align:center;color:#191F28;font-family:'Wanted Sans Variable','Wanted Sans',-apple-system,'Apple SD Gothic Neo',sans-serif;letter-spacing:-0.01em;line-height:1.5;flex-shrink:0;}
+.badge .b-logo .logo-svg{height:5mm;width:auto;display:block;}
+.badge .b-k{font-size:2.8mm;font-weight:700;color:#8B95A1;margin-top:7mm;}
+.badge .b-name{font-weight:800;letter-spacing:-0.05em;line-height:1.05;margin-top:2mm;word-break:keep-all;}
+.badge .b-f{display:inline-block;font-size:3.2mm;font-weight:700;margin-top:3mm;color:#1F6BFF;background:#EBF2FF;padding:.8mm 3mm;border-radius:3mm;}
+.badge .b-msg{margin-top:auto;margin-bottom:auto;padding:0 2mm;font-size:4.4mm;font-weight:700;line-height:1.45;color:#191F28;word-break:keep-all;}
+.badge .b-q{display:block;width:5.2mm;height:3.75mm;margin:0 auto 2.2mm;color:#1F6BFF;}
+.badge .b-foot{font-size:2.2mm;color:#8B95A1;margin-top:2.5mm;padding-top:2mm;border-top:0.3mm solid #E2E5EA;width:100%;}
+.ob-btn{width:100%;height:52px;border-radius:14px;background:#1F6BFF;color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;border:0;cursor:pointer;font-family:inherit;}
+.ob-btn.ghost{background:rgba(255,255,255,.14);color:#fff;}
+.sv-ov{position:fixed;inset:0;background:rgba(17,21,28,.88);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:90;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px 20px calc(24px + env(safe-area-inset-bottom));}
+.sv-ov .sv-act{width:100%;max-width:320px;display:flex;flex-direction:column;gap:8px;}
+.sv-ov img{width:min(280px,72vw);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.25);-webkit-touch-callout:default;user-select:auto;}
+.sv-tip{color:#fff;font-size:15px;font-weight:600;text-align:center;line-height:1.5;}
+.sv-tip span{display:block;font-size:13px;font-weight:500;opacity:.75;}
+.ob-toast{position:fixed;left:50%;bottom:calc(32px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#191F28;color:#fff;font-size:14px;font-weight:600;padding:12px 18px;border-radius:12px;z-index:95;white-space:nowrap;}
+
+/* ===== 흑백 감열 명찰: 원래 명찰과 같은 디자인, 검정 한 색 ===== */
+.badge.mono{width:57mm;height:100mm;border-radius:0;box-shadow:none;padding:6mm 4.5mm 5mm;color:#000;}
+.badge.mono .b-logo .logo-svg{height:4.6mm;}
+.badge.mono .b-k{color:#000;font-weight:600;margin-top:6.5mm;}
+.badge.mono .b-name{color:#000;}
+.badge.mono .b-f{color:#000;background:#fff;border:.35mm solid #000;padding:.5mm 2.8mm;}
+.badge.mono .b-msg{color:#000;font-size:4.1mm;}
+.badge.mono .b-q{color:#000;width:4.8mm;height:3.45mm;}
+.badge.mono .b-foot{color:#000;border-top:.3mm solid #000;font-weight:500;}
+.mono-a5{width:148mm;height:210mm;display:flex;align-items:center;justify-content:center;}
+.mono-a5 .badge.mono{zoom:2.05;}
+/* ===== 부스 체험 (지원자 앱) ===== */
+.bx{padding:8px 24px 28px;min-height:100%;display:flex;flex-direction:column;animation:fin .18s ease;}
+.bx-top{display:flex;align-items:center;justify-content:space-between;height:44px;margin-bottom:16px;}
+.bx-top .logo-svg{height:22px;width:auto;display:block;}
+.bx-back{width:40px;height:40px;margin-left:-10px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--tx);}
+.bx-back:hover{background:var(--hover);}
+.bx-pill{font-size:12.5px;font-weight:700;color:var(--pri);background:var(--pri-weak);padding:4px 10px;border-radius:8px;}
+.bx-step{font-size:13px;font-weight:700;color:var(--tx3);} .bx-step b{color:var(--pri);}
+.bx h1{font-size:27px;font-weight:800;letter-spacing:-0.035em;line-height:1.32;}
+.bx h1 em{font-style:normal;color:var(--pri);}
+.bx-lead{font-size:15px;color:var(--tx2);margin-top:10px;line-height:1.6;}
+.bx-flow{margin-top:34px;display:grid;gap:22px;}
+.bx-flow>div{display:grid;grid-template-columns:36px 1fr;column-gap:14px;align-items:start;}
+.bx-flow i{grid-row:span 2;width:36px;height:36px;border-radius:50%;background:var(--pri-weak);color:var(--pri);display:flex;align-items:center;justify-content:center;font-style:normal;}
+.bx-flow b{font-size:15.5px;font-weight:700;}
+.bx-flow span{font-size:13.5px;color:var(--tx2);line-height:1.5;}
+.bx-sp{flex:1;min-height:28px;}
+.bx .btn{height:54px;font-size:16px;border-radius:14px;}
+.bx-fine{font-size:12.5px;color:var(--tx3);text-align:center;margin-top:14px;line-height:1.6;}
+.bx-fine button{color:var(--tx2);font-weight:600;text-decoration:underline;font-size:12.5px;}
+.bx .fl{margin:28px 0 10px;font-size:13.5px;}
+.bx .inp{margin-bottom:0;}
+.bx-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.bx-fo{height:62px;border-radius:14px;border:1.5px solid var(--line2);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:0 16px;text-align:left;transition:.12s;}
+.bx-fo b{font-size:15.5px;font-weight:700;} .bx-fo span{font-size:12.5px;color:var(--tx3);}
+.bx-fo:hover{border-color:var(--pri-line);}
+.bx-fo.on{border-color:var(--pri);background:var(--pri-weak);} .bx-fo.on b{color:var(--pri);}
+.bx-agree{display:flex;gap:10px;align-items:flex-start;margin-top:24px;padding:14px 16px;border-radius:12px;background:var(--bg-sub);font-size:13px;color:var(--tx2);cursor:pointer;line-height:1.55;text-align:left;width:100%;}
+.bx-agree .cb{width:22px;height:22px;border-radius:6px;border:1.6px solid var(--line2);background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;margin-top:1px;}
+.bx-agree.on .cb{background:var(--pri);border-color:var(--pri);}
+.bx-agree b{color:var(--tx);}
+.bx-ok{width:60px;height:60px;border-radius:50%;background:var(--pri-weak);color:var(--pri);display:flex;align-items:center;justify-content:center;margin:12px auto 18px;animation:bxpop .35s cubic-bezier(.2,1.4,.4,1);}
+.bx-ok.solid{background:var(--pri);color:#fff;}
+@keyframes bxpop{from{transform:scale(.4);opacity:0}}
+.bx-center{text-align:center;}
+.bx-cheer{margin:26px 0 0;padding:22px 20px;border-radius:18px;background:var(--pri);color:#fff;font-size:18px;font-weight:700;line-height:1.5;text-align:center;letter-spacing:-0.02em;word-break:keep-all;animation:bxpop .4s cubic-bezier(.2,1.4,.4,1);}
+.bx-cheer .q{display:block;width:26px;height:19px;margin:0 auto 10px;opacity:.6;}
+.bx-rows{margin-top:24px;border-top:1px solid var(--line2);}
+.bx-rows .r{display:flex;justify-content:space-between;align-items:baseline;padding:14px 2px;border-bottom:1px solid var(--line);}
+.bx-rows .k{font-size:14px;color:var(--tx2);}
+.bx-rows .v{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;}
+.bx-note{display:flex;gap:10px;margin-top:18px;padding:14px 16px;border-radius:12px;background:var(--pri-weak);font-size:13px;color:var(--tx);text-align:left;line-height:1.55;}
+.bx-note .ico{color:var(--pri);margin-top:1px;}
+.bx-coach{display:flex;align-items:center;gap:12px;width:100%;margin:2px 0 6px;padding:14px 16px;border-radius:14px;background:var(--pri);color:#fff;text-align:left;font-size:13.5px;line-height:1.45;}
+.bx-coach .n{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.bx-coach b{display:block;font-size:15px;font-weight:700;}
+.bx-coach .chev{margin-left:auto;opacity:.8;}
+.bx-entry{display:flex;align-items:center;gap:12px;width:100%;margin-top:20px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--pri-line);background:var(--pri-weak);text-align:left;color:var(--tx);}
+.bx-entry .ei{width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.bx-entry b{display:block;font-size:15px;font-weight:700;color:var(--pri);}
+.bx-entry small{display:block;font-size:12.5px;color:var(--tx2);}
+.bx-entry .chev{margin-left:auto;color:var(--pri);}
+.bx-or{display:flex;align-items:center;gap:10px;margin-top:22px;font-size:12px;color:var(--tx3);}
+.bx-or::before,.bx-or::after{content:'';flex:1;height:1px;background:var(--line2);}
+.bx-done h1{font-size:25px;text-align:center;}
+.bx-done .bx-lead{text-align:center;margin-top:8px;}
+.bx-badge{display:flex;justify-content:center;margin:22px 0 4px;}
+.bx-take{display:flex;align-items:center;gap:14px;margin-top:18px;padding:14px;border-radius:14px;border:1px solid var(--line2);text-align:left;}
+.bx-take .qr{width:84px;height:84px;flex-shrink:0;}
+.bx-take .qr svg{width:100%;height:100%;display:block;}
+.bx-take b{display:block;font-size:14.5px;font-weight:700;}
+.bx-take span{font-size:12.5px;color:var(--tx2);line-height:1.5;}
+.bx-count{font-size:12.5px;color:var(--tx3);text-align:center;margin-top:10px;}
+.bx-wait{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;color:var(--tx2);margin-top:14px;}
+.bx-wait i{width:8px;height:8px;border-radius:50%;background:var(--pri);animation:bxblink 1.2s ease-in-out infinite;}
+@keyframes bxblink{50%{opacity:.25}}
+.qr-box.real{padding:16px;}
+.qr-box.real svg{width:100%;height:100%;}
+.bv{text-align:center;}
+.bv h1{font-size:23px;}
+.btn.bx-try{margin-top:10px;background:var(--pri-weak);color:var(--pri);border:1.5px solid var(--pri-line);}
+.btn.bx-try:hover{background:#E1ECFF;}
+/* 로그인 버튼을 입력칸 바로 아래로 (화면 맨 아래로 밀지 않음) */
+.lg-foot{margin-top:0;padding-top:28px;}
+/* ===== 실제 휴대폰에서는 화면 꽉 차게 ===== */
+@media (max-width:520px){
+  body{padding:0;background:#fff;display:block;min-height:0;}
+  .doc-tag,.demo{display:none!important;}
+  .frame{width:100%;height:100vh;height:100dvh;border:0;border-radius:0;box-shadow:none;}
+  .statusbar{display:none;}
+  .main{padding-top:env(safe-area-inset-top);}
+  .page,.login,.bx{padding-bottom:calc(28px + env(safe-area-inset-bottom));}
+}
 </style>
 </head>
 <body>
@@ -331,9 +443,176 @@ body{color:var(--tx);}
   <div class="main" id="main"></div>
 </div>
 
+<script>var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,(function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1}))},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(t,r){var e=n("友");if(2!=e.length||38726!=(e[0]<<8|e[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}((function(){return qrcode}));</script>
+<script>/* ===== ONSITE 부스 공통 (명찰 · QR · 중계) ===== */
+const OB=(()=>{
+const LOGO=`<svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 479.40 100"><g transform="translate(0 4) scale(0.17969)"><rect width="512" height="512" rx="139" fill="#2466E0"/><g transform="translate(256 256) scale(1.75) translate(-88.3 -80)"><circle cx="60" cy="80" r="40" fill="none" stroke="#FFFFFF" stroke-width="34"/><path d="M88.3 51.7 L143.9 107.3 Q156.6 120 156.6 102 L156.6 40" fill="none" stroke="#FFFFFF" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></g></g><g fill="#0F1E45" transform="translate(116 85.30)"><path transform="translate(0.00 0) scale(0.10000 -0.10000)" d="M424 -12C640 -12 797 151 797 350V352C797 551 642 712 426 712C210 712 53 549 53 350V348C53 149 208 -12 424 -12ZM426 130C302 130 214 230 214 350V352C214 472 300 570 424 570C548 570 636 470 636 350V348C636 228 550 130 426 130Z"/><path transform="translate(79.00 0) scale(0.10000 -0.10000)" d="M84 70C84 27 117 -6 160 -6C203 -6 236 27 236 70V445L544 41C565 14 587 -4 624 -4H629C672 -4 706 30 706 73V630C706 673 673 706 630 706C587 706 554 673 554 630V269L257 659C236 686 214 704 177 704H161C118 704 84 670 84 627Z"/><path transform="translate(152.00 0) scale(0.10000 -0.10000)" d="M333 -10C484 -10 590 68 590 207V209C590 331 510 381 368 419C247 451 217 464 217 511V513C217 548 247 574 307 574C355 574 403 558 454 527C467 520 480 516 493 516C533 516 565 547 565 587C565 618 548 637 531 648C467 688 394 710 309 710C165 710 64 626 64 499V497C64 359 154 318 296 283C413 254 437 233 437 194V192C437 151 400 126 336 126C268 126 210 150 157 189C146 196 133 203 113 203C73 203 41 172 41 132C41 108 53 86 70 74C149 18 241 -10 333 -10Z"/><path transform="translate(210.00 0) scale(0.10000 -0.10000)" d="M91 71C91 28 125 -6 168 -6C211 -6 245 28 245 71V629C245 672 211 706 168 706C125 706 91 672 91 629Z"/><path transform="translate(237.60 0) scale(0.10000 -0.10000)" d="M247 71C247 28 281 -6 324 -6C367 -6 401 28 401 71V558H549C588 558 620 590 620 629C620 668 588 700 549 700H99C60 700 28 668 28 629C28 590 60 558 99 558H247Z"/><path transform="translate(296.40 0) scale(0.10000 -0.10000)" d="M554 0C593 0 623 29 623 68C623 107 593 137 554 137H237V284H504C543 284 573 313 573 352C573 391 543 421 504 421H237V563H549C588 563 618 592 618 631C618 670 588 700 549 700H161C118 700 84 666 84 623V77C84 34 118 0 161 0Z"/></g></svg>`;
+const QS=new URLSearchParams(location.search);
+const QPATH='<path d="M13 0h12L15 36H3zM35 0h12L37 36H25z"/>';
+const quote=c=>`<svg class="${c}" viewBox="0 0 50 36" fill="currentColor" aria-hidden="true">${QPATH}</svg>`;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const hm=(d=new Date())=>pad(d.getHours())+':'+pad(d.getMinutes());
+const today=()=>{const d=new Date();return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}`;};
+const ls={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}},del(k){try{localStorage.removeItem(k);}catch(e){}}};
+
+const FIELDS=[['취업','합격 · 커리어'],['건강','몸과 마음'],['금전','재물 · 행운'],['학업','시험 · 공부'],['사랑','연애 · 인연'],['행복','일상 · 소망']];
+const CHEERS={
+  '취업':['오늘의 면접관은 이미 당신 편이에요','준비한 만큼, 아니 그 이상 보여줄 거예요','최종 합격 문자가 곧 도착할 예정이에요','당신을 알아볼 회사가 반드시 있어요','긴장은 잠깐, 합격은 오래 가요'],
+  '건강':['오늘도 몸과 마음 모두 튼튼하게','푹 자고 잘 먹는 당신이 최고예요','올해 남은 날들, 아프지 말고 건강하게','가벼운 발걸음이 좋은 하루를 데려와요','건강이 최고의 스펙이에요'],
+  '금전':['통장에 기분 좋은 숫자가 찍힐 거예요','들어올 돈은 많고 나갈 돈은 적게','오늘 산 커피값이 복으로 돌아와요','지갑이 두둑해지는 계절이 왔어요','뜻밖의 행운이 문을 두드릴 거예요'],
+  '학업':['찍은 문제도 다 맞는 기적이 함께해요','오늘 외운 건 시험장까지 그대로','노력한 시간은 절대 배신하지 않아요','집중력 만렙, 합격까지 직진','어려운 문제도 술술 풀리는 하루'],
+  '사랑':['좋은 인연이 생각보다 가까이 있어요','마음이 통하는 사람을 곧 만나게 돼요','오늘 웃는 얼굴이 가장 매력적이에요','설레는 연락이 올지도 몰라요','사랑받기 충분한 사람이에요'],
+  '행복':['오늘 하루, 작은 행운이 연달아 생겨요','바라는 일이 하나씩 이뤄질 거예요','당신의 하루가 더 반짝이길','웃을 일만 가득한 한 주가 될 거예요','지금처럼만 해도 충분히 잘하고 있어요']
+};
+const cheer=p=>(CHEERS[p.f]||CHEERS['행복'])[p.mi||0];
+const fieldDesc=f=>(FIELDS.find(x=>x[0]===f)||['',''])[1];
+
+/* ---------- 방문객 · QR 내용 ---------- */
+const SITE=/^https?:$/.test(location.protocol)?location.href.replace(/[?#].*$/,'').replace(/[^/]*$/,''):'https://wombat20.github.io/onsite/';
+const rid=()=>Math.random().toString(36).slice(2,10);
+function newVisitor(nm,f){return{id:rid(),nm:String(nm).replace(/~/g,'').trim().slice(0,10),f,mi:Math.floor(Math.random()*5),no:'E-'+(100+Math.floor(Math.random()*900))};}
+function slim(p){return{id:p.id,nm:p.nm,f:p.f,mi:p.mi,no:p.no};}
+const b64e=t=>btoa(unescape(encodeURIComponent(t))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const b64d=t=>decodeURIComponent(escape(atob(t.replace(/-/g,'+').replace(/_/g,'/'))));
+function badgeUrl(p){const fi=FIELDS.findIndex(x=>x[0]===p.f);return SITE+'applicant.html?b='+b64e([p.id,p.nm,fi,p.mi,String(p.no).replace(/^E-/,'')].join('~'));}
+function valid(p){return p&&typeof p.nm==='string'&&p.nm.trim()&&CHEERS[p.f]&&Number.isInteger(p.mi)&&p.mi>=0&&p.mi<5;}
+function decode(s){if(!s)return null;try{
+  let p=null;const c=String(s).match(/[?&]b=([A-Za-z0-9_-]+)/);
+  if(c){const a=b64d(c[1]).split('~');if(a.length!==5)return null;const f=(FIELDS[+a[2]]||[])[0];p={id:a[0],nm:a[1],f,mi:+a[3],no:'E-'+a[4]};}
+  else{const m=String(s).match(/[?&]badge=([^&#]+)/);if(!m)return null;p=JSON.parse(decodeURIComponent(m[1]));}
+  if(!valid(p))return null;
+  p.nm=p.nm.trim().slice(0,10);if(!p.id)p.id='x'+[...p.nm].map(c=>c.charCodeAt(0).toString(36)).join('')+p.f.charCodeAt(0).toString(36)+p.mi;return slim(p);
+}catch(e){return null;}}
+function qrSvg(text){const q=qrcode(0,'M');q.addData(unescape(encodeURIComponent(text)));q.make();return q.createSvgTag({cellSize:4,margin:0,scalable:true});}
+
+/* ---------- 명찰 ---------- */
+function nameSize(n){const l=[...n].length;return l<=2?12:l===3?11:l===4?9.5:l<=6?7.5:6;}
+function badgeHtml(p){return `<div class="badge">
+  <div class="b-logo">${LOGO}</div>
+  <div class="b-k">오늘의 지원자</div>
+  <div class="b-name" style="font-size:${nameSize(p.nm)}mm">${esc(p.nm)}</div>
+  <div class="b-f">#${esc(p.f)} 응원</div>
+  <div class="b-msg">${quote('b-q')}${esc(cheer(p))}</div>
+  <div class="b-foot">ONSITE 블라인드 면접 체험 · ${today()}</div>
+</div>`;}
+
+/* ---------- 흑백 감열 프린터용 명찰 ---------- */
+const LOGO_K=LOGO.replace(/#2466E0|#0F1E45/g,'#000');
+// 원래 명찰과 같은 구성 · 같은 배치를 검정 한 색으로 (감열 프린터용)
+function monoBadgeHtml(p){return `<div class="badge mono">
+  <div class="b-logo">${LOGO_K}</div>
+  <div class="b-k">오늘의 지원자</div>
+  <div class="b-name" style="font-size:${nameSize(p.nm)*57/62}mm">${esc(p.nm)}</div>
+  <div class="b-f">#${esc(p.f)} 응원</div>
+  <div class="b-msg">${quote('b-q')}${esc(cheer(p))}</div>
+  <div class="b-foot">ONSITE 블라인드 면접 체험 · ${today()}</div>
+</div>`;}
+const monoA5Html=p=>`<div class="mono-a5">${monoBadgeHtml(p)}</div>`;
+
+/* ---------- 명찰 이미지 (PNG) ---------- */
+const FONT="'Wanted Sans Variable','Wanted Sans',-apple-system,'Apple SD Gothic Neo',sans-serif";
+function loadImg(src){return new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=src;});}
+function rr(x,X,Y,W,H,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+W,Y,X+W,Y+H,r);x.arcTo(X+W,Y+H,X,Y+H,r);x.arcTo(X,Y+H,X,Y,r);x.arcTo(X,Y,X+W,Y,r);x.closePath();}
+function wrapLines(x,text,maxW){const words=text.split(' ');const out=[];let cur='';
+  for(const w of words){const t=cur?cur+' '+w:w;if(x.measureText(t).width<=maxW||!cur)cur=t;else{out.push(cur);cur=w;}}
+  if(cur)out.push(cur);return out;}
+async function badgePng(p,o={}){
+  const K=o.mono,C=(c)=>K?'#000':c;   // mono: 감열 프린터용 검정 한 색
+  const M=20,PAD=o.bare?0:14,W=62*M,H=100*M,c=document.createElement('canvas');
+  c.width=W+PAD*2;c.height=H+PAD*2;const x=c.getContext('2d');
+  try{await Promise.all([800,700,500].map(w=>document.fonts.load(`${w} 40px 'Wanted Sans Variable'`,p.nm+cheer(p)+'오늘의 지원자 응원 ONSITE 0123456789.')));}catch(e){}
+  if(o.bare){x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);}
+  else{x.fillStyle='#F2F4F6';x.fillRect(0,0,c.width,c.height);x.translate(PAD,PAD);x.fillStyle='#fff';rr(x,0,0,W,H,3*M);x.fill();}
+  x.textAlign='center';x.textBaseline='alphabetic';const cx=W/2;
+  const svg=(K?LOGO_K:LOGO).replace(/class="[^"]*"\s*/,'').replace('<svg ','<svg width="479.4" height="100" ');
+  try{const im=await loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg));const lh=5*M,lw=lh*4.794;x.drawImage(im,cx-lw/2,6*M,lw,lh);}catch(e){}
+  let y=6*M+5*M+7*M;
+  x.fillStyle=C('#8B95A1');x.font=`700 ${2.8*M}px ${FONT}`;x.fillText('오늘의 지원자',cx,y+2.8*M*.8);y+=2.8*M*1.5;
+  const ns=nameSize(p.nm)*M;x.fillStyle=C('#191F28');x.font=`800 ${ns}px ${FONT}`;
+  if('letterSpacing' in x)x.letterSpacing=`${-0.05*ns}px`;
+  y+=2*M;x.fillText(p.nm,cx,y+ns*.88);y+=ns*1.05;if('letterSpacing' in x)x.letterSpacing='0px';
+  y+=3*M;const ft=`#${p.f} 응원`;x.font=`700 ${3.2*M}px ${FONT}`;const tw=x.measureText(ft).width,ch=3.2*M*1.5+1.6*M,cw=tw+6*M;
+  if(K){x.lineWidth=.35*M;x.strokeStyle='#000';rr(x,cx-cw/2+.2*M,y+.2*M,cw-.4*M,ch-.4*M,ch/2-.2*M);x.stroke();}else{x.fillStyle='#EBF2FF';rr(x,cx-cw/2,y,cw,ch,ch/2);x.fill();}x.fillStyle=C('#1F6BFF');x.fillText(ft,cx,y+ch/2+3.2*M*.36);y+=ch;
+  const footY=H-5*M,lineY=footY-2.2*M*1.5-2*M;
+  x.fillStyle=C('#E2E5EA');x.fillRect(5*M,lineY,W-10*M,.3*M);
+  x.fillStyle=C('#8B95A1');x.font=`500 ${2.2*M}px ${FONT}`;x.fillText(`ONSITE 블라인드 면접 체험 · ${today()}`,cx,footY-2.2*M*.35);
+  if('letterSpacing' in x)x.letterSpacing=`${-0.01*4.4*M}px`;x.font=`700 ${4.4*M}px ${FONT}`;
+  const lines=wrapLines(x,cheer(p),W-14*M),lh2=4.4*M*1.45,qh=3.75*M+2.2*M;
+  const blockH=qh+lines.length*lh2,top=y+(lineY-2.5*M-y-blockH)/2;
+  try{const qi=await loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="50" height="36" viewBox="0 0 50 36" fill="${C('#1F6BFF')}">${QPATH}</svg>`));x.drawImage(qi,cx-2.6*M,top,5.2*M,3.75*M);}catch(e){}
+  x.fillStyle=C('#191F28');x.font=`700 ${4.4*M}px ${FONT}`;lines.forEach((l,i)=>x.fillText(l,cx,top+qh+i*lh2+lh2*.72));
+  if(K){x.setTransform(1,0,0,1,0,0);const d=x.getImageData(0,0,c.width,c.height),a=d.data;   // 감열용: 회색 없이 순수 흑/백
+    for(let i=0;i<a.length;i+=4){const v=(a[i]+a[i+1]+a[i+2])/3<150?0:255;a[i]=a[i+1]=a[i+2]=v;a[i+3]=255;}x.putImageData(d,0,0);}
+  return new Promise(r=>c.toBlob(r,'image/png'));
+}
+const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform));
+const inApp=/KAKAOTALK|Instagram|FBAN|FBAV|NAVER|Line\//i.test(navigator.userAgent);
+const pngCache={};
+function prepare(p){const k=JSON.stringify(slim(p));return pngCache[k]||(pngCache[k]=badgePng(p).then(b=>(pngCache[k+'#b']=b)));}
+function note(m){document.querySelectorAll('.ob-toast').forEach(t=>t.remove());const t=document.createElement('div');t.className='ob-toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2400);}
+async function saveBadge(p,btn){
+  const k=JSON.stringify(slim(p)),name=`ONSITE_응원명찰_${p.nm}.png`;
+  let blob=pngCache[k+'#b'];   // 미리 그려둔 이미지 → 탭 직후 바로 공유 (iOS 제스처 유지)
+  try{
+    if(!blob){if(btn)btn.disabled=true;blob=await prepare(p);}
+    const file=new File([blob],name,{type:'image/png'});
+    if(isMobile&&!inApp&&navigator.canShare&&navigator.canShare({files:[file]})){
+      try{await navigator.share({files:[file]});return;}catch(e){if(e.name==='AbortError')return;}
+    }
+    if(isMobile){showSaved(URL.createObjectURL(blob));return;}
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();
+    note('명찰 이미지를 저장했어요');
+  }catch(e){note('저장하지 못했어요. 화면을 캡처해 주세요');}
+  finally{if(btn)btn.disabled=false;}
+}
+function showSaved(url){
+  document.querySelector('.sv-ov')?.remove();
+  const d=document.createElement('div');d.className='sv-ov';
+  d.innerHTML=`<img src="${url}" alt="응원 명찰 이미지"><div class="sv-tip">이미지를 길게 눌러 저장하세요<span>사진 앱에 저장돼요</span></div><div class="sv-act"><button class="ob-btn ghost" data-ob="close">닫기</button></div>`;
+  d.addEventListener('click',e=>{if(e.target===d||e.target.closest('[data-ob=close]'))d.remove();});document.body.appendChild(d);
+}
+
+/* ---------- 중계 (ntfy) ----------
+   운영자 체크인 폰 → 중계 채널에 1건 발행 → 아이맥(출력)·방문객 폰(완료 표시)이 함께 받음 */
+const RELAY=(QS.get('relay')||'https://ntfy.sh').replace(/\/$/,'');
+const TOPIC=QS.get('ch')||'onsite-kpa25-booth-7q2m9x';
+const LOCAL=RELAY==='local';
+const bc=LOCAL&&'BroadcastChannel' in window?new BroadcastChannel('onsite-'+TOPIC):null;
+async function publish(obj){
+  const body=JSON.stringify(obj);
+  if(LOCAL){bc&&bc.postMessage(body);return true;}
+  try{const r=await fetch(`${RELAY}/${TOPIC}`,{method:'POST',body});return r.ok;}catch(e){return false;}
+}
+function subscribe(onMsg,opt={}){
+  let es=null,closed=false,lastId=opt.lastId||null,timer=null,fails=0;
+  let since0=opt.since||Math.floor(Date.now()/1000)-60;
+  const state=s=>opt.onState&&opt.onState(s);
+  const handle=(raw,id,time)=>{let m;try{m=JSON.parse(raw);}catch(e){return;}if(m&&m.v===1)onMsg(m,id,time);};
+  if(LOCAL){const f=e=>handle(e.data);bc&&bc.addEventListener('message',f);state('on');return{close(){bc&&bc.removeEventListener('message',f);}};}
+  function open(){
+    if(closed)return;
+    es=new EventSource(`${RELAY}/${TOPIC}/sse?since=${encodeURIComponent(lastId||since0)}`);
+    es.addEventListener('open',()=>{fails=0;state('on');});
+    es.onmessage=e=>{let d;try{d=JSON.parse(e.data);}catch(_){return;}
+      if(d.event!=='message')return;lastId=d.id;opt.onId&&opt.onId(d.id);handle(d.message,d.id,d.time);};
+    es.onerror=()=>{state('off');es.close();clearTimeout(timer);
+      if(++fails>=2&&lastId){lastId=null;since0=Math.floor(Date.now()/1000)-600;}   // 기억한 위치가 만료됐으면 최근 10분부터
+      timer=setTimeout(open,Math.min(3000*fails,15000));};
+  }
+  open();
+  const vis=()=>{if(document.visibilityState==='visible'&&!closed){es&&es.close();clearTimeout(timer);open();}};
+  document.addEventListener('visibilitychange',vis);
+  return{close(){closed=true;es&&es.close();clearTimeout(timer);document.removeEventListener('visibilitychange',vis);}};
+}
+
+return{LOGO,LOGO_K,monoBadgeHtml,monoA5Html,QS,quote,esc,pad,hm,today,ls,FIELDS,CHEERS,cheer,fieldDesc,SITE,newVisitor,slim,badgeUrl,decode,qrSvg,
+  nameSize,badgeHtml,badgePng,prepare,saveBadge,showSaved,note,isMobile,RELAY,TOPIC,LOCAL,publish,subscribe};
+})();
+</script>
 <script>
 /* 아이콘 (1.7px 선 · 기능 위치에만) */
-const P={"spark": "<path d=\"M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z\"/>", "check": "<path d=\"M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z\"/>", "lock": "<path d=\"M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z\"/>", "sun": "<path d=\"M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z\"/>", "phone": "<path d=\"M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z\"/>", "nav": "<path d=\"M237.33,106.21,61.41,41l-.16-.05A16,16,0,0,0,40.9,61.25a1,1,0,0,0,.05.16l65.26,175.92A15.77,15.77,0,0,0,121.28,248h.3a15.77,15.77,0,0,0,15-11.29l.06-.2,21.84-78,78-21.84.2-.06a16,16,0,0,0,.62-30.38ZM149.84,144.3a8,8,0,0,0-5.54,5.54L121.3,232l-.06-.17L56,56l175.82,65.22.16.06Z\"/>", "clock": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z\"/>", "chev": "<path d=\"M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z\"/>", "alert": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z\"/>", "info": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z\"/>", "bell": "<path d=\"M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z\"/>", "logout": "<path d=\"M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z\"/>", "back": "<path d=\"M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z\"/>"};
+const P={"spark": "<path d=\"M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z\"/>", "check": "<path d=\"M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z\"/>", "lock": "<path d=\"M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z\"/>", "sun": "<path d=\"M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z\"/>", "phone": "<path d=\"M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z\"/>", "nav": "<path d=\"M237.33,106.21,61.41,41l-.16-.05A16,16,0,0,0,40.9,61.25a1,1,0,0,0,.05.16l65.26,175.92A15.77,15.77,0,0,0,121.28,248h.3a15.77,15.77,0,0,0,15-11.29l.06-.2,21.84-78,78-21.84.2-.06a16,16,0,0,0,.62-30.38ZM149.84,144.3a8,8,0,0,0-5.54,5.54L121.3,232l-.06-.17L56,56l175.82,65.22.16.06Z\"/>", "clock": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z\"/>", "chev": "<path d=\"M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z\"/>", "alert": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z\"/>", "info": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z\"/>", "bell": "<path d=\"M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z\"/>", "logout": "<path d=\"M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z\"/>", "back": "<path d=\"M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z\"/>", "qr": "<path d=\"M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm0,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48ZM200,40H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-64,72V144a8,8,0,0,1,16,0v32a8,8,0,0,1-16,0Zm80-16a8,8,0,0,1-8,8H184v40a8,8,0,0,1-8,8H144a8,8,0,0,1,0-16h24V144a8,8,0,0,1,16,0v8h24A8,8,0,0,1,216,160Zm0,32v16a8,8,0,0,1-16,0V192a8,8,0,0,1,16,0Z\"/>", "user": "<path d=\"M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z\"/>", "tag": "<path d=\"M75.19,198.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,155,165.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,73.6,187.2,8,8,0,0,0,75.19,198.4ZM128,112a24,24,0,1,1-24,24A24,24,0,0,1,128,112Zm72-88H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V40A16,16,0,0,0,200,24Zm0,192H56V40H200ZM88,64a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H96A8,8,0,0,1,88,64Z\"/>", "down": "<path d=\"M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z\"/>"};
 const ICF={"spark": "<path d=\"M208,144a15.78,15.78,0,0,1-10.42,14.94L146,178l-19,51.62a15.92,15.92,0,0,1-29.88,0L78,178l-51.62-19a15.92,15.92,0,0,1,0-29.88L78,110l19-51.62a15.92,15.92,0,0,1,29.88,0L146,110l51.62,19A15.78,15.78,0,0,1,208,144ZM152,48h16V64a8,8,0,0,0,16,0V48h16a8,8,0,0,0,0-16H184V16a8,8,0,0,0-16,0V32H152a8,8,0,0,0,0,16Zm88,32h-8V72a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0V96h8a8,8,0,0,0,0-16Z\"/>", "check": "<path d=\"M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM205.66,85.66l-96,96a8,8,0,0,1-11.32,0l-40-40a8,8,0,0,1,11.32-11.32L104,164.69l90.34-90.35a8,8,0,0,1,11.32,11.32Z\"/>", "lock": "<path d=\"M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96Z\"/>", "sun": "<path d=\"M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm8,24a64,64,0,1,0,64,64A64.07,64.07,0,0,0,128,64ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z\"/>", "phone": "<path d=\"M231.88,175.08A56.26,56.26,0,0,1,176,224C96.6,224,32,159.4,32,80A56.26,56.26,0,0,1,80.92,24.12a16,16,0,0,1,16.62,9.52l21.12,47.15,0,.12A16,16,0,0,1,117.39,96c-.18.27-.37.52-.57.77L96,121.45c7.49,15.22,23.41,31,38.83,38.51l24.34-20.71a8.12,8.12,0,0,1,.75-.56,16,16,0,0,1,15.17-1.4l.13.06,47.11,21.11A16,16,0,0,1,231.88,175.08Z\"/>", "nav": "<path d=\"M248,121.58a15.76,15.76,0,0,1-11.29,15l-.2.06-78,21.84-21.84,78-.06.2a15.77,15.77,0,0,1-15,11.29h-.3a15.77,15.77,0,0,1-15.07-10.67L41,61.41a1,1,0,0,1-.05-.16A16,16,0,0,1,61.25,40.9l.16.05,175.92,65.26A15.78,15.78,0,0,1,248,121.58Z\"/>", "clock": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm56,112H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48a8,8,0,0,1,0,16Z\"/>", "chev": "<path d=\"M181.66,133.66l-80,80A8,8,0,0,1,88,208V48a8,8,0,0,1,13.66-5.66l80,80A8,8,0,0,1,181.66,133.66Z\"/>", "alert": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z\"/>", "info": "<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z\"/>", "bell": "<path d=\"M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216Z\"/>", "logout": "<path d=\"M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40A8,8,0,0,0,176,88v32H112a8,8,0,0,0,0,16h64v32a8,8,0,0,0,13.66,5.66l40-40A8,8,0,0,0,229.66,122.34Z\"/>", "back": "<path d=\"M168,48V208a8,8,0,0,1-13.66,5.66l-80-80a8,8,0,0,1,0-11.32l80-80A8,8,0,0,1,168,48Z\"/>"};
 const SYM=`<svg class="logo-sym" role="img" aria-label="ONSITE" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 177.00 120.00"><g transform="translate(0 -20)"><circle cx="60" cy="80" r="40" fill="none" stroke="#2466E0" stroke-width="34"/><path d="M88.3 51.7 L143.9 107.3 Q156.6 120 156.6 102 L156.6 40" fill="none" stroke="#2466E0" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
 const LOGO=`<svg class="logo-svg" role="img" aria-label="ONSITE" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 501.40 100.00"><g transform="translate(0 0)"><g transform="translate(0 10.00) scale(0.6667) translate(0 -20)"><circle cx="60" cy="80" r="40" fill="none" stroke="#2466E0" stroke-width="34"/><path d="M88.3 51.7 L143.9 107.3 Q156.6 120 156.6 102 L156.6 40" fill="none" stroke="#2466E0" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></g><g fill="#0F1E45" transform="translate(138.00 85.30)"><path transform="translate(0.00 0) scale(0.10000 -0.10000)" d="M424 -12C640 -12 797 151 797 350V352C797 551 642 712 426 712C210 712 53 549 53 350V348C53 149 208 -12 424 -12ZM426 130C302 130 214 230 214 350V352C214 472 300 570 424 570C548 570 636 470 636 350V348C636 228 550 130 426 130Z"/><path transform="translate(79.00 0) scale(0.10000 -0.10000)" d="M84 70C84 27 117 -6 160 -6C203 -6 236 27 236 70V445L544 41C565 14 587 -4 624 -4H629C672 -4 706 30 706 73V630C706 673 673 706 630 706C587 706 554 673 554 630V269L257 659C236 686 214 704 177 704H161C118 704 84 670 84 627Z"/><path transform="translate(152.00 0) scale(0.10000 -0.10000)" d="M333 -10C484 -10 590 68 590 207V209C590 331 510 381 368 419C247 451 217 464 217 511V513C217 548 247 574 307 574C355 574 403 558 454 527C467 520 480 516 493 516C533 516 565 547 565 587C565 618 548 637 531 648C467 688 394 710 309 710C165 710 64 626 64 499V497C64 359 154 318 296 283C413 254 437 233 437 194V192C437 151 400 126 336 126C268 126 210 150 157 189C146 196 133 203 113 203C73 203 41 172 41 132C41 108 53 86 70 74C149 18 241 -10 333 -10Z"/><path transform="translate(210.00 0) scale(0.10000 -0.10000)" d="M91 71C91 28 125 -6 168 -6C211 -6 245 28 245 71V629C245 672 211 706 168 706C125 706 91 672 91 629Z"/><path transform="translate(237.60 0) scale(0.10000 -0.10000)" d="M247 71C247 28 281 -6 324 -6C367 -6 401 28 401 71V558H549C588 558 620 590 620 629C620 668 588 700 549 700H99C60 700 28 668 28 629C28 590 60 558 99 558H247Z"/><path transform="translate(296.40 0) scale(0.10000 -0.10000)" d="M554 0C593 0 623 29 623 68C623 107 593 137 554 137H237V284H504C543 284 573 313 573 352C573 391 543 421 504 421H237V563H549C588 563 618 592 618 631C618 670 588 700 549 700H161C118 700 84 666 84 623V77C84 34 118 0 161 0Z"/></g></g></svg>`;
@@ -372,7 +651,7 @@ function pgLogin(){
     <div class="brand">${LOGO}</div>
     <div class="steps">1 <span>/ 2</span></div>
     <div class="lg-h">면접 안내를 확인하려면<br>로그인해 주세요</div>
-    <div class="lg-s">${JOB.org} ${JOB.title}<br>안내 문자로 받은 수험번호를 입력해 주세요</div>
+    <div class="lg-s">안내 문자로 받은 수험번호와<br>생년월일을 입력해 주세요</div>
     <label class="fl">수험번호</label>
     <input class="inp ${S.err.no?'err':''}" id="inNo" placeholder="예) A-041" autocomplete="off">
     <div class="ferr">${S.err.no||''}</div>
@@ -381,8 +660,9 @@ function pgLogin(){
     <div class="ferr">${S.err.birth||''}</div>
     <div class="lg-foot">
       <button class="btn" data-act="login1">다음</button>
+      <button class="btn bx-try" data-act="bStart">직접 체험해 보기</button>
       <div class="demo-chips"><button class="demo-chip" data-act="fill">${ic('spark',14)}시연용 계정 입력</button></div>
-      <div class="lg-help">수험번호를 모르면 채용 담당자에게 문의해 주세요 · ${JOB.contact}</div>
+      <div class="lg-help">수험번호는 지원한 기관에서 보낸 안내 문자에 있어요</div>
     </div></div>`;
   return `<div class="login">
     <div class="brand">${LOGO}</div>
@@ -401,8 +681,7 @@ function pgLogin(){
 
 /* 만료 */
 function pgExpired(){return `<div class="expired"><div class="wi">${ic('lock',30)}</div><b>지원자 페이지 이용 기간이 끝났어요</b>
-  <p>${JOB.org} ${JOB.title}<br>지원자 페이지는 ${JOB.expireAt}까지 열람할 수 있었어요.<br>문의는 채용 담당자에게 연락해 주세요.</p>
-  <button class="btn ghost sm" style="width:auto;padding:0 20px" data-act="call">${ic('phone',16)}${JOB.contact}</button></div>`;}
+  <p>면접이 끝나고 열람 기간이 지났어요.<br>문의는 지원한 기관의 채용 담당자에게 해 주세요.</p></div>`;}
 
 /* 홈 */
 function pgHome(){
@@ -416,10 +695,11 @@ function pgHome(){
   const locked=S.stage!=='before';
   return `<div class="page">
     <div class="appbar">${SYM}<button class="palarm" data-act="noti" aria-label="알림">${ic('bell',20)}<span class="nd"></span></button></div>
+    ${bCoach()}
     <div class="top"><div class="org">${JOB.org}</div><div class="job">${JOB.title} · ${JOB.round}</div></div>
 
     <div class="hero">
-      <div class="hi">${ME.name.slice(1)}님, 반가워요</div>
+      <div class="hi">${B.on?ME.name:ME.name.slice(1)}님, 반가워요</div>
       <div class="big">${big}</div>
       <div class="facts">
         <div class="fact"><span>면접일</span><b>${MD(0)} (${JOB.dow})</b></div>
@@ -520,10 +800,10 @@ function pgQR(){
   if(absent())return `<div class="page">${head('출석 QR')}<div class="wait"><div class="wi">${ic('lock',28)}</div><b>불참 처리된 지원자예요</b><p>QR을 사용할 수 없어요</p></div></div>`;
   if(!isDay())return `<div class="page">${head('출석 QR')}<div class="wait"><div class="wi">${ic('lock',28)}</div><b>${S.stage==='before'?'QR은 면접 당일에만 열려요':'QR 사용 기간이 끝났어요'}</b><p>${S.stage==='before'?'개인정보 보호를 위해 면접 당일<br>00시부터 QR을 보여드려요':'면접일이 지나 QR이 만료됐어요'}</p>${S.stage==='before'?`<span class="when">${JOB.date} (${JOB.dow}) 공개</span>`:''}</div></div>`;
   return `<div class="page">${head('출석 QR')}
-    <div class="hint">${S.checked?'접수가 끝났어요. 보관번호를 확인해 주세요':'접수처에서 신분증과 함께 아래 QR을 보여주세요'}</div>
+    <div class="hint">${B.on?'부스의 <b>운영자 체크인 폰</b> 카메라에 아래 QR을 비춰 주세요':S.checked?'접수가 끝났어요. 보관번호를 확인해 주세요':'접수처에서 신분증과 함께 아래 QR을 보여주세요'}</div>
     <div class="qr-wrap">
       <div class="qr-top"><span>${JOB.org}</span>${S.checked?'<span class="st ok">접수 완료</span>':'<span class="st pri">사용 가능</span>'}</div>
-      <div class="qr-box ${S.checked?'done':''}" id="qrBox">${qrSvg(ME.no+'|'+qrTick)}${S.checked?`<div class="qr-done"><span class="ok">${ic('check',26)}</span><b>${S.checkAt} 접수</b></div>`:''}</div>
+      <div class="qr-box ${S.checked?'done':''} ${B.on?'real':''}" id="qrBox">${qrMarkup()}${S.checked?`<div class="qr-done"><span class="ok">${ic('check',26)}</span><b>${S.checkAt} 접수</b></div>`:''}</div>
       <div class="qr-num">${ME.no}</div>
       <div class="qr-sub">수험번호 · ${ME.field} · ${ME.name}</div>
       ${S.checked?'':`<div class="qr-timer"><svg class="ring" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="#E1E3E8" stroke-width="3"/><circle id="ringFg" cx="10" cy="10" r="8" fill="none" stroke="#2466E0" stroke-width="3" stroke-dasharray="50.3" stroke-dashoffset="${50.3*(1-qrLeft/30)}" transform="rotate(-90 10 10)" stroke-linecap="round"/></svg><span id="qrLeft">${qrLeft}</span>초 후 자동 갱신 · 캡처한 QR은 사용 불가</div>`}
@@ -536,6 +816,7 @@ function pgQR(){
       <div class="row"><span class="k">사용일</span><span class="v">${JOB.date} 면접 당일에만 사용</span></div>
     </div>
     ${S.checked?'':`<div class="note">${ic('sun',14)}화면 밝기를 높이면 더 빨리 인식돼요</div>`}
+    ${B.on&&!S.checked?'<div class="bx-wait"><i></i>운영자 폰의 체크인을 기다리고 있어요</div>':''}
   </div>`;
 }
 
@@ -557,21 +838,144 @@ function pgResult(){
   </div>`;
 }
 
+/* ===================== 부스 체험 ===================== */
+const KIOSK=OB.QS.get('kiosk')==='1';           // 부스 시연폰
+const BADGEV=OB.decode(location.href);           // 명찰 링크로 들어온 경우
+const B={on:false,step:'intro',name:'',field:'',agree:false,p:null,since:0,done:false,sub:null};
+const BKEY='onsite-booth-visitor';
+function bSave(){if(KIOSK||!B.p)return;OB.ls.set(BKEY,{p:B.p,since:B.since,done:B.done,checkAt:S.checkAt,locker:S.locker});}
+function bEnter(){
+  ME.name=B.p.nm;ME.no=B.p.no;ME.field='부스 체험';
+  Object.assign(S,{auth:1,stage:'day',page:'home',att:null,checked:B.done,step:1,err:{}});
+  if(!B.done)bListen();
+}
+function bListen(){
+  if(B.sub)return;
+  B.sub=OB.subscribe(m=>{if(m.t==='print'&&B.p&&m.id===B.p.id&&!B.done)bChecked();},{since:B.since});
+}
+function bChecked(){
+  B.done=true;S.checked=true;S.checkAt=OB.hm();S.locker=10+Math.floor(Math.random()*50);
+  if(B.sub){B.sub.close();B.sub=null;}
+  bSave();OB.prepare(B.p);go('bdone');
+  if(KIOSK)bCountdown();
+}
+let bCdT=null,bCdLeft=0;
+function bCountdown(){bCdLeft=45;clearInterval(bCdT);bCdT=setInterval(()=>{bCdLeft--;const el=$('#bxCd');if(el)el.textContent=bCdLeft;if(bCdLeft<=0)bRestart();},1000);}
+function bRestart(){OB.ls.del(BKEY);location.replace(location.pathname+(KIOSK?'?kiosk=1':'?booth=1'));}
+function bTop(back,step){return `<div class="bx-top">${back?`<button class="bx-back" data-act="${back}" aria-label="뒤로">${ic('back',22)}</button>`:LOGO}${step?`<span class="bx-step"><b>${step}</b> / 2</span>`:'<span class="bx-pill">부스 체험</span>'}</div>`;}
+function pgBooth(){
+  const st=B.step;
+  if(st==='intro')return `<div class="bx">${bTop('bLogin')}
+    <h1>오늘 하루,<br><span style="white-space:nowrap"><em>면접 지원자</em>가 되어 보세요</span></h1>
+    <p class="bx-lead">실제 지원자 앱으로 블라인드 면접 당일을 경험하고, 나만의 응원 명찰도 받아 가세요. 1분이면 충분해요.</p>
+    <div class="bx-flow">
+      <div><i>${ic('user',17)}</i><b>지원자 등록</b><span>이름과 응원받고 싶은 분야를 골라요</span></div>
+      <div><i>${ic('qr',17)}</i><b>출석 QR 받기</b><span>실제 지원자 앱 그대로, 면접 당일 화면이 열려요</span></div>
+      <div><i>${ic('tag',17)}</i><b>운영자 폰에 체크인</b><span>부스의 운영자 체크인 폰에 QR을 비추면 응원 명찰이 출력돼요</span></div>
+    </div>
+    <div class="bx-sp"></div>
+    <button class="btn" data-act="bNext">체험 시작하기</button>
+    <div class="bx-fine">입력한 정보는 명찰 출력에만 쓰이고 따로 저장되지 않아요</div>
+  </div>`;
+  if(st==='reg')return `<div class="bx">${bTop('bBack',1)}
+    <h1>지원자 정보를<br>입력해 주세요</h1>
+    <label class="fl" for="bxName">이름 또는 닉네임</label>
+    <input class="inp" id="bxName" maxlength="10" placeholder="예) 김온사" value="${OB.esc(B.name)}" autocomplete="off">
+    <label class="fl">응원받고 싶은 분야</label>
+    <div class="bx-fields">${OB.FIELDS.map(([k,d])=>`<button class="bx-fo ${B.field===k?'on':''}" data-act="bField" data-k="${k}"><b>${k}</b><span>${d}</span></button>`).join('')}</div>
+    <button class="bx-agree ${B.agree?'on':''}" data-act="bAgree"><span class="cb">${B.agree?ic('check',15):''}</span><span><b>체험용 정보 이용에 동의해요</b><br>명찰 출력에만 쓰이고 체험이 끝나면 사라져요</span></button>
+    <div class="bx-sp"></div>
+    <button class="btn" data-act="bIssue" ${bReady()?'':'disabled'}>수험번호 발급받기</button>
+  </div>`;
+  const p=B.p;
+  return `<div class="bx">${bTop('',2)}
+    <div class="bx-center"><div class="bx-ok">${ic('check',28)}</div>
+    <h1>수험번호가<br>발급됐어요</h1>
+    <p class="bx-lead">${OB.esc(p.nm)}님을 위한 <b style="color:var(--tx)">#${OB.esc(p.f)}</b> 응원 메시지가 도착했어요</p></div>
+    <div class="bx-cheer">${OB.quote('q')}${OB.esc(OB.cheer(p))}</div>
+    <div class="bx-rows">
+      <div class="r"><span class="k">이름</span><span class="v">${OB.esc(p.nm)}</span></div>
+      <div class="r"><span class="k">응원 분야</span><span class="v">${OB.esc(p.f)} · ${OB.esc(OB.fieldDesc(p.f))}</span></div>
+      <div class="r"><span class="k">수험번호</span><span class="v">${OB.esc(p.no)}</span></div>
+    </div>
+    <div class="bx-note">${ic('lock',16)}<span>실제 면접에서는 면접관에게 이름·학교·나이가 가려지고 <b>면접번호만</b> 보여요. 이게 블라인드 면접이에요.</span></div>
+    <div class="bx-sp"></div>
+    <button class="btn" data-act="bEnter">지원자 페이지 열기</button>
+  </div>`;
+}
+const bReady=()=>B.name.trim()&&B.field&&B.agree;
+function bCoach(){
+  if(!B.on)return '';
+  if(B.done)return `<button class="bx-coach" data-act="go" data-p="bdone"><span class="n">${ic('check',16)}</span><span><b>출석 완료 · 명찰을 받아 가세요</b>내 응원 명찰 보기</span><span class="chev">${ic('chev',18)}</span></button>`;
+  return `<button class="bx-coach" data-act="go" data-p="qr"><span class="n">${ic('qr',16)}</span><span><b>체험 안내 · 출석 QR을 열어 주세요</b>부스의 운영자 체크인 폰에 QR을 비추면 명찰이 나와요</span><span class="chev">${ic('chev',18)}</span></button>`;
+}
+function qrMarkup(){return B.on&&B.p?OB.qrSvg(OB.badgeUrl(B.p)):qrSvg(ME.no+'|'+qrTick);}
+function pgBoothDone(){
+  const p=B.p;
+  return `<div class="page bx-done">${head('출석 완료')}
+    <div class="bx-center"><div class="bx-ok solid">${ic('check',28)}</div></div>
+    <h1>${OB.esc(p.nm)}님, 출석이 확인됐어요</h1>
+    <p class="bx-lead">응원 명찰이 부스 프린터에서 나오고 있어요</p>
+    <div class="bx-badge">${OB.badgeHtml(p)}</div>
+    <button class="btn" data-act="bSaveImg" style="margin-top:18px">${ic('down',17)}이미지로 저장</button>
+    ${KIOSK?`<div class="bx-take"><div class="qr">${OB.qrSvg(OB.badgeUrl(p))}</div><div><b>내 폰으로 명찰 가져가기</b><span>휴대폰 카메라로 찍으면 명찰 이미지를 저장할 수 있어요</span></div></div>
+      <button class="btn ghost" data-act="bRestart" style="margin-top:10px">처음으로</button>
+      <div class="bx-count"><span id="bxCd">${bCdLeft||45}</span>초 뒤 처음 화면으로 돌아가요</div>`
+    :`<button class="btn ghost" data-act="home" style="margin-top:8px">지원자 페이지 둘러보기</button>`}
+    <div class="bx-note">${ic('info',16)}<span>실제 면접장에서는 이 순간 <b>면접번호</b>와 전자기기 보관번호가 안내되고, 면접관 화면에는 이름 대신 면접번호만 보여요.</span></div>
+  </div>`;
+}
+function pgBadgeView(){
+  const p=BADGEV;
+  return `<div class="bx bv">${bTop('')}
+    <h1>${OB.esc(p.nm)}님의 응원 명찰</h1>
+    <p class="bx-lead" style="margin-top:6px">ONSITE 부스에서 받은 응원 명찰이에요</p>
+    <div class="bx-badge">${OB.badgeHtml(p)}</div>
+    <div class="bx-sp"></div>
+    <button class="btn" data-act="bvSave">${ic('down',17)}이미지로 저장</button>
+    <button class="btn ghost" data-act="bvStart" style="margin-top:8px">나도 체험해 보기</button>
+  </div>`;
+}
+function bAct(a,t){
+  switch(a){
+    case 'bStart':B.on=true;B.step='intro';render();return true;
+    case 'bLogin':B.on=false;S.step=1;render();return true;
+    case 'bNext':B.step='reg';render();main.scrollTop=0;return true;
+    case 'bBack':B.step='intro';render();return true;
+    case 'bField':B.field=t.dataset.k;render();return true;
+    case 'bAgree':B.agree=!B.agree;render();return true;
+    case 'bIssue':if(!bReady())return true;B.p=OB.newVisitor(B.name,B.field);B.since=Math.floor(Date.now()/1000)-5;B.step='issued';bSave();render();main.scrollTop=0;return true;
+    case 'bEnter':bEnter();render();main.scrollTop=0;return true;
+    case 'bSaveImg':OB.saveBadge(B.p,t);return true;
+    case 'bRestart':bRestart();return true;
+    case 'bvSave':OB.saveBadge(BADGEV,t);return true;
+    case 'bvStart':location.href=location.pathname+'?booth=1';return true;
+  }
+  return false;
+}
+document.addEventListener('input',e=>{if(e.target.id==='bxName'){B.name=e.target.value;const b=document.querySelector('[data-act=bIssue]');if(b)b.disabled=!bReady();}});
+/* 시연폰: 2분 동안 아무도 만지지 않으면 처음 화면으로 */
+if(KIOSK){let last=Date.now();['pointerdown','keydown','input','scroll'].forEach(ev=>document.addEventListener(ev,()=>last=Date.now(),true));
+  setInterval(()=>{if((B.on||S.auth)&&!B.done&&Date.now()-last>120000)bRestart();},5000);}
+
 /* 렌더 */
 function render(){
   const st=STAGES[S.stage];$('#sbTime').textContent=st.time;
   document.querySelectorAll('#stageSeg button').forEach(b=>b.classList.toggle('on',b.dataset.st===S.stage));
   $('#scanBtn').disabled=!(S.auth&&isDay()&&!S.checked&&!absent());
+  if(B.on&&B.done)OB.prepare(B.p);if(BADGEV)OB.prepare(BADGEV);
   closeOv();
   let h;
-  if(S.stage==='expired')h=pgExpired();
-  else if(!S.auth)h=pgLogin();
-  else h={home:pgHome,info:pgInfo,qr:pgQR,result:pgResult}[S.page]();
+  if(BADGEV)h=pgBadgeView();
+  else if(S.stage==='expired')h=pgExpired();
+  else if(!S.auth)h=B.on?pgBooth():pgLogin();
+  else if(B.on&&B.done&&S.page==='qr')h=pgBoothDone();
+  else h={home:pgHome,info:pgInfo,qr:pgQR,result:pgResult,bdone:pgBoothDone}[S.page]();
   main.innerHTML=h;
   bindPin();
   clearInterval(qrTimer);
   if(S.auth&&S.page==='qr'&&isDay()&&!S.checked&&!absent()){
-    qrTimer=setInterval(()=>{qrLeft--;if(qrLeft<=0){qrLeft=30;qrTick++;const b=$('#qrBox');if(b)b.innerHTML=qrSvg(ME.no+'|'+qrTick);}
+    qrTimer=setInterval(()=>{qrLeft--;if(qrLeft<=0){qrLeft=30;qrTick++;const b=$('#qrBox');if(b)b.innerHTML=qrMarkup();}
       const l=$('#qrLeft');if(l)l.textContent=qrLeft;const r=$('#ringFg');if(r)r.setAttribute('stroke-dashoffset',(50.3*(1-qrLeft/30)).toFixed(1));},1000);
   }
 }
@@ -595,6 +999,7 @@ function doLogin2(){
 document.addEventListener('click',e=>{
   const t=e.target.closest('[data-act]');if(!t)return;
   const a=t.dataset.act;
+  if(bAct(a,t))return;
   switch(a){
     case 'fill':
       if(S.step===1){$('#inNo').value=ME.no;$('#inBirth').value=ME.birth;}
@@ -610,7 +1015,7 @@ document.addEventListener('click',e=>{
       S.step=2;render();break;}
     case 'login2':doLogin2();break;
     case 'loginBack':S.step=1;S.err={};render();break;
-    case 'logout':S.auth=0;S.step=1;S.page='home';render();toast('로그아웃했어요');break;
+    case 'logout':if(B.on){bRestart();break;}S.auth=0;S.step=1;S.page='home';render();toast('로그아웃했어요');break;
     case 'home':go('home');break;
     case 'go':go(t.dataset.p);break;
     case 'qrLocked':toast(S.stage==='before'?'QR은 면접 당일에만 열려요':'면접일이 지나 QR이 만료됐어요','lock');break;
@@ -638,7 +1043,7 @@ document.addEventListener('click',e=>{
     case 'call':toast(`${JOB.contact}로 연결해요`,'phone');break;
   }
 });
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!S.auth){S.step===1?document.querySelector('[data-act="login1"]').click():doLogin2();}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!S.auth&&!B.on&&!BADGEV){S.step===1?document.querySelector('[data-act="login1"]').click():doLogin2();}});
 
 /* 데모 컨트롤 */
 document.querySelectorAll('#stageSeg button').forEach(b=>b.addEventListener('click',()=>{
@@ -647,10 +1052,16 @@ document.querySelectorAll('#stageSeg button').forEach(b=>b.addEventListener('cli
 }));
 $('#scanBtn').addEventListener('click',()=>{
   if(!isDay()||S.checked||absent())return;
+  if(B.on){bChecked();return;}
   S.checked=true;S.checkAt='08:3'+(5+Math.floor(Math.random()*4));S.locker=17;render();toast('접수 완료 · 보관번호 17번');
 });
-$('#resetBtn').addEventListener('click',()=>{Object.assign(S,{auth:0,stage:'before',page:'home',att:null,absentReason:null,checked:false,checkAt:null,locker:null,items:{id:false,no:false,dev:false,pen:false},step:1,err:{}});qrLeft=30;render();});
+$('#resetBtn').addEventListener('click',()=>{if(B.on||BADGEV){bRestart();return;}Object.assign(S,{auth:0,stage:'before',page:'home',att:null,absentReason:null,checked:false,checkAt:null,locker:null,items:{id:false,no:false,dev:false,pen:false},step:1,err:{}});qrLeft=30;render();});
 
+if(!BADGEV&&!KIOSK&&OB.QS.get('booth')==='1'){
+  const sv=OB.ls.get(BKEY);
+  B.on=true;
+  if(sv&&sv.p&&OB.decode(OB.badgeUrl(sv.p))){B.p=sv.p;B.since=sv.since||0;B.done=!!sv.done;bEnter();S.checkAt=sv.checkAt;S.locker=sv.locker;S.page=B.done?'bdone':'home';}
+}
 render();
 </script>
 </body>
