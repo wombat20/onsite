@@ -368,6 +368,38 @@ body{color:var(--tx);}
 .lg-foot a{color:var(--pri);font-weight:600;text-decoration:none;cursor:pointer;}
 
 svg.i.ph{fill:currentColor;stroke:none;}
+.all-row{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:22px;padding:14px 2px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:left;font-size:15px;font-weight:700;color:var(--tx);}
+.all-row b{font-weight:700;color:var(--tx2);margin-left:4px;}
+.all-row em{display:inline-flex;align-items:center;gap:2px;font-style:normal;font-size:13.5px;font-weight:600;color:var(--tx2);}
+/* 로그인 안내 문구는 화면 맨 아래 */
+.olog{display:flex;flex-direction:column;}
+.olog>*{flex-shrink:0;}
+.olog .lg-foot{margin-top:auto;padding-top:24px;border-top:0;font-size:12.5px;color:var(--tx3);}
+.bd-sec{display:flex;align-items:center;justify-content:space-between;margin:28px 0 6px;}
+.bd-sec h3{font-size:16px;font-weight:800;letter-spacing:-0.02em;}
+.bd-sec span{font-size:12.5px;color:var(--tx3);}
+.bd-sec button{display:inline-flex;align-items:center;gap:2px;font-size:13px;font-weight:600;color:var(--tx2);}
+.bd-rooms{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.bd-room{padding:14px 14px 14px 0;}
+.bd-room+.bd-room{padding-left:14px;border-left:1px solid var(--line);}
+.bd-room .h{display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.bd-room .h b{font-size:15px;font-weight:800;}
+.bd-room .s{font-size:12.5px;color:var(--tx2);margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bd-room .dash{display:flex;gap:4px;margin-top:12px;}
+.bd-room .dash i{flex:1;height:4px;border-radius:2px;background:#E5E8EE;}
+.bd-room .dash i.d{background:var(--pri);} .bd-room .dash i.c{background:#8DB4FF;}
+.bd-next{border-top:1px solid var(--line);margin-top:4px;}
+.bd-nx{display:flex;align-items:center;gap:14px;width:100%;padding:18px 0;border-bottom:1px solid var(--line);text-align:left;}
+.bd-nx .n{width:42px;height:42px;border-radius:12px;background:var(--pri-weak);color:var(--pri);font-size:14.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.bd-nx .w{flex:1;min-width:0;}
+.bd-nx .w b{display:block;font-size:15px;font-weight:800;}
+.bd-nx .w b em{font-style:normal;font-weight:600;color:var(--tx2);margin-left:2px;}
+.bd-nx .w span{display:block;font-size:12.5px;color:var(--tx3);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bd-empty{font-size:13.5px;color:var(--tx3);padding:14px 0;border-top:1px solid var(--line);}
+
+.cd-row{border-top:0!important;border-bottom:0!important;padding:0!important;margin-top:16px!important;}
+.cd-row .st{flex:1;justify-content:flex-start;height:44px;padding:0 14px 0 16px;border-radius:12px;font-size:14px;gap:8px;}
+.cd-row .st svg{width:15px;height:15px;margin-left:auto;}
 </style>
 </head>
 <body>
@@ -544,14 +576,30 @@ function pgBoard(){
   const late=lateConduct();const openIss=ISSUES.filter(i=>!i.done).length;
   const nowRows=J.sched.rooms.map(rm=>{const tl=timeline(J,rm,true).filter(x=>x.kind==='s');const cur=tl.find(x=>x.s<=S.now&&x.e>S.now);const nx=tl.find(x=>x.s>S.now);const last=tl[tl.length-1];const d=last?last.e-PLAN0[last.members[0]].e:0;
     return `<div class="nowrow"><span class="rn">${rm.name}</span><span class="ss">${cur?`<b>${cur.label}</b> 진행 · ~${HM(cur.e)}`:'대기'}${nx?` · 다음 ${nx.label} ${HM(nx.s)}`:cur?'':' · 종료'}</span>${d>0?`<span class="dly">+${d}분</span>`:d<0?`<span class="shr">${d}분</span>`:'<span class="st ok" style="font-size:12px">정시</span>'}</div>`;}).join('');
+  const rooms=J.sched.rooms.map(rm=>{const tl=timeline(J,rm,true).filter(x=>x.kind==='s');const cur=tl.find(x=>x.s<=S.now&&x.e>S.now);const nx=tl.find(x=>x.s>S.now);const last=tl[tl.length-1];const d=last?last.e-PLAN0[last.members[0]].e:0;
+    const chip=d>0?`<span class="st err">+${d}분</span>`:d<0?`<span class="st pri">${d}분</span>`:'<span class="st ok">정시</span>';
+    const line=cur?`${cur.label} 진행 · ~${HM(cur.e)}`:nx?`${nx.label} · ${HM(nx.s)} 입실`:'모든 조 종료';
+    return `<div class="bd-room"><div class="h"><b>${rm.name}</b>${chip}</div><div class="s">${line}</div>
+      <div class="dash">${tl.map(x=>`<i class="${x.e<=S.now?'d':x.s<=S.now?'c':''}"></i>`).join('')}</div></div>`;}).join('');
+  const upc=[];J.sched.rooms.forEach(rm=>timeline(J,rm,true).forEach(x=>{if(x.kind==='s'&&x.s>S.now)upc.push(x);}));upc.sort((a,b)=>a.s-b.s);
+  const nxt=[];for(const x of upc){for(const no of x.members){if(A(no).status!=='불참')nxt.push({no,x});}if(nxt.length>=2)break;}
+  const nextRows=nxt.slice(0,2).map(({no,x})=>{const a=A(no),pp=P(no);const num=(a.ino.match(/\d+/)||[''])[0];
+    return `<button class="bd-nx" data-act="open" data-no="${no}"><span class="n">${num}</span><span class="w"><b>${a.ino} <em>${esc(pp.name)}</em></b><span>${J.arrive[no]} 도착${ORG.useDevice&&a.device?` · 기기 ${a.device}번`:''} · ${x.label} ${HM(x.s)}</span></span><span class="st ${statusCls(a.status)}">${a.status||'미접수'}</span></button>`;}).join('');
   return `
   <div class="appbar">${SYM}<button class="iconbtn ml mr-8" data-act="noti" aria-label="알림">${ic('bell','s22')}${late.length+soonConduct().length?`<span class="nd">${late.length+soonConduct().length}</span>`:''}</button></div>
   <div class="job"><div class="org">${J.org} · ${J.date}</div><div class="nm">${J.name}</div></div>
   <div class="hero"><div class="big">접수 <em>${pct}%</em><small>${rec} / ${act}명</small></div><div class="pbar"><i style="width:${pct}%"></i></div>
     <div class="facts"><div class="fact"><span>접수예정·공란</span><b>${n('접수예정')+n('')}</b></div><div class="fact ${n('연락중')?'err':''}"><span>연락중</span><b>${n('연락중')}</b></div><div class="fact"><span>불참</span><b>${n('불참')}</b></div><div class="fact ${openIss?'warn':''}"><span>이슈</span><b>${openIss}</b></div></div></div>
-  ${late.length?`<button class="cd-row" data-act="tab" data-t="conduct"><span class="st err">행동 강령 미완료 ${late.length}건</span><span class="go">확인${ic('chev','s14')}</span></button>`:''}
-  <div class="card nowstrip">${nowRows}</div>
-  <div style="margin-top:22px">
+  ${late.length?`<button class="cd-row" data-act="tab" data-t="conduct"><span class="st err">행동 강령 미완료 ${late.length}건${ic('chev','s14')}</span></button>`:''}
+  <div class="bd-sec"><h3>면접실 현황</h3><span>${HM(S.now)} 기준</span></div>
+  <div class="bd-rooms">${rooms}</div>
+  <div class="bd-sec"><h3>다음 입실</h3><button data-act="boardAll" data-v="1">전체 보기${ic('chev','s14')}</button></div>
+  ${nextRows?`<div class="bd-next">${nextRows}</div>`:`<div class="bd-empty">오늘 남은 입실이 없어요</div>`}
+  `;
+}
+function pgBoardAll(){
+  return `<div class="phead"><button class="pback" data-act="boardAll" data-v="0" aria-label="뒤로">${ic('back','s22')}</button><span class="ptitle">지원자 명단</span></div>
+  <div>
     <div class="seg">${J.sched.rooms.map((rm,i)=>`<button class="${S.room===i?'on':''}" data-act="room" data-i="${i}">${rm.name}</button>`).join('')}<button class="${S.room==='all'?'on':''}" data-act="room" data-i="all">전체</button></div>
     <div class="tools"><label class="search">${ic('search','s14')}<input placeholder="이름·수험번호·면접번호" data-inp="q" value="${esc(S.q)}"></label><button class="qrbtn" data-act="tab" data-t="checkin">${ic('qr','s14')}QR 체크인</button></div>
     <div class="lhead"><span>도착</span><span>면접번호 · 성명</span><span>접수</span></div>
@@ -754,7 +802,7 @@ function render(keep){
   if(!S.auth){m.innerHTML=pgLogin();$('#tabbar').style.display='none';$('#sbT').textContent=HM(S.now);$('#demoT').textContent=HM(S.now);renderSheet();return;}
   $('#tabbar').style.display='';const y=keep?(m.querySelector('.page')||{}).scrollTop:0;
   if(S.tab==='chat'){const draft=($('#cmsg')||{}).value||'';m.innerHTML=pgChat();const cl=$('#chatlist');cl.scrollTop=cl.scrollHeight;$('#cmsg').value=draft;}
-  else{const h={board:pgBoard,checkin:pgCheckin,conduct:pgConduct,issue:pgIssue,my:pgMy}[S.tab]();
+  else{const h={board:()=>S.boardAll?pgBoardAll():pgBoard(),checkin:pgCheckin,conduct:pgConduct,issue:pgIssue,my:pgMy}[S.tab]();
   m.innerHTML=`<div class="page">${h}</div>`;if(keep)m.querySelector('.page').scrollTop=y;}
   const late=lateConduct().length,iss=ISSUES.filter(i=>!i.done).length;
   $('#tabbar').innerHTML=TABS.map(([k,l,i])=>`<button class="tab ${S.tab===k?'on':''}" data-act="tab" data-t="${k}">${ic(i,'s22'+(S.tab===k?' fill':''))}<span class="lb">${l}</span>${k==='conduct'&&late?`<span class="bd">${late}</span>`:k==='chat'&&iss?`<span class="bd" style="background:var(--warn)">${iss}</span>`:''}</button>`).join('');
@@ -795,7 +843,8 @@ document.addEventListener('click',e=>{
     case 'closeSheet':S.sheet=null;render(true);break;
     case 'dlgClose':closeDlg();break;
     case 'clock':S.now=Math.max(T('08:00'),Math.min(T('18:00'),S.now+ +t.dataset.d));render(true);{const s=soonConduct().find(c=>T(c.t)-S.now<=10);if(s)toast(`${T(s.t)===S.now?'지금 할 일':'10분 후'} · ${s.txt}`);}break;
-    case 'tab':S.tab=t.dataset.t;S.sheet=null;render();break;
+    case 'boardAll':S.boardAll=t.dataset.v==='1';render();break;
+    case 'tab':S.boardAll=false;S.tab=t.dataset.t;S.sheet=null;render();break;
     case 'noti':S.sheet={type:'noti'};renderSheet();break;
     case 'room':S.room=t.dataset.i==='all'?'all':+t.dataset.i;render(true);break;
     case 'open':S.sheet={type:'app',no};renderSheet();break;
