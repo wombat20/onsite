@@ -392,6 +392,7 @@ body{color:var(--tx);}
 .bx-or::before,.bx-or::after{content:'';flex:1;height:1px;background:var(--line2);}
 .bx-done h1{font-size:25px;text-align:center;}
 .bx-done .bx-lead{text-align:center;margin-top:8px;}
+.bx-done .bx-again{font-size:12.5px;color:var(--tx3);text-align:center;margin-top:8px;line-height:1.5;}
 .bx-badge{display:flex;justify-content:center;margin:22px 0 4px;}
 .bx-take{display:flex;align-items:center;gap:14px;margin-top:18px;padding:14px;border-radius:14px;border:1px solid var(--line2);text-align:left;}
 .bx-take .qr{width:84px;height:84px;flex-shrink:0;}
@@ -871,6 +872,14 @@ function bChecked(){
   bSave();OB.prepare(B.p);go('bdone');
   if(KIOSK)bCountdown();
 }
+/* QR 다시 찍기: 이름·분야·수험번호·명찰 그림은 그대로, 내부 확인 번호(id)만 새로 →
+   체크인 폰·부스 PC의 중복 방지에 걸리지 않고 같은 명찰이 다시 출력됨 (횟수 제한 없음) */
+function bAgain(){
+  clearInterval(bCdT);bCdLeft=0;
+  B.p=Object.assign({},B.p,{id:'r'+Math.random().toString(36).slice(2,10)});
+  B.done=false;S.checked=false;B.since=Math.floor(Date.now()/1000)-5;
+  bSave();bListen();go('qr');
+}
 let bCdT=null,bCdLeft=0;
 function bCountdown(){bCdLeft=45;clearInterval(bCdT);bCdT=setInterval(()=>{bCdLeft--;const el=$('#bxCd');if(el)el.textContent=bCdLeft;if(bCdLeft<=0)bRestart();},1000);}
 function bRestart(){OB.ls.del(BKEY);location.replace(location.pathname+(KIOSK?'?kiosk=1':'?booth=1'));}
@@ -930,6 +939,8 @@ function pgBoothDone(){
     <p class="bx-lead">응원 명찰이 부스 프린터에서 나오고 있어요</p>
     <div class="bx-badge">${OB.badgeHtml(p)}</div>
     <button class="btn" data-act="bSaveImg" style="margin-top:18px">${ic('down',17)}이미지로 저장</button>
+    <button class="btn ghost" data-act="bAgain" style="margin-top:8px">${ic('qr',17)}QR 다시 찍기</button>
+    <div class="bx-again">명찰이 잘못 나왔거나 더 받고 싶다면, 같은 명찰로 다시 출력할 수 있어요</div>
     ${KIOSK?`<div class="bx-take"><div class="qr">${OB.qrSvg(OB.badgeUrl(p))}</div><div><b>내 폰으로 명찰 가져가기</b><span>휴대폰 카메라로 찍으면 명찰 이미지를 저장할 수 있어요</span></div></div>
       <button class="btn ghost" data-act="bRestart" style="margin-top:10px">처음으로</button>
       <div class="bx-count"><span id="bxCd">${bCdLeft||45}</span>초 뒤 처음 화면으로 돌아가요</div>`
@@ -964,6 +975,7 @@ function bAct(a,t){
       d.addEventListener('click',e=>{if(e.target===d)d.remove();});$('#frame').appendChild(d);return true;}
     case 'bPvClose':t.closest('.sv-ov').remove();return true;
     case 'bRestart':bRestart();return true;
+    case 'bAgain':bAgain();return true;
     case 'bvSave':OB.saveBadge(BADGEV,t);return true;
     case 'bvStart':location.href=location.pathname+'?booth=1';return true;
   }
