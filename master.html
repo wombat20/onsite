@@ -382,6 +382,17 @@ body,.app,.main{background:#fff;}
 .lg-foot a{color:var(--pri);font-weight:600;text-decoration:none;cursor:pointer;}
 
 svg.i.ph{fill:currentColor;stroke:none;}
+
+/* 부스 PC(1280×800, 배율 300%) 등 1366px 이하: 현장 운영 표가 옆으로 잘리지 않게 */
+.nav{height:100vh;height:100dvh;}
+@media (max-width:1366px){
+  .nav{width:200px;}
+  .main{padding:28px 24px 64px;}
+  .board{min-width:0!important;width:100%;}                    /* 원래 min-width:1180px 고정 → 칸이 줄어들 수 있게 */
+  .board td,.board th{padding-left:6px;padding-right:6px;}
+  .board td .faint{white-space:normal;min-width:92px;}          /* 시작 칸 아래 '경영 1조 · 5/5명 · 50분'은 두 줄로 */
+  .board input[data-app$=":note"]{min-width:96px!important;width:100%;}  /* 비고 입력칸 */
+}
 </style>
 </head>
 <body>
