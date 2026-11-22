@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -46,7 +46,7 @@ svg.i.s14{width:14px;height:14px;} svg.i.s22{width:22px;height:22px;}
 .secure{-webkit-user-select:none;user-select:none;}
 body.shield .main{filter:blur(10px);}
 .frame.pre .main::after{display:none;}
-.shield-ov{display:none;position:absolute;inset:50px 0 0;z-index:40;align-items:center;justify-content:center;}
+.shield-ov{display:none;position:absolute;inset:0;z-index:40;align-items:center;justify-content:center;}
 body.shield .shield-ov{display:flex;}
 .shield-ov div{background:#fff;border:1px solid var(--line2);border-radius:12px;padding:16px 20px;text-align:center;font-size:13px;color:var(--tx2);box-shadow:0 12px 32px -8px rgba(15,30,69,.18);}
 .shield-ov b{display:block;color:var(--tx);font-size:14.5px;margin-bottom:2px;}
@@ -405,15 +405,22 @@ svg.i.ph{fill:currentColor;stroke:none;}
 .cd-row{border-top:0!important;border-bottom:0!important;padding:0!important;margin-top:16px!important;}
 .cd-row .st{flex:1;justify-content:flex-start;height:44px;padding:0 14px 0 16px;border-radius:12px;font-size:14px;gap:8px;}
 .cd-row .st svg{width:15px;height:15px;margin-left:auto;}
+
+/* 시연 시각·가짜 상태바 제거 후: PC에서는 휴대폰 틀 유지, 위쪽 여백만 보정 */
+.frame{padding-top:14px;}
+/* 실제 휴대폰(아이폰 16 Pro 등): 화면 전체를 쓰고, 하단 탭바는 항상 화면 아래에 고정 */
+@media (max-width:500px){
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;}
+  body{padding:0;background:#fff;min-height:0;display:block;}
+  .frame{width:100%;height:100vh;height:100dvh;border:0;border-radius:0;box-shadow:none;padding-top:env(safe-area-inset-top);}
+  .tabbar{padding-bottom:max(10px,env(safe-area-inset-bottom));}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom));}
+  .sheet{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
+}
 </style>
 </head>
 <body>
-<div class="doc-tag"><span><svg class="logo-sym" role="img" aria-label="ONSITE" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 177.00 120.00"><g transform="translate(0 -20)"><circle cx="60" cy="80" r="40" fill="none" stroke="#2466E0" stroke-width="34"/><path d="M88.3 51.7 L143.9 107.3 Q156.6 120 156.6 102 L156.6 40" fill="none" stroke="#2466E0" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></g></svg>· 운영관리자 Mobile</span>
-  <div class="demo">시연 시각<b id="demoT">13:15</b><button data-act="clock" data-d="-10">−10분</button><button data-act="clock" data-d="10">+10분</button></div>
-</div>
 <div class="frame" id="frame">
-  <div class="statusbar"><span class="t" id="sbT">13:15</span><div class="island"></div>
-    <span class="sys"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="#0F1E45"/><rect x="4.5" y="5" width="3" height="6" rx="1" fill="#0F1E45"/><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="#0F1E45"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="#0F1E45"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="#0F1E45" opacity=".4"/><rect x="2" y="2" width="17" height="8" rx="1.6" fill="#0F1E45"/><rect x="22.5" y="4" width="1.6" height="4" rx=".8" fill="#0F1E45" opacity=".4"/></svg></span></div>
   <div class="main secure" id="main"></div>
   <div class="tabbar" id="tabbar"></div>
   <div id="layer"></div>
@@ -512,7 +519,7 @@ const J={id:'j1',name:TODAY.getFullYear()+'년 하반기 신규채용 공개경�
 J.roster.forEach(r=>J.apps[r.no]=blankApp());
 buildSchedule(J);
 validRoster(J).forEach(r=>J.arrive[r.no]=arriveOf(J,r.no));
-const BASE=T('13:15');
+const BASE=T('13:45');   // 시연 시점 고정: 오후 면접 진행 중 (날짜는 오늘)
 (function seed(){
   let k=0;
   J.sched.rooms.forEach(rm=>timeline(J,rm,false).forEach(x=>{if(x.kind!=='s')return;x.members.forEach(no=>{const a=app(J,no);k++;const arr=T(J.arrive[no]);
@@ -532,9 +539,9 @@ const CONDUCT=[
   {t:'11:50',txt:'오전 퇴실자 전자기기 반환',who:'접수',done:true},
   {t:'12:50',txt:'오후 지원자 접수 시작 · 신분증 확인',who:'접수',done:true},
   {t:'13:05',txt:'경영 4조·전산 1조 미도착자 연락',who:'접수',done:false},
-  {t:'13:20',txt:'1면접실 · 경영 4조 대기실 이동 준비',who:'인솔',done:false},
-  {t:'13:20',txt:'2면접실 · 전산 1조 대기실 이동 준비',who:'인솔',done:false},
-  {t:'13:30',txt:'경영 4조·전산 1조 입실 안내',who:'인솔',done:false},
+  {t:'13:20',txt:'1면접실 · 경영 4조 대기실 이동 준비',who:'인솔',done:true},
+  {t:'13:20',txt:'2면접실 · 전산 1조 대기실 이동 준비',who:'인솔',done:true},
+  {t:'13:30',txt:'경영 4조·전산 1조 입실 안내',who:'인솔',done:true},
   {t:'13:50',txt:'전산 2조 접수 준비 · 보관함 정리',who:'접수',done:false},
   {t:'14:20',txt:'1면접실 · 경영 4조 퇴실 안내 · 전자기기 반환',who:'접수',done:false},
   {t:'14:20',txt:'2면접실 · 전산 2조 대기실 이동 준비',who:'인솔',done:false},
@@ -550,7 +557,8 @@ const CHAT=[
   {t:'12:33',who:'ME',txt:'접수처 확인했습니다. 보관함 정리 완료.'},
   {t:'12:52',who:'인솔 · 박인솔',txt:'경영 4조 5명 중 3명 도착, 대기실 안내 완료.'},
   {t:'13:02',who:'상주 · 최상주',txt:'1면접실 평가위원 3명 착석 완료. 오후 세션 준비됐습니다.'},
-  {t:'13:10',who:'본부 · 김민경',txt:'전산 2조 1명 안내 미확인 건 계속 연락 부탁드립니다.'}
+  {t:'13:10',who:'본부 · 김민경',txt:'전산 2조 1명 안내 미확인 건 계속 연락 부탁드립니다.'},
+  {t:'13:33',who:'상주 · 최상주',txt:'1면접실 경영 4조 입실 완료, 면접 시작했습니다.'}
 ];
 const WORK={in:'08:20',out:'',docs:[['신분증 사본',true],['통장 사본',false],['보안 서약서',true],['전자근로계약서',false]]};
 
@@ -804,14 +812,13 @@ function pgLogin(){
 function render(keep){
   const m=$('#main');
   $('#frame').classList.toggle('pre',!S.auth);
-  if(!S.auth){m.innerHTML=pgLogin();$('#tabbar').style.display='none';$('#sbT').textContent=HM(S.now);$('#demoT').textContent=HM(S.now);renderSheet();return;}
+  if(!S.auth){m.innerHTML=pgLogin();$('#tabbar').style.display='none';renderSheet();return;}
   $('#tabbar').style.display='';const y=keep?(m.querySelector('.page')||{}).scrollTop:0;
   if(S.tab==='chat'){const draft=($('#cmsg')||{}).value||'';m.innerHTML=pgChat();const cl=$('#chatlist');cl.scrollTop=cl.scrollHeight;$('#cmsg').value=draft;}
   else{const h={board:()=>S.boardAll?pgBoardAll():pgBoard(),checkin:pgCheckin,conduct:pgConduct,issue:pgIssue,my:pgMy}[S.tab]();
   m.innerHTML=`<div class="page">${h}</div>`;if(keep)m.querySelector('.page').scrollTop=y;}
   const late=lateConduct().length,iss=ISSUES.filter(i=>!i.done).length;
   $('#tabbar').innerHTML=TABS.map(([k,l,i])=>`<button class="tab ${S.tab===k?'on':''}" data-act="tab" data-t="${k}">${ic(i,'s22'+(S.tab===k?' fill':''))}<span class="lb">${l}</span>${k==='conduct'&&late?`<span class="bd">${late}</span>`:k==='chat'&&iss?`<span class="bd" style="background:var(--warn)">${iss}</span>`:''}</button>`).join('');
-  $('#sbT').textContent=HM(S.now);$('#demoT').textContent=HM(S.now);
   renderSheet();
 }
 function renderSheet(){
@@ -847,7 +854,6 @@ document.addEventListener('click',e=>{
     case 'dim':if(e.target===t){S.sheet=null;renderSheet();}break;
     case 'closeSheet':S.sheet=null;render(true);break;
     case 'dlgClose':closeDlg();break;
-    case 'clock':S.now=Math.max(T('08:00'),Math.min(T('18:00'),S.now+ +t.dataset.d));render(true);{const s=soonConduct().find(c=>T(c.t)-S.now<=10);if(s)toast(`${T(s.t)===S.now?'지금 할 일':'10분 후'} · ${s.txt}`);}break;
     case 'boardAll':S.boardAll=t.dataset.v==='1';render();break;
     case 'tab':S.boardAll=false;S.tab=t.dataset.t;S.sheet=null;render();break;
     case 'noti':S.sheet={type:'noti'};renderSheet();break;
