@@ -411,11 +411,16 @@ body{color:var(--tx);}
 .sv-ov.in-frame{position:absolute;z-index:30;}
 /* 로그인 버튼을 입력칸 바로 아래로 (화면 맨 아래로 밀지 않음) */
 .lg-foot{margin-top:0;padding-top:28px;}
+/* PC/작은 창: 휴대폰 틀을 창 높이에 맞춰 바깥 페이지가 따로 스크롤되지 않게 (스크롤은 틀 안에서만) */
+body{height:100vh;height:100dvh;min-height:0;overflow:hidden;padding:20px 0;}
+.frame{flex:0 1 866px;min-height:0;max-height:866px;}
+.main,.sheet{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
 /* ===== 실제 휴대폰에서는 화면 꽉 차게 ===== */
 @media (max-width:520px){
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;}
   body{padding:0;background:#fff;display:block;min-height:0;}
   .doc-tag,.demo{display:none!important;}
-  .frame{width:100%;height:100vh;height:100dvh;border:0;border-radius:0;box-shadow:none;}
+  .frame{width:100%;height:100vh;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none;}
   .statusbar{display:none;}
   .main{padding-top:env(safe-area-inset-top);}
   .page,.login,.bx{padding-bottom:calc(28px + env(safe-area-inset-bottom));}
@@ -630,13 +635,13 @@ const dAt=o=>{const d=new Date(TODAY);d.setDate(d.getDate()+o);return d;};
 const YMD=o=>{const d=dAt(o);return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');};
 const MD=o=>{const d=dAt(o);return String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');};
 const DOW=o=>'일월화수목금토'[dAt(o).getDay()];
-const ME={name:'오우진',no:'A-041',birth:'20000623',phone:'010-****-9829',last4:'9829',field:'전산',grade:''};
+const ME={name:'김민경',no:'A-041',birth:'20000623',phone:'010-****-9829',last4:'9829',field:'전산',grade:''};
 const JOB={org:'한국공공기관',title:TODAY.getFullYear()+'년 하반기 신규채용 공개경쟁 임용시험',round:'면접',date:YMD(0),dow:DOW(0),arrive:'14:00',
   place:'한국공공기관 본관 3층 대기실',addr:'서울특별시 중구 세종대로 135, 본관',way:'시청역 4번 출구 → 도보 5분 · 정문 안내데스크',
   deadline:`${MD(-1)} (${DOW(-1)}) 18:00`,resultAt:`${YMD(7)} (${DOW(7)}) 18:00`,expireAt:YMD(25),contact:'02-6000-1234'};
 const STAGES={before:{d:YMD(-3),time:'9:41',dday:3},day:{d:YMD(0),time:'13:15',dday:0},result:{d:YMD(7),time:'18:05',dday:-7},expired:{d:YMD(26),time:'10:12',dday:-26}};
 
-const S={auth:0,stage:'before',page:'home',att:null,absentReason:null,checked:false,checkAt:null,locker:null,
+const S={auth:0,stage:'day',page:'home',att:null,absentReason:null,checked:false,checkAt:null,locker:null,
   items:{id:false,no:false,dev:false,pen:false},step:1,err:{}};
 let qrTick=0,qrLeft=30,qrTimer=null;
 
@@ -740,7 +745,7 @@ function qrRow(){
 }
 function resultRow(){
   if(released()&&!absent())return `<button class="li" data-act="go" data-p="result"><span class="lb"><div class="lt">면접 결과</div><div class="ls">결과가 발표됐어요</div></span><span class="st pri">새 소식</span><span class="chev">${ic('chev',18)}</span></button>`;
-  return `<button class="li off" data-act="go" data-p="result"><span class="lb"><div class="lt">면접 결과</div><div class="ls">결과가 나오면 알려드릴게요</div></span><span class="st">06.12 공개</span></button>`;
+  return `<button class="li off" data-act="go" data-p="result"><span class="lb"><div class="lt">면접 결과</div><div class="ls">결과가 나오면 알려드릴게요</div></span><span class="st">${MD(7)} 공개</span></button>`;
 }
 
 /* 안내 */
@@ -757,7 +762,7 @@ function pgInfo(){
     </div>
     <div class="sec">
       <div class="sec-h">오시는 길</div>
-      <div class="map">${mapSvg()}<button class="mbtn" data-act="map">${ic('nav',13)}길찾기</button></div>
+      <div class="map">${mapSvg()}</div>
       <div class="row"><span class="k">장소</span><span class="v">${JOB.place}</span></div>
       <div class="row"><span class="k">주소</span><span class="v">${JOB.addr}<button class="copy" data-act="copy">복사</button></span></div>
       <div class="row"><span class="k">가는 법</span><span class="v">${JOB.way}</span></div>
@@ -1050,7 +1055,6 @@ document.addEventListener('click',e=>{
         <button class="btn ghost sm" style="margin-top:16px" data-act="closeOv">닫기</button></div>`);break;
     case 'item':S.items[t.dataset.k]=!S.items[t.dataset.k];{const y=main.scrollTop;render();main.scrollTop=y;}break;
     case 'copy':try{navigator.clipboard.writeText(JOB.addr);}catch(_){}toast('주소를 복사했어요');break;
-    case 'map':toast('지도 앱으로 연결해요','nav');break;
     case 'call':toast(`${JOB.contact}로 연결해요`,'phone');break;
   }
 });
@@ -1066,7 +1070,7 @@ $('#scanBtn').addEventListener('click',()=>{
   if(B.on){bChecked();return;}
   S.checked=true;S.checkAt='08:3'+(5+Math.floor(Math.random()*4));S.locker=17;render();toast('접수 완료 · 보관번호 17번');
 });
-$('#resetBtn').addEventListener('click',()=>{if(B.on||BADGEV){bRestart();return;}Object.assign(S,{auth:0,stage:'before',page:'home',att:null,absentReason:null,checked:false,checkAt:null,locker:null,items:{id:false,no:false,dev:false,pen:false},step:1,err:{}});qrLeft=30;render();});
+$('#resetBtn').addEventListener('click',()=>{if(B.on||BADGEV){bRestart();return;}Object.assign(S,{auth:0,stage:'day',page:'home',att:null,absentReason:null,checked:false,checkAt:null,locker:null,items:{id:false,no:false,dev:false,pen:false},step:1,err:{}});qrLeft=30;render();});
 
 if(!BADGEV&&!KIOSK&&OB.QS.get('booth')==='1'){
   const sv=OB.ls.get(BKEY);
