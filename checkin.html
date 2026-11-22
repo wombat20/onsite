@@ -141,6 +141,7 @@ svg.i.s14{width:14px;height:14px;} svg.i.s22{width:22px;height:22px;}
 body{height:100vh;height:100dvh;min-height:0;overflow:hidden;padding:20px 0;}
 .frame{flex:0 1 866px;min-height:0;max-height:866px;}
 @media (max-width:600px){
+  input,textarea,select{font-size:16px!important;}   /* 아이폰: 16px 미만 입력칸을 누르면 화면이 자동 확대되는 것 방지 */
   html,body{height:100%;overflow:hidden;overscroll-behavior:none;}
   body{display:block;padding:0;min-height:0;background:#fff;}
   .doc-tag,.statusbar,.island{display:none;}
@@ -451,7 +452,7 @@ function show(p,dup,at){
     <b>${dup?'이미 체크인했어요':'체크인이 완료됐어요'}</b>
     <div class="who"><strong>${esc(p.nm)}</strong><span>#${esc(p.f)} 응원 · ${esc(p.no)}</span></div>
     ${dup?`<div class="prn">${ic('printer')}<span><b>명찰은 한 사람당 한 번만 출력돼요</b><small>${at}에 체크인했어요</small></span></div>`
-    :`<div class="prn">${ic('printer')}<span style="flex:1"><b>프린터에서 응원 명찰을 출력하고 있어요</b><small>부스 프린터에서 명찰을 받아 가세요</small><div class="prog"><i></i></div></span></div>`}
+    :`<div class="prn">${ic('printer')}<span style="flex:1"><b>응원 명찰을 출력하고 있어요</b><small>부스 프린터에서 명찰을 받아 가세요</small><div class="prog"><i></i></div></span></div>`}
     <button class="btn" data-close>확인<span class="cd" style="animation-duration:${ms}ms"></span></button>
   </div>`;
   d.addEventListener('click',e=>{if(e.target===d||e.target.closest('[data-close]'))close();});
