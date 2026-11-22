@@ -408,6 +408,10 @@ svg.i.ph{fill:currentColor;stroke:none;}
 
 /* 시연 시각·가짜 상태바 제거 후: PC에서는 휴대폰 틀 유지, 위쪽 여백만 보정 */
 .frame{padding-top:14px;}
+/* PC/창 크기가 작을 때: 틀을 창 높이에 맞춰 바깥 페이지가 따로 스크롤되지 않게 (스크롤은 틀 안에서만) */
+body{height:100vh;height:100dvh;min-height:0;overflow:hidden;padding:24px 0;justify-content:center;}
+.frame{height:min(866px,100%);}
+.page,.chatlist,.sheet{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
 /* 실제 휴대폰(아이폰 16 Pro 등): 화면 전체를 쓰고, 하단 탭바는 항상 화면 아래에 고정 */
 @media (max-width:500px){
   html,body{height:100%;overflow:hidden;overscroll-behavior:none;}
