@@ -509,6 +509,29 @@ body,.app,.main{background:#fff;}
 .sign-v h3{font-size:20px;font-weight:800;margin-bottom:6px;}
 
 svg.i.ph{fill:currentColor;stroke:none;}
+
+/* ===== 아이패드 가로(1024×768) 등 1180px 이하: 좁은 폭에 맞춰 재배치 ===== */
+/* 아이패드 Safari: 100vh는 아래 툴바에 가려지므로 실제 보이는 높이(dvh) 사용 → 왼쪽 메뉴 하단 프로필이 잘리지 않게 */
+.nav{height:100vh;height:100dvh;}
+@media (max-width:1180px){
+  .nav{width:200px;}
+  .main{padding:28px 24px 64px;}
+  .cols{gap:28px;}
+  .cols>*{min-width:0;}
+  /* 홈: 배정 정보 아래 '마스킹 지원서'와 '서류 등록'을 위아래로 */
+  .cols.sec{grid-template-columns:minmax(0,1fr)!important;}
+  /* 교육·전자서명: 오른쪽 칸을 조금 좁게 */
+  .tr-cols{grid-template-columns:minmax(0,1fr) 280px!important;}
+  .cols[style*="360px"]{grid-template-columns:minmax(0,1fr) 300px!important;}
+  /* 평가 진행: 3단 → 지원자 목록은 위쪽 가로줄, 아래는 지원서 | 항목별 평가 2단 */
+  .ev3{grid-template-columns:minmax(0,1fr) 320px;gap:24px;}
+  .ev3>.sticky:first-child{grid-column:1/-1;position:static;display:grid;grid-template-columns:auto minmax(160px,240px);align-items:center;column-gap:16px;}
+  .ev3>.sticky:first-child>.sec-h{margin-bottom:0!important;}
+  .ev3>.sticky:first-child>.search{margin-bottom:0;}
+  .ev3>.sticky:first-child>.plist{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px;margin-top:12px;}
+  .ev3>.sticky:first-child>.plist .prow{border:1px solid var(--line);}
+  .ev3>.sticky:first-child>.note{grid-column:1/-1;margin-top:8px;}
+}
 </style>
 </head>
 <body>
