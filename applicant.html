@@ -383,6 +383,7 @@ body{color:var(--tx);}
 .bx-coach .n{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .bx-coach b{display:block;font-size:15px;font-weight:700;}
 .bx-coach .chev{margin-left:auto;opacity:.8;}
+.bx-coach{gap:10px;font-size:13px;}   /* 안내 문구가 아이폰 14 Pro(393px)에서 한 줄로 들어가게 */
 .bx-entry{display:flex;align-items:center;gap:12px;width:100%;margin-top:20px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--pri-line);background:var(--pri-weak);text-align:left;color:var(--tx);}
 .bx-entry .ei{width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .bx-entry b{display:block;font-size:15px;font-weight:700;color:var(--pri);}
@@ -418,6 +419,7 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden;padding:20px 0;}
 .main,.sheet{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
 /* ===== 실제 휴대폰에서는 화면 꽉 차게 ===== */
 @media (max-width:520px){
+  input,textarea,select{font-size:16px!important;}   /* 아이폰: 16px 미만 입력칸을 누르면 화면이 자동 확대되는 것 방지 */
   html,body{height:100%;overflow:hidden;overscroll-behavior:none;}
   body{padding:0;background:#fff;display:block;min-height:0;}
   .doc-tag,.demo{display:none!important;}
@@ -654,7 +656,7 @@ function overlay(html,center){closeOv();const d=document.createElement('div');d.
 function closeOv(){const o=$('#ov');o&&o.remove();}
 const head=t=>`<div class="phead"><button class="pback" data-act="home" aria-label="뒤로">${ic('back',22)}</button><span class="ptitle">${t}</span></div>`;
 const isDay=()=>S.stage==='day';
-const released=()=>S.stage==='result';
+const released=()=>S.stage!=='before';   // 면접 당일에도 결과(합격) 열람 가능
 const absent=()=>S.att==='no';
 
 /* 로그인 */
@@ -704,7 +706,7 @@ function pgHome(){
   else if(st.dday>0)big=`면접까지 <em>${st.dday}일</em> 남았어요`;
   else if(st.dday===0)big=S.checked?`접수 완료<br>대기실로 이동해 주세요`:`오늘 <em>${JOB.arrive}</em>까지<br>도착해 주세요`;
   else big='면접이 끝났어요<br>수고 많으셨어요';
-  const locked=S.stage!=='before';
+  const locked=S.stage==='expired';   // 면접 당일에도 참석 여부 응답 가능 (열람 만료만 잠금)
   return `<div class="page">
     <div class="appbar">${SYM}<button class="palarm" data-act="noti" aria-label="알림">${ic('bell',20)}<span class="nd"></span></button></div>
     ${bCoach()}
@@ -722,11 +724,11 @@ function pgHome(){
 
     <div class="sec">
       <div class="sec-h">참석 여부${S.att&&!absent()?'<span class="st pri r">응답 완료</span>':''}</div>
-      ${absent()?`<div class="absent"><b>불참으로 확정됐어요</b><p>${S.absentReason?`사유 · ${S.absentReason}<br>`:''}번복이 필요하면 채용 담당자에게 문의해 주세요 · <span style="white-space:nowrap">${JOB.contact}</span></p></div>`
+      ${absent()?`<div class="absent"><b>불참으로 확정됐어요</b><p>${S.absentReason?`사유 · ${S.absentReason}<br>`:''}잘못 선택했다면 응답을 바꿀 수 있어요</p></div><button class="btn ghost" data-act="attReset" style="margin-top:10px">응답 바꾸기</button>`
       :`<div class="att">
         <button class="${S.att==='yes'?'on':''}" data-act="attYes" ${locked?'disabled':''}>참석할게요<small>${S.att==='yes'?'선택됨':'도착 시간에 맞춰 방문'}</small></button>
         <button data-act="attNo" ${locked?'disabled':''}>참석이 어려워요<small>선택 즉시 불참 확정</small></button></div>
-        <div class="att-state">${locked?'응답 기간이 끝났어요':`${JOB.deadline}까지 응답할 수 있어요`}</div>`}
+        <div class="att-state">${locked?'응답 기간이 끝났어요':S.stage==='before'?`${JOB.deadline}까지 응답할 수 있어요`:'면접 시작 전까지 응답할 수 있어요'}</div>`}
     </div>
 
     <div class="sec">
@@ -777,7 +779,7 @@ function pgInfo(){
     <div class="sec">
       <div class="sec-h">블라인드 면접 유의사항</div>
       <div class="rule"><span class="n">1</span><span>면접 중 이름·출신 학교·출신 지역·가족 관계 등 개인 정보를 말하지 않아요</span></div>
-      <div class="rule"><span class="n">2</span><span>면접장에서는 수험번호가 아닌 <b>면접번호</b>로 불려요 · 접수 시 안내</span></div>
+      <div class="rule"><span class="n">2</span><span>면접장에서는 수험번호가 아닌 <b>면접번호</b>로 불려요</span></div>
       <div class="rule"><span class="n">3</span><span>학교명·로고가 보이는 옷이나 소지품은 피해 주세요</span></div>
     </div>
     <div class="sec">
@@ -892,7 +894,7 @@ function pgBooth(){
     <div class="bx-flow">
       <div><i>${ic('user',17)}</i><b>지원자 등록</b><span>이름과 응원받고 싶은 분야를 골라요</span></div>
       <div><i>${ic('qr',17)}</i><b>출석 QR 받기</b><span>실제 지원자 앱 그대로, 면접 당일 화면이 열려요</span></div>
-      <div><i>${ic('tag',17)}</i><b>운영자 폰에 체크인</b><span>부스의 운영자 체크인 폰에 QR을 비추면 응원 명찰이 출력돼요</span></div>
+      <div><i>${ic('tag',17)}</i><b>운영자 폰에 체크인</b><span>운영자 체크인 폰에 QR을 비추면 응원 명찰이 출력돼요</span></div>
     </div>
     <div class="bx-sp"></div>
     <button class="btn" data-act="bNext">체험 시작하기</button>
@@ -928,7 +930,7 @@ const bReady=()=>B.name.trim()&&B.field&&B.agree;
 function bCoach(){
   if(!B.on)return '';
   if(B.done)return `<button class="bx-coach" data-act="go" data-p="bdone"><span class="n">${ic('check',16)}</span><span><b>출석 완료 · 명찰을 받아 가세요</b>내 응원 명찰 보기</span><span class="chev">${ic('chev',18)}</span></button>`;
-  return `<button class="bx-coach" data-act="go" data-p="qr"><span class="n">${ic('qr',16)}</span><span><b>체험 안내 · 출석 QR을 열어 주세요</b>부스의 운영자 체크인 폰에 QR을 비추면 명찰이 나와요</span><span class="chev">${ic('chev',18)}</span></button>`;
+  return `<button class="bx-coach" data-act="go" data-p="qr"><span class="n">${ic('qr',16)}</span><span><b>체험 안내 · 출석 QR을 열어 주세요</b>운영자 체크인 폰에 QR을 비추면 명찰이 나와요</span><span class="chev">${ic('chev',18)}</span></button>`;
 }
 function qrMarkup(){return B.on&&B.p?OB.qrSvg(OB.badgeUrl(B.p)):qrSvg(ME.no+'|'+qrTick);}
 function pgBoothDone(){
@@ -940,12 +942,12 @@ function pgBoothDone(){
     <div class="bx-badge">${OB.badgeHtml(p)}</div>
     <button class="btn" data-act="bSaveImg" style="margin-top:18px">${ic('down',17)}이미지로 저장</button>
     <button class="btn ghost" data-act="bAgain" style="margin-top:8px">${ic('qr',17)}QR 다시 찍기</button>
-    <div class="bx-again">명찰이 잘못 나왔거나 더 받고 싶다면, 같은 명찰로 다시 출력할 수 있어요</div>
+    <div class="bx-again">잘못 나왔거나 더 필요하면 같은 명찰을 다시 출력해요</div>
     ${KIOSK?`<div class="bx-take"><div class="qr">${OB.qrSvg(OB.badgeUrl(p))}</div><div><b>내 폰으로 명찰 가져가기</b><span>휴대폰 카메라로 찍으면 명찰 이미지를 저장할 수 있어요</span></div></div>
       <button class="btn ghost" data-act="bRestart" style="margin-top:10px">처음으로</button>
       <div class="bx-count"><span id="bxCd">${bCdLeft||45}</span>초 뒤 처음 화면으로 돌아가요</div>`
     :`<button class="btn ghost" data-act="home" style="margin-top:8px">지원자 페이지 둘러보기</button>`}
-    <div class="bx-note">${ic('info',16)}<span>실제 면접장에서는 이 순간 <b>면접번호</b>와 전자기기 보관번호가 안내되고, 면접관 화면에는 이름 대신 면접번호만 보여요.</span></div>
+    <div class="bx-note">${ic('info',16)}<span>실제 면접장에서는 <b>면접번호</b>와 전자기기 보관번호가 안내되고, 면접관 화면에는 이름 대신 면접번호만 보여요.</span></div>
   </div>`;
 }
 function pgBadgeView(){
@@ -1048,6 +1050,7 @@ document.addEventListener('click',e=>{
     case 'go':go(t.dataset.p);break;
     case 'qrLocked':toast(S.stage==='before'?'QR은 면접 당일에만 열려요':'면접일이 지나 QR이 만료됐어요','lock');break;
     case 'attYes':S.att='yes';render();toast('참석으로 응답했어요');break;
+    case 'attReset':S.att=null;S.absentReason=null;render();toast('참석 여부를 다시 선택해 주세요');break;
     case 'attNo':
       overlay(`<div class="sheet"><div class="grab"></div><h3>참석이 어려우신가요?</h3><div class="sp">사유를 선택해 주세요. 채용 담당자에게만 전달돼요 (선택)</div>
         <div class="reasons">${['개인 일정','타 기업 입사','건강 문제','기타'].map(r=>`<button data-act="reason" data-r="${r}" class="${S.absentReason===r?'on':''}">${r}</button>`).join('')}</div>
