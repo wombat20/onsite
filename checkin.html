@@ -132,11 +132,19 @@ svg.i.s14{width:14px;height:14px;} svg.i.s22{width:22px;height:22px;}
 .sheet .btns+.btns{margin-top:8px;}
 
 /* 실제 휴대폰에서 열면: 가짜 상태바·아일랜드·프레임 없이 화면 전체 사용 */
+/* 스캔 화면: 뷰파인더가 남는 높이만 차지 → 안내 문구·버튼이 늘어도 아이폰 11 Pro(375×812)에서 버튼이 밀려나지 않음 */
+.page.scan{display:flex;flex-direction:column;}
+.page.scan>*{flex-shrink:0;}
+.page.scan>.vf{flex:1 1 0;height:auto;min-height:240px;max-height:520px;}
+.page,.sheet{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
+/* PC/작은 창: 휴대폰 틀을 창 높이에 맞춰 바깥 페이지가 따로 스크롤되지 않게 */
+body{height:100vh;height:100dvh;min-height:0;overflow:hidden;padding:20px 0;}
+.frame{flex:0 1 866px;min-height:0;max-height:866px;}
 @media (max-width:600px){
-  html,body{height:100%;overflow:hidden;}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;}
   body{display:block;padding:0;min-height:0;background:#fff;}
   .doc-tag,.statusbar,.island{display:none;}
-  .frame{width:100%;height:100vh;height:100dvh;border:0;border-radius:0;box-shadow:none;padding-top:var(--sa-t);}
+  .frame{width:100%;height:100vh;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none;padding-top:var(--sa-t);}
 }
 /* 시연 도우미 (4개 화면 공통) */
 .demo-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;}
@@ -369,7 +377,7 @@ function queueHtml(){
 }
 function paintQueue(){const q=$('#qwarn');if(q)q.innerHTML=queueHtml();}
 function render(){
-  $('#app').innerHTML=`<div class="page">
+  $('#app').innerHTML=`<div class="page scan">
     <div class="appbar"><span id="logoTap">${SYM}</span><span class="st ${relayCls(C.relay)} ml" id="st">${relayTx(C.relay)}</span></div>
     <div class="ttl">QR 체크인</div>
     <div class="sub">QR을 읽으면 바로 출석 처리되고 응원 명찰이 출력돼요</div>
