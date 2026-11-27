@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -14,6 +15,9 @@
 <link rel="stylesheet" href="fonts/wanted-sans/WantedSansVariable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
 <style>
+/* 브라우저 강제 다크 모드(삼성 인터넷 등) 거부 — QR 대비 보호 */
+:root{color-scheme:only light;}
+
 /* ===== 운영자 페이지(operator.html v8 테마)와 같은 토큰 · 컴포넌트 ===== */
 :root{
   --pri:#1F6BFF;--pri-h:#1557E6;--pri-weak:#EBF2FF;--pri-line:#C7DAFF;--sky:#8DB4FF;--navy:#191F28;
@@ -413,7 +417,7 @@ function loop(){
   if(v&&v.readyState>=2&&!C.busy&&!C.res){
     const s=Math.min(v.videoWidth,v.videoHeight),w=560;cv.width=w;cv.height=w;
     cx.drawImage(v,(v.videoWidth-s)/2,(v.videoHeight-s)/2,s,s,0,0,w,w);
-    const img=cx.getImageData(0,0,w,w);const code=jsQR(img.data,w,w,{inversionAttempts:'dontInvert'});
+    const img=cx.getImageData(0,0,w,w);C.inv=!C.inv;const code=jsQR(img.data,w,w,{inversionAttempts:C.inv?'invertFirst':'dontInvert'});  /* 프레임마다 정상/반전 번갈아 시도 — 다크 모드로 색이 뒤집힌 QR도 인식 */
     if(code&&code.data)onCode(code.data);
   }
   setTimeout(loop,140);

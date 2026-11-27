@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="only light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -13,6 +14,9 @@
 <link rel="stylesheet" href="fonts/wanted-sans/WantedSansVariable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
+/* 브라우저 강제 다크 모드(삼성 인터넷 등) 거부 — QR 대비 보호 */
+:root{color-scheme:only light;}
+
 :root{
   --pri:#2466E0;--pri-h:#1D56C4;--pri-weak:#EEF3FE;--pri-line:#C9D8F7;--navy:#0F1E45;--sky:#7FA6F0;
   --tx:#0F1E45;--tx2:#5A6684;--tx3:#98A2B8;--line:#ECEEF3;--line2:#DFE3EB;
