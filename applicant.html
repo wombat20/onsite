@@ -409,6 +409,9 @@ body{color:var(--tx);}
 .bx-wait i{width:8px;height:8px;border-radius:50%;background:var(--pri);animation:bxblink 1.2s ease-in-out infinite;}
 @keyframes bxblink{50%{opacity:.25}}
 .qr-box.real{padding:2px;}
+.sdark{margin:4px 0 6px;padding:12px 14px;border-radius:12px;background:#FFF4E5;color:#7A4B00;font-size:12.5px;line-height:1.6;text-align:left;}
+.sdark b{font-weight:700;}
+.sdark>b:first-child{display:block;font-size:13.5px;margin-bottom:2px;}
 .qr-box.real svg{width:100%;height:100%;}
 .bv{text-align:center;}
 .bv h1{font-size:23px;}
@@ -814,6 +817,11 @@ function qrSvg(seed){
   const f=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7" rx="1.2"/><rect x="${x+1}" y="${y+1}" width="5" height="5" rx=".8" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" rx=".5"/>`;
   return `<svg viewBox="0 0 ${N} ${N}" shape-rendering="crispEdges"><g fill="#0F1E45">${r}${f(0,0)}${f(N-7,0)}${f(0,N-7)}</g></svg>`;
 }
+/* 삼성 인터넷은 color-scheme 선언을 무시하고 강제 다크 모드를 적용함(코드로 끌 방법 없음) → 감지되면 안내 */
+function samsungDarkNote(){
+  let dark=false;try{dark=/SamsungBrowser/i.test(navigator.userAgent)&&matchMedia('(prefers-color-scheme: dark)').matches;}catch(_){}
+  return dark?'<div class="sdark"><b>QR이 흐리게 보이나요?</b>삼성 인터넷 다크 모드 때문이에요. 메뉴(≡) → 설정 → <b>실험실</b> → <b>웹사이트 다크 테마 사용</b>을 켜거나, 다크 모드를 끈 뒤 새로고침해 주세요.</div>':'';
+}
 function pgQR(){
   if(absent())return `<div class="page">${head('출석 QR')}<div class="wait"><div class="wi">${ic('lock',28)}</div><b>불참 처리된 지원자예요</b><p>QR을 사용할 수 없어요</p></div></div>`;
   if(!isDay())return `<div class="page">${head('출석 QR')}<div class="wait"><div class="wi">${ic('lock',28)}</div><b>${S.stage==='before'?'QR은 면접 당일에만 열려요':'QR 사용 기간이 끝났어요'}</b><p>${S.stage==='before'?'개인정보 보호를 위해 면접 당일<br>00시부터 QR을 보여드려요':'면접일이 지나 QR이 만료됐어요'}</p>${S.stage==='before'?`<span class="when">${JOB.date} (${JOB.dow}) 공개</span>`:''}</div></div>`;
@@ -826,6 +834,7 @@ function pgQR(){
       <div class="qr-sub">수험번호 · ${ME.field} · ${ME.name}</div>
       ${S.checked?'':`<div class="qr-timer"><svg class="ring" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="#E1E3E8" stroke-width="3"/><circle id="ringFg" cx="10" cy="10" r="8" fill="none" stroke="#2466E0" stroke-width="3" stroke-dasharray="50.3" stroke-dashoffset="${50.3*(1-qrLeft/30)}" transform="rotate(-90 10 10)" stroke-linecap="round"/></svg><span id="qrLeft">${qrLeft}</span>초 후 자동 갱신 · 캡처한 QR은 사용 불가</div>`}
     </div>
+    ${S.checked?'':samsungDarkNote()}
     ${B.on&&!S.checked?'<div class="bx-wait"><i></i>운영자 폰의 체크인을 기다리고 있어요</div><button class="btn ghost" data-act="bPreview" style="margin-top:14px">내 명찰 미리보기</button>':''}
     ${S.checked?`<div class="locker"><span class="ln">${S.locker}</span><div><b>전자기기 보관번호</b><span>퇴실할 때 이 번호로 휴대폰을 돌려받아요</span></div></div>`:''}
     <div class="sec">
